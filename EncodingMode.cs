@@ -1,6 +1,6 @@
 namespace QRGenerator;
 
-public enum EncodingMode
+public enum SupportedEncodingMode
 {
     Numeric,
     Alphanumeric,
