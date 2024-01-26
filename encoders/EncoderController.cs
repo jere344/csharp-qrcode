@@ -1,11 +1,15 @@
+using QRGenerator;
 namespace QRGenerator.encoders;
 
 public class EncoderController
 {
     public SupportedEncodingMode EncodingMode { get; set; }
+    public ErrorCorrectionLevels ErrorCorrectionLevel { get; set; }
+    public int Version { get; set; }
 
-    public EncoderController()
+    public EncoderController(ErrorCorrectionLevels errorCorrectionLevel)
     {
+        ErrorCorrectionLevel = errorCorrectionLevel;
     }
 
     public string[] Encode(string text)

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,62 +16,44 @@ namespace QRGenerator.encoders
             // if so, encode as UTF-8
             // else, encode as ISO-8859-1
 
-            // for (int i = 0; i < text.Length; i++)
-            // {
-            //     // char will be converted to its ASCII value
-            //     if (text[i] > 255) // if any character is outside of the ISO-8859-1 range
-            //     {
-            //         return UTF8Encode(text);
-            //     }
-            // }
-            // return ISO88591Encode(text);
-            return UTF8Encode(text);
+            for (int i = 0; i < text.Length; i++)
+            {
+                // char will be converted to its ASCII value
+                if (text[i] > 255) // if any character is outside of the ISO-8859-1 range
+                {
+                    return UTF8Encode(text);
+                }
+            }
+            return ISO88591Encode(text);
         }
 
         public static string[] UTF8Encode(string text)
         {
-            string UTF8EncodedText = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(text));
 
             // Step 1: Split the string into 8-bit bytes.
-            string[] bytes = new string[UTF8EncodedText.Length];
-            foreach (char c in UTF8EncodedText)
+
+            // After converting your input string into ISO 8859 - 1, or UTF-8 if your users have QR code readers that can recognize it in byte mode, you must split the string into 8 - bit bytes.
+            // For example, we will use the input string "Hello, world!" to create a version 1 QR code. Since it contains lowercase letters, a comma, and an exclamation mark, it can't be encoded with alphanumeric mode, which does not include lowercase letters, commas, or exclamation marks. 
+
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            string[] byteStrings = new string[bytes.Length];
+            for (int i = 0; i < bytes.Length; i++)
             {
-                Console.WriteLine(c);
+                byteStrings[i] = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
             }
-
-            return new string[] { "UTF-8 not implemented yet" };
-
+            return byteStrings;
 
         }
 
         public static string[] ISO88591Encode(string text)
         {
-            string ISO88591EncodedText = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.GetEncoding("ISO-8859-1").GetBytes(text));
-
-            // Step 1: Split the string into 8-bit bytes.
-            string[] bytes = new string[ISO88591EncodedText.Length];
-            for (int i = 0; i < ISO88591EncodedText.Length; i++)
+            byte[] bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(text);
+            string[] byteStrings = new string[bytes.Length];
+            for (int i = 0; i < bytes.Length; i++)
             {
-                bytes[i] = Convert.ToString(ISO88591EncodedText[i], 2).PadLeft(8, '0');
+                byteStrings[i] = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
             }
-
-            // Step 2: Split the bytes into groups of 8.
-            string[] groups = new string[bytes.Length / 8 + 1];
-            int groupIndex = 0;
-            for (int i = 0; i < bytes.Length; i += 8)
-            {
-                if (i + 8 <= bytes.Length)
-                {
-                    groups[groupIndex] = bytes[i] + bytes[i + 1] + bytes[i + 2] + bytes[i + 3] + bytes[i + 4] + bytes[i + 5] + bytes[i + 6] + bytes[i + 7];
-                }
-                else
-                {
-                    groups[groupIndex] = bytes[i];
-                }
-                groupIndex++;
-            }
-
-            return groups;
+            return byteStrings;
         }
 
 
