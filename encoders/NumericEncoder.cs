@@ -10,9 +10,10 @@ public static class NumericEncoder
     public static string[] NumericEncode(string text)
     {
         // Step 1: Break String Up Into Groups of Three
-        string[] groups = new string[text.Length / 3 + 1];
+        string[] groups = new string[(text.Length + 2) / 3];
         int groupIndex = 0;
-        for (int i = 0; i < text.Length; i += 3)
+        int i = 0;
+        while (i < text.Length)
         {
             if (i + 3 <= text.Length)
             {
@@ -23,12 +24,14 @@ public static class NumericEncoder
                 groups[groupIndex] = text.Substring(i);
             }
             groupIndex++;
+            i += 3;
         }
 
 
         string[] binaryGroups = new string[groups.Length];
-        for (int i = 0; i < groups.Length; i++)
+        for (i = 0; i < groups.Length; i++)
         {
+            Console.WriteLine(groups[i]);
             if (groups[i].Length == 3)
             {
                 // convert to 10 binary bits (padded with 0s)

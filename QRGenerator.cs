@@ -11,13 +11,14 @@ namespace QRGenerator;
 public class QRCodeGenerator
 // qr generator class without any dependencies
 {
-    public EncoderController Encoder { get; set; };
+    public EncoderController Encoder { get; set; }
 
     public string TextToEncode { get; set; }
     public QRCodeGenerator(string text)
     {
         TextToEncode = text;
-        Encoder = new EncoderController(string text);
+        Encoder = new EncoderController();
+        Encoder.ChooseEncoder(text);
     }
 
 }

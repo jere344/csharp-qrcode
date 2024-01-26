@@ -14,18 +14,16 @@ namespace QRGenerator.encoders
             // if so, encode as UTF-8
             // else, encode as ISO-8859-1
 
-            for (int i = 0; i < text.Length; i++)
-            {
-                // char will be converted to its ASCII value
-                if (text[i] > 255) // if any character is outside of the ISO-8859-1 range
-                {
-                    return UTF8Encode(text);
-                }
-            }
-            return ISO88591Encode(text);
-
+            // for (int i = 0; i < text.Length; i++)
+            // {
+            //     // char will be converted to its ASCII value
+            //     if (text[i] > 255) // if any character is outside of the ISO-8859-1 range
+            //     {
+            //         return UTF8Encode(text);
+            //     }
+            // }
+            // return ISO88591Encode(text);
             return UTF8Encode(text);
-
         }
 
         public static string[] UTF8Encode(string text)
@@ -34,29 +32,12 @@ namespace QRGenerator.encoders
 
             // Step 1: Split the string into 8-bit bytes.
             string[] bytes = new string[UTF8EncodedText.Length];
-            for (int i = 0; i < UTF8EncodedText.Length; i++)
+            foreach (char c in UTF8EncodedText)
             {
-                bytes[i] = Convert.ToString(UTF8EncodedText[i], 2).PadLeft(8, '0');
+                Console.WriteLine(c);
             }
 
-            // Step 2: Split the bytes into groups of 8.
-            string[] groups = new string[bytes.Length / 8 + 1];
-            int groupIndex = 0;
-            for (int i = 0; i < bytes.Length; i += 8)
-            {
-                if (i + 8 <= bytes.Length)
-                {
-                    groups[groupIndex] = bytes[i] + bytes[i + 1] + bytes[i + 2] + bytes[i + 3] + bytes[i + 4] + bytes[i + 5] + bytes[i + 6] + bytes[i + 7];
-                }
-                else
-                {
-                    groups[groupIndex] = bytes[i];
-                }
-                groupIndex++;
-            }
-
-            return groups;
-
+            return new string[] { "UTF-8 not implemented yet" };
 
 
         }

@@ -2,12 +2,12 @@ namespace QRGenerator.encoders;
 
 public class EncoderController
 {
-
-    public EncoderController(string text)
-    {
-        EncodingMode = ChooseEncoder(text);
-    }
     public SupportedEncodingMode EncodingMode { get; set; }
+
+    public EncoderController()
+    {
+    }
+
     public string[] Encode(string text)
     {
         switch (EncodingMode)
@@ -21,11 +21,11 @@ public class EncoderController
             case SupportedEncodingMode.Kanji:
                 return KanjiEncoder.KanjiEncode(text);
             default:
-                return null;
+                return ByteEncoder.ByteEncode(text);
         }
     }
 
-    public SupportedEncodingMode ChooseEncoder(string text)
+    private SupportedEncodingMode _ChooseEncoder(string text)
     {
         // If the input string only consists of decimal digits (0 through 9), use numeric mode.
         if (text.All(char.IsDigit))
@@ -42,5 +42,10 @@ public class EncoderController
         {
             return SupportedEncodingMode.Byte;
         }
+    }
+
+    public void ChooseEncoder(string text)
+    {
+        EncodingMode = _ChooseEncoder(text);
     }
 }
