@@ -1,4 +1,4 @@
-namespace QRGenerator;
+namespace QRGenerator.encoders;
 
 public class NumericEncoder
 {

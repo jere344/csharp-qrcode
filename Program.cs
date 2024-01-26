@@ -1,14 +1,16 @@
-﻿namespace QRGenerator
+﻿using QRGenerator.encoders;
+
+namespace QRGenerator
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var numericEncoder = new NumericEncoder();
-            var groups = numericEncoder.NumericEncode("86753009");
-            foreach (var group in groups)
+            var numericEncoder = new AlphanumericEncoder();
+            var encoded = numericEncoder.AlphanumericEncode("HELLO WORLD");
+            foreach (var item in encoded)
             {
-                Console.WriteLine(group);
+                System.Console.WriteLine(item);
             }
         }
     }
