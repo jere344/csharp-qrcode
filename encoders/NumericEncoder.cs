@@ -1,13 +1,13 @@
 namespace QRGenerator.encoders;
 
-public class NumericEncoder
+public static class NumericEncoder
 {
-    public Dictionary<char, int> NumericTable = new()
+    public static Dictionary<char, int> NumericTable = new()
     {
         {'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4},
         {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}
     };
-    public string[] NumericEncode(string text)
+    public static string[] NumericEncode(string text)
     {
         // Step 1: Break String Up Into Groups of Three
         string[] groups = new string[text.Length / 3 + 1];

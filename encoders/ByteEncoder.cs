@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace QRGenerator.encoders
 {
-    public class ByteEncoder
+    public static class ByteEncoder
     {
-        public string[] ByteEncode(string text)
+        public static string[] ByteEncode(string text)
         {
             // check if UTF-8 is needed
             // if so, encode as UTF-8
@@ -28,7 +28,7 @@ namespace QRGenerator.encoders
 
         }
 
-        public string[] UTF8Encode(string text)
+        public static string[] UTF8Encode(string text)
         {
             string UTF8EncodedText = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(text));
 
@@ -61,7 +61,7 @@ namespace QRGenerator.encoders
 
         }
 
-        public string[] ISO88591Encode(string text)
+        public static string[] ISO88591Encode(string text)
         {
             string ISO88591EncodedText = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.GetEncoding("ISO-8859-1").GetBytes(text));
 
