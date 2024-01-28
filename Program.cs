@@ -6,12 +6,22 @@ namespace QRGenerator
     {
         static void Main(string[] args)
         {
-            var qr = new QRCodeGenerator("Hello, World!");
+            //string text = "";
+            //for (int i = 0; i < 2953; i++)
+            //{
+            //    text += "0";
+            //}
+
+            var qr = new QRCodeGenerator("HELLO WORLD", ErrorCorrectionLevels.L);
             Console.WriteLine(qr.Encoder.EncodingMode);
-            foreach(var s in qr.Encoder.Encode(qr.TextToEncode))
+            Console.WriteLine(qr.Encoder.Version);
+
+            foreach (var item in qr.Encoder.Encode("HELLO WORLD"))
             {
-                System.Console.WriteLine(s);
+                Console.WriteLine(item);
             }
+
+            
         }
     }
 }
