@@ -1,5 +1,7 @@
 using QRGenerator;
 using System;
+using System.Diagnostics.Metrics;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 
@@ -20,7 +22,7 @@ public class EncoderController
         Version = CalculateVersion();
     }
 
-    public string[] Encode(string text)
+    public string Encode(string text)
     {
         int padding = CharacterCountPadding();
         // Count the number of characters in the original input text, then convert that number into binary.The length of the character count indicator depends on the encoding mode and the QR code version that will be in use.To make the binary string the appropriate length, pad it on the left with 0s.
@@ -32,7 +34,7 @@ public class EncoderController
                     string ModeIndicator = "0001";
                     string encodedText = string.Join("", NumericEncoder.NumericEncode(text));
 
-                    return new string[] { ModeIndicator, characterCountIndicator, encodedText };
+                    return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
 
             case SupportedEncodingMode.Alphanumeric:
@@ -40,7 +42,7 @@ public class EncoderController
                     string ModeIndicator = "0010";
                     string encodedText = string.Join("", AlphanumericEncoder.AlphanumericEncode(text));
 
-                    return new string[] { ModeIndicator, characterCountIndicator, string.Join("", encodedText) };
+                    return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
 
             case SupportedEncodingMode.Byte:
@@ -48,7 +50,7 @@ public class EncoderController
                     string ModeIndicator = "0100";
                     string[] encodedText = ByteEncoder.ByteEncode(text);
 
-                    return new string[] { ModeIndicator, characterCountIndicator, string.Join("", encodedText) };
+                    return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
 
             default:
@@ -148,4 +150,65 @@ public class EncoderController
             else { return 12; }
         }
     }
+
+    //def convert_to_csharp(input_dict):
+    //csharp_code = "{"
+    //for key, value in input_dict.items():
+    //    inner_dict = ", ".join([f'{{"{inner_key}", {inner_value}}}' for inner_key, inner_value in value.items()])
+    //    csharp_code += f'{{{key}, new Dictionary<string, int> {{{inner_dict}}}}}, '
+    //csharp_code = csharp_code[:-2]  # Remove the trailing comma and space
+    //csharp_code += "}"
+    //return csharp_code
+    public Dictionary<int, Dictionary<string, int>> DataCodeWordCount = Static.DataCodeWordCount;
+
+    public string PadEncodedText(string encodedText)
+    {
+        string ErrLevel = Enum.GetName(typeof(ErrorCorrectionLevels), this.ErrorCorrectionLevel) ?? "L";
+        //Determine the Required Number of Bits for this QR Code
+        int requiredBits = DataCodeWordCount[Version][ErrLevel] * 8;
+        Console.WriteLine("Required bits : " + requiredBits);
+
+        // Add a Terminator of 0s if Necessary
+        //If the bit string is shorter than the total number of required bits, a terminator of up to four 0s must be added to the right side of the string.
+        if (encodedText.Length < requiredBits)
+        {
+            int terminatorLength = Math.Min(4, requiredBits - encodedText.Length);
+            encodedText += new string('0', terminatorLength);
+            Console.WriteLine("Terminator length : " + terminatorLength);
+        }
+
+        // Add More 0s to Make the Length a Multiple of 8
+        //After adding the terminator, if the number of bits in the string is not a multiple of 8, first pad the string on the right with 0s to make the string's length a multiple of 8. 
+        if (encodedText.Length % 8 != 0)
+        {
+            Console.WriteLine("Padding length : " + (8 - encodedText.Length % 8));
+            encodedText += new string('0', 8 - encodedText.Length % 8);
+        }
+
+        // Add Pad Bytes if the String is Still too Short
+        //If the string is still not long enough to fill the maximum capacity, add the following bytes to the end of the string, repeating until the string has reached the maximum length: 11101100 00010001
+        if (encodedText.Length < requiredBits)
+        {
+            string padBytes1 = "11101100";
+            string padBytes2 = "00010001";
+            int counter = 0;
+            while (encodedText.Length < requiredBits)
+            {
+                if (counter % 2 == 0)
+                {
+                    encodedText += padBytes1;
+                }
+                else
+                {
+                    encodedText += padBytes2;
+                }
+                counter++;
+            }
+            Console.WriteLine("Pad bytes added : " + counter);
+        }
+
+        return encodedText;
+
+    }
+
 }
