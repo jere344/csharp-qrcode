@@ -10,7 +10,6 @@ using QRGenerator.encoders;
 namespace QRGenerator;
 
 public class QRCodeGenerator
-// qr generator class without any dependencies
 {
     public EncoderController Encoder { get; set; }
 

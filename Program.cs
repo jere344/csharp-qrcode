@@ -16,7 +16,7 @@ namespace QRGenerator
             Console.WriteLine(qr.Encoder.EncodingMode);
             Console.WriteLine(qr.Encoder.Version);
 
-            Console.WriteLine(qr.Encoder.Encode("HELLO WORLD"));
+            Console.WriteLine(qr.Encoder.Encode());
 
             
         }

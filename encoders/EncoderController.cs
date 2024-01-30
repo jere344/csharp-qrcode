@@ -22,17 +22,17 @@ public class EncoderController
         Version = CalculateVersion();
     }
 
-    public string Encode(string text)
+    public string Encode()
     {
         int padding = CharacterCountPadding();
         // Count the number of characters in the original input text, then convert that number into binary.The length of the character count indicator depends on the encoding mode and the QR code version that will be in use.To make the binary string the appropriate length, pad it on the left with 0s.
-        string characterCountIndicator = Convert.ToString(text.Length, 2).PadLeft(padding, '0');
+        string characterCountIndicator = Convert.ToString(TextToEncode.Length, 2).PadLeft(padding, '0');
         switch (EncodingMode)
         {
             case SupportedEncodingMode.Numeric:
                 {
                     string ModeIndicator = "0001";
-                    string encodedText = string.Join("", NumericEncoder.NumericEncode(text));
+                    string encodedText = string.Join("", NumericEncoder.NumericEncode(TextToEncode));
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
@@ -40,7 +40,7 @@ public class EncoderController
             case SupportedEncodingMode.Alphanumeric:
                 {
                     string ModeIndicator = "0010";
-                    string encodedText = string.Join("", AlphanumericEncoder.AlphanumericEncode(text));
+                    string encodedText = string.Join("", AlphanumericEncoder.AlphanumericEncode(TextToEncode));
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
@@ -48,7 +48,7 @@ public class EncoderController
             case SupportedEncodingMode.Byte:
                 {
                     string ModeIndicator = "0100";
-                    string[] encodedText = ByteEncoder.ByteEncode(text);
+                    string[] encodedText = ByteEncoder.ByteEncode(TextToEncode);
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
@@ -105,7 +105,7 @@ public class EncoderController
     /// Calculate the minimal version of the QR code needed to encode the input string
     /// </summary>
     /// <returns> The minimal version number for the QR code or 0 if the input string is too long/returns>
-    public int CalculateVersion()
+    private int CalculateVersion()
     {
         int length = TextToEncode.Length;
         // Because the version limit dictionary use a string representation of the encoding mode, we need to convert the enum to a string
@@ -127,7 +127,7 @@ public class EncoderController
     /// Calculate the number of bits needed to encode the character count indicator for the current version and encoding mode
     /// </summary>
     /// <returns> The number of bits needed to encode the character count indicator</returns>
-    public int CharacterCountPadding()
+    private int CharacterCountPadding()
     {
         if (Version <= 9)
         {
@@ -161,7 +161,7 @@ public class EncoderController
     //return csharp_code
     public Dictionary<int, Dictionary<string, int>> DataCodeWordCount = Static.DataCodeWordCount;
 
-    public string PadEncodedText(string encodedText)
+    private string PadEncodedText(string encodedText)
     {
         string ErrLevel = Enum.GetName(typeof(ErrorCorrectionLevels), this.ErrorCorrectionLevel) ?? "L";
         //Determine the Required Number of Bits for this QR Code
