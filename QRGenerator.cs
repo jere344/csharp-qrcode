@@ -17,6 +17,7 @@ public class QRCodeGenerator
     public string TextToEncode { get; set; }
     public int Version { get; set; }
     public string EncodedText { get; set; }
+    public List<string> SolomonEncoded = new List<string>();
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
         TextToEncode = text;

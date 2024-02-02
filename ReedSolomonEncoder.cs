@@ -45,8 +45,6 @@ namespace QRGenerator
         //    csharp_code = csharp_code[:-2]
         //    csharp_code += "}"
         //    return csharp_code
-        public Dictionary<int, int> GaloisLog = Static.GaloisLog;
-        public Dictionary<int, int> GaloisAntiLog = Static.GaloisAntiLog;
         public SupportedEncodingMode EncodingMode { get; set; }
         public ErrorCorrectionLevels ErrorCorrectionLevel { get; set; }
         public int Version { get; set; }
@@ -58,7 +56,7 @@ namespace QRGenerator
             Version = version;
         }
 
-        public List<List<List<int>>> BreakUpDataIntoBlocks(string[] data, SupportedEncodingMode encodingMode, ErrorCorrectionLevels errorCorrectionLevel, int version)
+        public List<List<List<string>>> BreakUpDataIntoBlocks(string[] data, SupportedEncodingMode encodingMode, ErrorCorrectionLevels errorCorrectionLevel, int version)
         {
            // Data is split into bytes (8 bits)
            // Group Number	    Block Number	Data Codewords in the Group
@@ -68,7 +66,7 @@ namespace QRGenerator
            int blockGroup2 = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][3];
            int wordCount2 = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][4];
 
-           var blocks = new List<List<List<int>>>();
+           var blocks = new List<List<List<string>>>();
            // Cursor is used to keep track of the current position in the data array
            int cursor = 0;
 
