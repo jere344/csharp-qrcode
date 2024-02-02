@@ -58,19 +58,59 @@ namespace QRGenerator
             Version = version;
         }
 
-        public string Encode(string Data)
+        public List<List<List<int>>> BreakUpDataIntoBlocks(string[] data, SupportedEncodingMode encodingMode, ErrorCorrectionLevels errorCorrectionLevel, int version)
         {
-            //Step 5: Generate Powers of 2 using Byte-Wise Modulo 100011101
-            // use byte-wise modulo 100011101 arithmetic.This means that when a number is 256 or larger, it should be XORed with 285.
-            //2**8 = 256 ^ 285 = 29
-            //Note that when continuing on to 29, do not take its usual value of 512 and XOR with 285(which would result in too large a number anyway).Instead, since 29 = 28 * 2, use the value of 28 that was calculated in the previous step.
-            //2**9 = 28 * 2 = 29 * 2 = 58
-            //Whenever a value greater than or equal to 256 is obtained, once again XOR with 285:
-            //2**12 = 2**11 * 2 = 232 * 2 = 464 ^ 285 = 205
+           // Data is split into bytes (8 bits)
+           // Group Number	    Block Number	Data Codewords in the Group
+           int ecWordPerBlock = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][0];
+           int blockGroup1 = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][1];
+           int wordCount1 = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][2];
+           int blockGroup2 = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][3];
+           int wordCount2 = ErrorCorrectionCodeWordCount[version][errorCorrectionLevel.ToString()][4];
 
-            // With optimisation :
-            // 2**170 * 2**164 = 2**(170+164) = 2**334 → 2**(334 % 255) = 2**79
-            return "";
+           var blocks = new List<List<List<int>>>();
+           // Cursor is used to keep track of the current position in the data array
+           int cursor = 0;
+
+           // for each group, 2 groups
+           int group = 0;
+           //  For each block in the group
+           for (int blockGroup1Index = 0; blockGroup1Index < blockGroup1; blockGroup1Index++)
+           {
+               // For each word in the block
+               for (int wordCount1Index = 0; wordCount1Index < wordCount1; wordCount1Index++)
+               {
+                   blocks[group][blockGroup1Index][wordCount1Index] = data[cursor];
+                   cursor++;
+               }
+           }
+
+           group = 1;
+           // May be 0
+           for (int blockGroup2Index = 0; blockGroup2Index < blockGroup2; blockGroup2Index++)
+           {
+               for (int wordCount2Index = 0; wordCount2Index < wordCount2; wordCount2Index++)
+               {
+                   blocks[group][blockGroup2Index][wordCount2Index] = data[cursor];
+                   cursor++;
+               }
+           }
+            
+
+           // Display for debug:
+           for(int i = 0; i < blocks.Count; i++)
+           {
+               for(int j = 0; j < blocks[i].Count; j++)
+               {
+                   for(int k = 0; k < blocks[i][j].Count; k++)
+                   {
+                       Console.WriteLine("Block " + i + " Group " + j + " Word " + k + " : " + blocks[i][j][k]);
+                   }
+               }
+           }
+
+           return blocks;
+
         }
 
     }

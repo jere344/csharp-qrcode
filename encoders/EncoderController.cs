@@ -13,16 +13,39 @@ public class EncoderController
     public ErrorCorrectionLevels ErrorCorrectionLevel { get; set; }
     public int Version { get; set; }
     public string TextToEncode { get; set; }
+    public string EncodedText { get; set; }
 
-    public EncoderController(string text, ErrorCorrectionLevels errorCorrectionLevel)
+    public EncoderController(string textToEncode, ErrorCorrectionLevels errorCorrectionLevel, int? version = null, SupportedEncodingMode? encodingMode = null)
     {
-        ErrorCorrectionLevel = errorCorrectionLevel;
-        TextToEncode = text;
-        EncodingMode = ChooseEncoder();
-        Version = CalculateVersion();
+        this.ErrorCorrectionLevel = errorCorrectionLevel;
+        this.TextToEncode = textToEncode;
+
+        if (encodingMode == null)
+        {
+            this.EncodingMode = ChooseEncoder();
+        }
+        else
+        {
+            this.EncodingMode = (SupportedEncodingMode)encodingMode;
+        }
+        
+        if (version == null)
+        {
+            this.Version = CalculateVersion();
+        }
+        else
+        {
+            if (version < 1 || version > 40)
+            {
+                throw new Exception("Invalid version number");
+            }
+            this.Version = (int)version;
+        }
+
+        this.EncodedText = Encode();
     }
 
-    public string Encode()
+    private string Encode()
     {
         int padding = CharacterCountPadding();
         // Count the number of characters in the original input text, then convert that number into binary.The length of the character count indicator depends on the encoding mode and the QR code version that will be in use.To make the binary string the appropriate length, pad it on the left with 0s.
@@ -96,9 +119,9 @@ public class EncoderController
 
 
     // J'ai banni ce dictionnaire dans un autre fichier parce qu'il fait lag l'IDE.
-    // (Et c# est incapable d'avoir une sytaxe propre pour déclarer des dictionnaires)
+    // (Et c# est incapable d'avoir une sytaxe propre pour dï¿½clarer des dictionnaires)
     // VersionLimitTable[ErrorLevel:str][EncodingMode:str] = MaxPossibleBitsEncode:int
-    public Dictionary<int, Dictionary<string, Dictionary<string, int>>> VersionLimitTable = Static.VersionLimitTable;
+    private Dictionary<int, Dictionary<string, Dictionary<string, int>>> VersionLimitTable = Static.VersionLimitTable;
 
 
     /// <summary>
@@ -159,14 +182,14 @@ public class EncoderController
     //csharp_code = csharp_code[:-2]  # Remove the trailing comma and space
     //csharp_code += "}"
     //return csharp_code
-    public Dictionary<int, Dictionary<string, int>> DataCodeWordCount = Static.DataCodeWordCount;
+    private Dictionary<int, Dictionary<string, int>> DataCodeWordCount = Static.DataCodeWordCount;
 
     private string PadEncodedText(string encodedText)
     {
         string ErrLevel = Enum.GetName(typeof(ErrorCorrectionLevels), this.ErrorCorrectionLevel) ?? "L";
         //Determine the Required Number of Bits for this QR Code
         int requiredBits = DataCodeWordCount[Version][ErrLevel] * 8;
-        Console.WriteLine("Required bits : " + requiredBits);
+        // Console.WriteLine("Required bits : " + requiredBits);
 
         // Add a Terminator of 0s if Necessary
         //If the bit string is shorter than the total number of required bits, a terminator of up to four 0s must be added to the right side of the string.
@@ -174,14 +197,14 @@ public class EncoderController
         {
             int terminatorLength = Math.Min(4, requiredBits - encodedText.Length);
             encodedText += new string('0', terminatorLength);
-            Console.WriteLine("Terminator length : " + terminatorLength);
+            // Console.WriteLine("Terminator length : " + terminatorLength);
         }
 
         // Add More 0s to Make the Length a Multiple of 8
         //After adding the terminator, if the number of bits in the string is not a multiple of 8, first pad the string on the right with 0s to make the string's length a multiple of 8. 
         if (encodedText.Length % 8 != 0)
         {
-            Console.WriteLine("Padding length : " + (8 - encodedText.Length % 8));
+            // Console.WriteLine("Padding length : " + (8 - encodedText.Length % 8));
             encodedText += new string('0', 8 - encodedText.Length % 8);
         }
 
@@ -204,7 +227,7 @@ public class EncoderController
                 }
                 counter++;
             }
-            Console.WriteLine("Pad bytes added : " + counter);
+            // Console.WriteLine("Pad bytes added : " + counter);
         }
 
         return encodedText;

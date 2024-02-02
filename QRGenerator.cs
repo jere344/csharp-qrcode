@@ -11,15 +11,31 @@ namespace QRGenerator;
 
 public class QRCodeGenerator
 {
-    public EncoderController Encoder { get; set; }
-
+    private EncoderController Encoder { get; set; }
+    public ErrorCorrectionLevels ErrorCorrectionLevel { get; set; }
+    public SupportedEncodingMode EncodingMode { get; set; }
     public string TextToEncode { get; set; }
     public int Version { get; set; }
-    public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L)
+    public string EncodedText { get; set; }
+    public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
         TextToEncode = text;
 
-        Encoder = new EncoderController(text, errorCorrectionLevel);
+        this.Encoder = new EncoderController(text, errorCorrectionLevel, version, encodingMode);
+        this.Version = Encoder.Version;
+        this.EncodingMode = Encoder.EncodingMode;
+        this.ErrorCorrectionLevel = errorCorrectionLevel;
+        this.EncodedText = Encoder.EncodedText;
+
+
+
+        // List<Group>
+        //     List<Block>
+        //         List<Codeword>
+        //             ~50% donn�es
+        //             ~50% correction d'erreur'
+
+
     }
 }
 
