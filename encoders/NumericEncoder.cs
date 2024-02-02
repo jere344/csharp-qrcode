@@ -31,7 +31,6 @@ public static class NumericEncoder
         string[] binaryGroups = new string[groups.Length];
         for (i = 0; i < groups.Length; i++)
         {
-            Console.WriteLine(groups[i]);
             if (groups[i].Length == 3)
             {
                 // convert to 10 binary bits (padded with 0s)

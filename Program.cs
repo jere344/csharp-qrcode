@@ -12,7 +12,7 @@ namespace QRGenerator
             //    text += "0";
             //}
 
-            var qr = new QRCodeGenerator("HELLO WORLD", ErrorCorrectionLevels.Q);
+            var qr = new QRCodeGenerator("sdf", ErrorCorrectionLevels.Q);
             Console.WriteLine(qr.Encoder.EncodingMode);
             Console.WriteLine(qr.Encoder.Version);
 

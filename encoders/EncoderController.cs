@@ -48,7 +48,7 @@ public class EncoderController
             case SupportedEncodingMode.Byte:
                 {
                     string ModeIndicator = "0100";
-                    string[] encodedText = ByteEncoder.ByteEncode(TextToEncode);
+                    string encodedText = string.Join("", ByteEncoder.ByteEncode(TextToEncode));
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }

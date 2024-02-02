@@ -70,6 +70,7 @@ namespace QRGenerator
 
             // With optimisation :
             // 2**170 * 2**164 = 2**(170+164) = 2**334 → 2**(334 % 255) = 2**79
+            return "";
         }
 
     }
