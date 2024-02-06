@@ -34,7 +34,7 @@ namespace QRGenerator
         //    return csharp_code
 
         // [Version][CorrectionLevel] = [ECWordPerBlock, BlockGroup1, WordCount1, BlockGroup2, WordCount2]
-        private static Dictionary<int, Dictionary<string, int[]>> ErrorCorrectionCodeWordCount = Static.ErrorCorrectionCodeWordCount;
+        private static Dictionary<int, Dictionary<string, int[]>> ErrorCorrectionCodewordsCount = Static.ErrorCorrectionCodewordsCount;
 
         //dico = {}
         //for line in data.splitlines():
@@ -94,12 +94,12 @@ namespace QRGenerator
 
 
             // Group Number	    Block Number	Data Codewords in the Group
-            int ecWordPerBlock = ErrorCorrectionCodeWordCount[Version][ErrorCorrectionLevel.ToString()][0];
+            int ecWordPerBlock = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][0];
             ECWordPerBlock = ecWordPerBlock;
-            int blockGroup1 = ErrorCorrectionCodeWordCount[Version][ErrorCorrectionLevel.ToString()][1];
-            int wordCount1 = ErrorCorrectionCodeWordCount[Version][ErrorCorrectionLevel.ToString()][2];
-            int blockGroup2 = ErrorCorrectionCodeWordCount[Version][ErrorCorrectionLevel.ToString()][3];
-            int wordCount2 = ErrorCorrectionCodeWordCount[Version][ErrorCorrectionLevel.ToString()][4];
+            int blockGroup1 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][1];
+            int wordCount1 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][2];
+            int blockGroup2 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][3];
+            int wordCount2 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][4];
 
             // Initialize the blocks arrays
             var blocks = new List<List<List<string>>>
