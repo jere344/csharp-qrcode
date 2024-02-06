@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using QRGenerator.encoders;
+using QRGenerator.ImageGenerator;
 
 
 namespace QRGenerator;
@@ -18,6 +19,8 @@ public class QRCodeGenerator
     public int Version { get; set; }
     public string EncodedText { get; set; }
     public List<string> SolomonEncoded = new List<string>();
+    public QrErrorEncoder ReedEncoder { get; set; }
+    public int Size { get; set; }
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
         TextToEncode = text;
@@ -27,6 +30,10 @@ public class QRCodeGenerator
         this.EncodingMode = Encoder.EncodingMode;
         this.ErrorCorrectionLevel = errorCorrectionLevel;
         this.EncodedText = Encoder.EncodedText;
+        
+        this.Size = Version * 4 + 17;
+
+        this.ReedEncoder = new QrErrorEncoder(Encoder.EncodingMode, errorCorrectionLevel, Encoder.Version, EncodedText);
 
 
 
