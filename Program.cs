@@ -11,6 +11,9 @@ namespace QRGenerator
             Console.WriteLine(qr.Version);
             Console.WriteLine(qr.EncodedText);
 
+            int[,] table = new int[0, 0];
+            List<List<int>> table = new List<List<int>>();
+
             
         }
     }
