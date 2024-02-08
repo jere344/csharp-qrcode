@@ -34,6 +34,8 @@ namespace QRGenerator.ImageGenerator
             {
                 // We always skip the timing pattern at column 6
                 if (x == 6) { x -= 1; }
+                // We always skip the timing pattern at row 6
+                if (y == 6) { y -= direction; }
 
                 if (Matrix[y, x] == 2)
                 {
