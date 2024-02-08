@@ -4,20 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QRGenerator.MatrixGenerator
+namespace QRGenerator.ImageGenerator;
+
+internal class MatrixGenerator
 {
-    internal class MatrixGenerator
+    public int Size { get; set; }
+    public int[,] Matrix { get; set; }
+    // public QrMetadataPlacer QrMetadataPlacer { get; set; }
+    public MatrixGenerator(int size)
     {
-        public int Size { get; set; }
-        public int[,] Matrix { get; set; }
-        // public QrMetadataPlacer QrMetadataPlacer { get; set; }
-        public MatrixGenerator(int size)
+        // 0 = white
+        // 1 = black
+        // 2 = not set
+        this.Size = size;
+        this.Matrix = new int[size, size];
+        for (int i = 0; i < size; i++)
         {
-            // 1 = white
-            // 0 = black
-            // null = not set
-            this.Size = size;
-            this.Matrix = new int[size, size];
+            for (int j = 0; j < size; j++)
+            {
+                this.Matrix[i, j] = 2;
+            }
         }
     }
 }
