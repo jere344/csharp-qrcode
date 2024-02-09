@@ -9,7 +9,7 @@ namespace QRGenerator.ImageGenerator;
 internal class MatrixGenerator
 {
     public int Size { get; set; }
-    public int[,] Matrix { get; set; }
+    public bool?[,] Matrix { get; set; }
     // public QrMetadataPlacer QrMetadataPlacer { get; set; }
     public MatrixGenerator(int size)
     {
@@ -17,12 +17,12 @@ internal class MatrixGenerator
         // 1 = black
         // 2 = not set
         this.Size = size;
-        this.Matrix = new int[size, size];
+        this.Matrix = new bool?[size, size];
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
-                this.Matrix[i, j] = 2;
+                this.Matrix[i, j] = null;
             }
         }
     }

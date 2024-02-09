@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace QRGenerator.ImageGenerator
 {
-    internal class FillData
+    internal class QrDataFiller
     {
-        public int[,] Matrix { get; set; }
+        public bool?[,] Matrix { get; set; }
         public int[] Data { get; set; }
-        public FillData(int[,] ints, int[] data)
+        public QrDataFiller(bool?[,] matrix, int[] data)
         {
-            Matrix = ints;
+            Matrix = matrix;
             Data = data;
         
         }
@@ -37,7 +37,8 @@ namespace QRGenerator.ImageGenerator
                 // We always skip the timing pattern at row 6
                 if (y == 6) { y -= direction; }
 
-                if (Matrix[y, x] == 2)
+                // if the cell is not empty we just go next and don't yield it
+                if (Matrix[y, x] == null)
                 {
                     yield return (y, x);
                 }
@@ -49,7 +50,7 @@ namespace QRGenerator.ImageGenerator
                 {     
                      x += 1;
                     // if we reach the edge of the matrix || we reach a filled cell
-                    if (y - direction < 0 || y - direction >= size || Matrix[y - direction, x] != 2)
+                    if (y - direction < 0 || y - direction >= size)
                     {
                         // change direction
                         direction *= -1;
@@ -63,6 +64,7 @@ namespace QRGenerator.ImageGenerator
                     }
 
                 }
+
                 counter++;
             }
         }
