@@ -19,7 +19,7 @@ namespace QRGenerator.ImageGenerator
 
         /// <summary>
         /// Generator (yield) that gives a list of the next position to fill in the matrix
-        /// Exemple of the return : [[21, 21], [20, 21], [21, 20], [20, 20], [21, 19], [20, 19], [21, 18], [20, 18]]
+        /// Exemples of the return : [21, 21], [20, 21], [21, 20], [20, 20], [21, 19], [20, 19], [21, 18], [20, 18]
         /// </summary>
         /// <returns></returns>
         public IEnumerable<(int, int)> GetNextPosition()

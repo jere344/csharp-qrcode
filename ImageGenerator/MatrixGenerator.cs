@@ -13,9 +13,9 @@ internal class MatrixGenerator
     // public QrMetadataPlacer QrMetadataPlacer { get; set; }
     public MatrixGenerator(int size)
     {
-        // 0 = white
-        // 1 = black
-        // 2 = not set
+        // false = white
+        // true = black
+        // null = not set
         this.Size = size;
         this.Matrix = new bool?[size, size];
         for (int i = 0; i < size; i++)
