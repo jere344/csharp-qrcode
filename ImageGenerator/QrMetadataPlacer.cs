@@ -9,6 +9,15 @@ namespace QRGenerator.ImageGenerator
     internal class QrMetadataPlacer
     {
 
+        public static bool?[,] AddAllMetadata(bool?[,] table)
+        {
+            table = addTimingPatern(table);
+            table = addAllFinderPaterns(table);
+            table = addDarkModule(table);
+            table = addSeparators(table);
+            return table;
+        }
+
         public static bool isEven(int nb)
         {
             if (nb % 2 == 0)

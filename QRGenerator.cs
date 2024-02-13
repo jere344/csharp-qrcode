@@ -37,12 +37,7 @@ public class QRCodeGenerator
         this.SolomonEncoded = ReedEncoder.ErrorEncodedBlocks;
 
 
-
-        // List<Group>
-        //     List<Block>
-        //         List<Codeword>
-        //             ~50% donn�es
-        //             ~50% correction d'erreur'
+        bool?[,] matrix = new MatrixGenerator(21).Matrix;
 
 
     }
