@@ -8,6 +8,73 @@ namespace QRGenerator.ImageGenerator
 {
     internal class QrMetadataPlacer
     {
+        public static bool?[,] AddFormatInformation(bool?[,] Matrix, bool[] formatString)
+        {
+            int x = 0;
+            int y = 8;
+            int counter = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                Console.WriteLine(counter);
+                if (i == 6){ continue; }
+                Matrix[y, x + i] = formatString[counter];
+                counter++;
+            }
+            x = 8;
+            y = 7;
+            for (int i = 0; i < 8; i++)
+            {
+                Console.WriteLine(counter);
+                if (i == 1) { continue; }
+                Matrix[y - i, x] = formatString[counter];
+                counter++;
+            }
+
+            counter = 0;
+            x = 8;
+            y = Matrix.GetLength(0) - 1;
+            for (int i = 0; i < 7; i++)
+            {
+                Matrix[y - i, x] = formatString[counter];
+                counter++;
+            }
+            x = Matrix.GetLength(1) - 8;
+            y = 8;
+            for (int i = 0; i < 8; i++)
+            {
+                Matrix[y, x + i] = formatString[counter];
+                counter++;
+            }
+
+            return Matrix;
+        }
+
+        public static bool?[,] AddVersionInformation(bool?[,] Matrix, bool[] versionString)
+        {
+            int x = 0;
+            int y = Matrix.GetLength(0) - 11;
+            int counter = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Matrix[y + i, x + j] = versionString[counter];
+                    counter++;
+                }
+            }
+            counter = 0;
+            x = Matrix.GetLength(1) - 11;
+            y = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Matrix[y + j, x + i] = versionString[counter];
+                    counter++;
+                }
+            }
+            return Matrix;
+        }
 
         public static bool?[,] AddAllMetadata(bool?[,] table, int Version)
         {
@@ -15,7 +82,7 @@ namespace QRGenerator.ImageGenerator
             table = addAllFinderPaterns(table);
             table = addDarkModule(table);
             table = addSeparators(table);
-            table = addFormatInfoArea(table,Version);
+            table = addFormatInfoArea(table, Version);
             return table;
         }
 
@@ -342,9 +409,9 @@ namespace QRGenerator.ImageGenerator
                     break;
 
                 default:
-                    positions = new int?[] {};
+                    positions = new int?[] { };
                     break;
-              
+
             }
             return positions;
         }

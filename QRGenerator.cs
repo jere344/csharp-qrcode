@@ -46,7 +46,9 @@ public class QRCodeGenerator
         bool?[,] dataMatrix = new MatrixGenerator(21).Matrix;
         dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
 
-        dataMatrix = QrApplyMask.ApplyMask(dataMatrix, 0);
+        int mask = 0;
+
+        dataMatrix = QrApplyMask.ApplyMask(dataMatrix, mask);
 
         Matrix = new MatrixGenerator(21).Matrix;
         // Combine the metadata and data matrix
@@ -60,11 +62,19 @@ public class QRCodeGenerator
 
             }
         }
-        FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], Version)];
+        FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], mask)];
+        bool[] formatStringBool = FormatString.Select(x => x == '1').ToArray();
+        Matrix = QrMetadataPlacer.AddFormatInformation(Matrix, formatStringBool);
+
         if (version > 6)
         {
             VersionString = Static.VersionInformationStrings[Version]; 
+            bool[]? versionStringBool = VersionString.Select(x => x == '1').ToArray();
+            Matrix = QrMetadataPlacer.AddVersionInformation(Matrix, versionStringBool);
         }
+
+
+        ImageGenerator.ExportImage.ExporterImage(Matrix);
 
     }
 }
