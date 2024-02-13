@@ -9,13 +9,13 @@ namespace QRGenerator.ImageGenerator
     internal class QrMetadataPlacer
     {
 
-        public static bool?[,] AddAllMetadata(bool?[,] table)
+        public static bool?[,] AddAllMetadata(bool?[,] table, int Version)
         {
             table = addTimingPatern(table);
             table = addAllFinderPaterns(table);
             table = addDarkModule(table);
             table = addSeparators(table);
-            table = addFormatInfoArea(table);
+            table = addFormatInfoArea(table,Version);
             return table;
         }
 

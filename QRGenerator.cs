@@ -40,7 +40,7 @@ public class QRCodeGenerator
         this.SolomonEncoded = ReedEncoder.EncodedData;
 
         metadataMatrix = new MatrixGenerator(21).Matrix;
-        metadataMatrix = QrMetadataPlacer.AddAllMetadata(metadataMatrix);
+        metadataMatrix = QrMetadataPlacer.AddAllMetadata(metadataMatrix, Version);
 
         dataMatrix = new MatrixGenerator(21).Matrix;
         dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
