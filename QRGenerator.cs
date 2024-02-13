@@ -18,9 +18,10 @@ public class QRCodeGenerator
     public string TextToEncode { get; set; }
     public int Version { get; set; }
     public string EncodedText { get; set; }
-    public List<List<List<int>>> SolomonEncoded;
+    public List<int> SolomonEncoded;
     public QrErrorEncoder ReedEncoder { get; set; }
     public int Size { get; set; }
+    public bool?[,] Matrix { get; set; }
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
         TextToEncode = text;
@@ -33,11 +34,13 @@ public class QRCodeGenerator
         
         this.Size = Version * 4 + 17;
 
-        this.ReedEncoder = new QrErrorEncoder(Encoder.EncodingMode, errorCorrectionLevel, Encoder.Version, EncodedText);
-        this.SolomonEncoded = ReedEncoder.ErrorEncodedBlocks;
+        this.ReedEncoder = new QrErrorEncoder(errorCorrectionLevel, Encoder.Version, EncodedText);
+        this.SolomonEncoded = ReedEncoder.EncodedData;
 
 
-        bool?[,] matrix = new MatrixGenerator(21).Matrix;
+        this.Matrix = new MatrixGenerator(21).Matrix;
+        this.Matrix = QrMetadataPlacer.AddAllMetadata(this.Matrix);
+        this.Matrix = QrDataFiller.FillMatrix(this.Matrix, SolomonEncoded);
 
 
     }

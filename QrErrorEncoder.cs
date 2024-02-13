@@ -47,15 +47,14 @@ namespace QRGenerator
         //    csharp_code = csharp_code[:-2]
         //    csharp_code += "}"
         //    return csharp_code
-        private SupportedEncodingMode EncodingMode { get; set; }
         private ErrorCorrectionLevels ErrorCorrectionLevel { get; set; }
         private int Version { get; set; }
         private int ECWordPerBlock { get; set; }
-        public List<List<List<int>>> ErrorEncodedBlocks { get; set; }
+        private List<List<List<int>>> ErrorEncodedBlocks { get; set; }
+        public List<int> EncodedData { get; set; }
 
-        public QrErrorEncoder(SupportedEncodingMode encodingMode, ErrorCorrectionLevels errorCorrectionLevel, int version, string data)
+        public QrErrorEncoder(ErrorCorrectionLevels errorCorrectionLevel, int version, string data)
         {
-            EncodingMode = encodingMode;
             ErrorCorrectionLevel = errorCorrectionLevel;
             Version = version;
 
@@ -77,8 +76,22 @@ namespace QRGenerator
             Console.WriteLine("------------------------------------------------------------------\nAfter encoding\n------------------------------------------------------------------");
             DisplayForDebug(BlocksAsNumbers);
             ErrorEncodedBlocks = BlocksAsNumbers;
+
+            EncodedData = new List<int>();
+            // merge the blocks
+            for (int i = 0; i < BlocksAsNumbers[0].Count; i++)
+            {
+                for (int j = 0; j < BlocksAsNumbers.Count; j++)
+                {
+                    EncodedData.AddRange(BlocksAsNumbers[j][i]);
+                }
+            }
         }
 
+        /// <summary>
+        /// Break up the data into blocks to be encoded with Reed Solomon
+        /// </summary>
+        /// <param name="Data"></param>
         private List<List<List<string>>> BreakUpDataIntoBlocks(string Data)
         {
             //    split string into codewords :
@@ -161,7 +174,6 @@ namespace QRGenerator
         /// Convert the blocks from string to bytes
         /// </summary>
         /// <param name="blocks"></param>
-        /// <returns></returns>
         public static List<List<List<int>>> ConvertBlocksToInt(List<List<List<string>>> blocks)
         {
             var blocksAsInt = new List<List<List<int>>>();

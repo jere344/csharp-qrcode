@@ -6,23 +6,33 @@ using System.Threading.Tasks;
 
 namespace QRGenerator.ImageGenerator
 {
-    internal class QrDataFiller
+    internal static class QrDataFiller
     {
-        public bool?[,] Matrix { get; set; }
-        public int[] Data { get; set; }
-        public QrDataFiller(bool?[,] matrix, int[] data)
-        {
-            Matrix = matrix;
-            Data = data;
-        
-        }
 
+        /// <summary>
+        /// Convert the data to bits. Each data number is a byte. We convert each byte to 8 bits
+        /// </summary>
+        /// <returns></returns>
+        private static bool[] GetBits(List<int> Data)
+        {
+            var bits = new bool[Data.Count * 8];
+            for (int i = 0; i < Data.Count; i++)
+            {
+                var byteBits = Convert.ToString(Data[i], 2).PadLeft(8, '0');
+                for (int j = 0; j < 8; j++)
+                {
+                    bits[i * 8 + j] = byteBits[j] == '1';
+                }
+            }
+            return bits;
+        }
+        
         /// <summary>
         /// Generator (yield) that gives a list of the next position to fill in the matrix
         /// Exemples of the return : [21, 21], [20, 21], [21, 20], [20, 20], [21, 19], [20, 19], [21, 18], [20, 18]
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<(int, int)> GetNextPosition()
+        private static IEnumerable<(int, int)> GetNextPosition(bool?[,] Matrix)
         {
             // The data bits are placed starting at the bottom - right of the matrix and proceeding upward in a column that is 2 modules wide. Use white pixels for 0, and black pixels for 1.When the column reaches the top, the next 2 - module column starts immediately to the left of the previous column and continues downward.Whenever the current column reaches the edge of the matrix, move on to the next 2 - module column and change direction.If a function pattern or reserved area is encountered, the data bit is placed in the next unused module.
             int size = Matrix.GetLength(0);
@@ -68,5 +78,22 @@ namespace QRGenerator.ImageGenerator
                 counter++;
             }
         }
+    
+        /// <summary>
+        /// Fill the matrix with the data
+        /// </summary>
+        /// <returns></returns>
+        public static bool?[,] FillMatrix(bool?[,] Matrix, List<int> Data)
+        {
+            var bits = GetBits(Data);
+            var counter = 0;
+            foreach (var (y, x) in GetNextPosition(Matrix))
+            {
+                Matrix[y, x] = bits[counter];
+                counter++;
+            }
+            return Matrix;
+        }
     }
+    
 }
