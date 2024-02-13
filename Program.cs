@@ -12,10 +12,6 @@ namespace QRGenerator
             Console.WriteLine(qr.Version);
             Console.WriteLine(qr.EncodedText);
 
-            DisplayMatrix(qr.metadataMatrix);
-            Console.WriteLine();
-            DisplayMatrix(qr.dataMatrix);
-            Console.WriteLine();
             DisplayMatrix(qr.Matrix);
         }
 

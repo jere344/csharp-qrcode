@@ -22,8 +22,9 @@ public class QRCodeGenerator
     public QrErrorEncoder ReedEncoder { get; set; }
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
-    public bool?[,] metadataMatrix { get; set; }
-    public bool?[,] dataMatrix { get; set; }
+    public string FormatString { get; set; }
+    public string? VersionString { get; set; }
+    
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
         TextToEncode = text;
@@ -39,10 +40,10 @@ public class QRCodeGenerator
         this.ReedEncoder = new QrErrorEncoder(errorCorrectionLevel, Encoder.Version, EncodedText);
         this.SolomonEncoded = ReedEncoder.EncodedData;
 
-        metadataMatrix = new MatrixGenerator(21).Matrix;
+        bool?[,] metadataMatrix = new MatrixGenerator(21).Matrix;
         metadataMatrix = QrMetadataPlacer.AddAllMetadata(metadataMatrix, Version);
 
-        dataMatrix = new MatrixGenerator(21).Matrix;
+        bool?[,] dataMatrix = new MatrixGenerator(21).Matrix;
         dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
 
         dataMatrix = QrApplyMask.ApplyMask(dataMatrix, 0);
@@ -59,11 +60,10 @@ public class QRCodeGenerator
 
             }
         }
-        string formatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], Version)];
-        string? versionString = null;
+        FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], Version)];
         if (version > 6)
         {
-            versionString = Static.VersionInformationStrings[Version]; 
+            VersionString = Static.VersionInformationStrings[Version]; 
         }
 
     }
