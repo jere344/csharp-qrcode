@@ -80,19 +80,19 @@ namespace QRGenerator.ImageGenerator
         }
     
         /// <summary>
-        /// Fill the matrix with the data
+        /// Fill the matrix with the data, avoiding the reserved areas in metadataMatrix
         /// </summary>
         /// <returns></returns>
-        public static bool?[,] FillMatrix(bool?[,] Matrix, List<int> Data)
+        public static bool?[,] FillMatrix(bool?[,] dataMatrix, bool?[,] metadataMatrix, List<int> data)
         {
-            var bits = GetBits(Data);
+            var bits = GetBits(data);
             var counter = 0;
-            foreach (var (y, x) in GetNextPosition(Matrix))
+            foreach (var (y, x) in GetNextPosition(metadataMatrix))
             {
-                Matrix[y, x] = bits[counter];
+                dataMatrix[y, x] = bits[counter];
                 counter++;
             }
-            return Matrix;
+            return dataMatrix;
         }
     }
     

@@ -10,7 +10,7 @@ namespace QRGenerator.ImageGenerator
     internal class ExportImage
     {
 
-        static void ExporterImage(bool?[,] qrCode)
+        public static void ExporterImage(bool?[,] qrCode)
         {
             // crate a surface
             var info = new SKImageInfo(qrCode.GetLength(0), qrCode.GetLength(1));

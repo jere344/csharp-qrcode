@@ -22,6 +22,8 @@ public class QRCodeGenerator
     public QrErrorEncoder ReedEncoder { get; set; }
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
+    public bool?[,] metadataMatrix { get; set; }
+    public bool?[,] dataMatrix { get; set; }
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
         TextToEncode = text;
@@ -37,11 +39,26 @@ public class QRCodeGenerator
         this.ReedEncoder = new QrErrorEncoder(errorCorrectionLevel, Encoder.Version, EncodedText);
         this.SolomonEncoded = ReedEncoder.EncodedData;
 
+        metadataMatrix = new MatrixGenerator(21).Matrix;
+        metadataMatrix = QrMetadataPlacer.AddAllMetadata(metadataMatrix);
 
-        this.Matrix = new MatrixGenerator(21).Matrix;
-        this.Matrix = QrMetadataPlacer.AddAllMetadata(this.Matrix);
-        this.Matrix = QrDataFiller.FillMatrix(this.Matrix, SolomonEncoded);
+        dataMatrix = new MatrixGenerator(21).Matrix;
+        dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
 
+        dataMatrix = QrApplyMask.ApplyMask(dataMatrix, 0);
+
+        Matrix = new MatrixGenerator(21).Matrix;
+        // Combine the metadata and data matrix
+        // With this we can apply the mask to the data only and keep the metadata as is
+        for (int i = 0; i < metadataMatrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < metadataMatrix.GetLength(1); j++)
+            {
+                // If a cell is empty in the metadata matrix, we fill it with the data matrix
+                Matrix[i, j] = metadataMatrix[i, j] ?? dataMatrix[i, j];
+
+            }
+        }
 
     }
 }
