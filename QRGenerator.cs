@@ -59,6 +59,12 @@ public class QRCodeGenerator
 
             }
         }
+        string formatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], Version)];
+        string? versionString = null;
+        if (version > 6)
+        {
+            versionString = Static.VersionInformationStrings[Version]; 
+        }
 
     }
 }
