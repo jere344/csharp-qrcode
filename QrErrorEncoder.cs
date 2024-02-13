@@ -60,7 +60,6 @@ namespace QRGenerator
 
             List<List<List<string>>> Blocks = BreakUpDataIntoBlocks(data);
             List<List<List<int>>> BlocksAsNumbers = ConvertBlocksToInt(Blocks);
-            DisplayForDebug(BlocksAsNumbers);
 
             var field = new GenericGF(285, 256, 0);
             var rse = new ReedSolomonEncoder(field);
@@ -73,8 +72,6 @@ namespace QRGenerator
                     BlocksAsNumbers[i][j] = dataBlock.ToList();
                 }
             }
-            Console.WriteLine("------------------------------------------------------------------\nAfter encoding\n------------------------------------------------------------------");
-            DisplayForDebug(BlocksAsNumbers);
             ErrorEncodedBlocks = BlocksAsNumbers;
 
             EncodedData = new List<int>();
@@ -117,17 +114,20 @@ namespace QRGenerator
             // Initialize the blocks arrays
             var blocks = new List<List<List<string>>>
             {
-                new List<List<string>>() { // Group 1
-                    new List<string>(), // Block 1
-                    new List<string>(), // Block 2
-                }
+                new List<List<string>>() // Group 1
             };
+            for (int i = 0; i < blockGroup1; i++)
+            {
+                blocks[0].Add(new List<string>()); // Block x
+            }
+            
             if (blockGroup2 > 0)
             {
-                blocks.Add(new List<List<string>>() { // Group 2
-                    new List<string>(), // Block 1
-                    new List<string>(), // Block 2
-                });
+                blocks.Add(new List<List<string>>()); // Group 2
+                for (int i = 0; i < blockGroup2; i++)
+                {
+                    blocks[1].Add(new List<string>()); // Block x
+                }
             }
 
 

@@ -89,6 +89,13 @@ namespace QRGenerator.ImageGenerator
             var counter = 0;
             foreach (var (y, x) in GetNextPosition(metadataMatrix))
             {
+                if (counter >= bits.Length)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("WARNING: Data lenght do not correspond to the matrix size");
+                    Console.ResetColor();
+                    break;
+                }
                 dataMatrix[y, x] = bits[counter];
                 counter++;
             }
