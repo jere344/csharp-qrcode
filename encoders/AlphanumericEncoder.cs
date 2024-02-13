@@ -2,8 +2,8 @@ namespace QRGenerator.encoders
 {
     public static class AlphanumericEncoder
     {
-        
-    public static Dictionary<char, int> AlphanumericTable = new()
+
+        public static Dictionary<char, int> AlphanumericTable = new()
     {
         {'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4},
         {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9},
@@ -19,11 +19,11 @@ namespace QRGenerator.encoders
         public static string[] AlphanumericEncode(string text)
         {
             // Step 1: Break String Up Into Groups of Two
-            string[] groups = new string[text.Length / 2 + 1];
+            string[] groups = new string[(text.Length + 1) / 2]; // Adjusted to handle odd-length strings
             int groupIndex = 0;
             for (int i = 0; i < text.Length; i += 2)
             {
-                if (i + 2 <= text.Length)
+                if (i + 1 < text.Length) // Adjusted the condition to handle odd-length strings
                 {
                     groups[groupIndex] = text.Substring(i, 2);
                 }
