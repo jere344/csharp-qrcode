@@ -36,7 +36,7 @@ public class QRCodeGenerator
         Console.WriteLine("Error correction level: " + ErrorCorrectionLevel);
         this.EncodedText = Encoder.EncodedText;
         Console.WriteLine("Encoded text length: " + EncodedText.Length);
-        Console.WriteLine();
+        Console.WriteLine("Encoded text : " + EncodedText);
         
         this.Size = Version * 4 + 17;
 

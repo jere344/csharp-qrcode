@@ -114,6 +114,13 @@ namespace QRGenerator
             int blockGroup2 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][3];
             int wordCount2 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][4];
 
+            if (Data.Length / 8 != blockGroup1 * wordCount1 + blockGroup2 * wordCount2)
+            {
+                Console.WriteLine("Version is " + Version + " and ErrorCorrectionLevel is " + ErrorCorrectionLevel);
+                Console.WriteLine("data lenght : " + Data.Length / 8 + " Expected : " + (blockGroup1 * wordCount1 + blockGroup2 * wordCount2));
+                throw new Exception("Size mismatch");
+            }
+
             // Initialize the blocks arrays
             var blocks = new List<List<List<string>>>
             {
@@ -140,18 +147,19 @@ namespace QRGenerator
             // for each group, 2 groups
             int group = 0;
             //  For each block in the group
-            for (int blockGroup1Index = 0; blockGroup1Index < blockGroup1; blockGroup1Index++)
+            for (int block = 0; block < blockGroup1; block++)
             {
                 // For each word in the block
-                for (int wordCount1Index = 0; wordCount1Index < wordCount1; wordCount1Index++)
+                for (int word = 0; word < wordCount1; word++)
                 {
-                    blocks[group][blockGroup1Index].Add(stringCodewords[cursor]);
+                    var a = stringCodewords[cursor];
+                    blocks[group][block].Add(a);
                     cursor++;
                 }
                 // Add the error correction words
                 for (int ecWordPerBlockIndex = 0; ecWordPerBlockIndex < ecWordPerBlock; ecWordPerBlockIndex++)
                 {
-                    blocks[group][blockGroup1Index].Add("00000000");
+                    blocks[group][block].Add("00000000");
                 }
             }
 

@@ -14,7 +14,6 @@ public class EncoderController
     public int Version { get; set; }
     public string TextToEncode { get; set; }
     public string EncodedText { get; set; }
-    private int RequieredBitsLength { get; set; }
 
     //def convert_to_csharp(input_dict):
     //csharp_code = "{"
@@ -153,7 +152,6 @@ public class EncoderController
         {
             if (length <= VersionLimitTable[i][ErrLevel][EncMode])
             {
-                RequieredBitsLength = VersionLimitTable[i][ErrLevel][EncMode] * 8;
                 return i;
             }
         }
@@ -215,12 +213,12 @@ public class EncoderController
 
         // Add Pad Bytes if the String is Still too Short
         //If the string is still not long enough to fill the maximum capacity, add the following bytes to the end of the string, repeating until the string has reached the maximum length: 11101100 00010001
-        if (encodedText.Length < RequieredBitsLength)
+        if (encodedText.Length < requiredBits)
         {
             string padBytes1 = "11101100";
             string padBytes2 = "00010001";
             int counter = 0;
-            while (encodedText.Length < RequieredBitsLength)
+            while (encodedText.Length < requiredBits)
             {
                 if (counter % 2 == 0)
                 {
@@ -236,7 +234,7 @@ public class EncoderController
         }
 
         Console.WriteLine("Encoded text length : " + encodedText.Length);
-        Console.WriteLine("Requiered length : " + RequieredBitsLength);
+        Console.WriteLine("Requiered length : " + requiredBits);
 
         return encodedText;
 

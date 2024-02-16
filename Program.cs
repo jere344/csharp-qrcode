@@ -7,16 +7,17 @@ namespace QRGenerator
     {
         static void Main(string[] args)
         {
-            var qr = new QRCodeGenerator("PROJET CODE QR PREUVE DE CONCEPT");
-            // 012345678901234
-            // 110100101110110
-            // 111011111000100
+            Console.WriteLine("Entrez la chaine de caractères à encoder, ou laissez vide pour le test par défaut (les version 6 et suppérieures ainsi que les kanji ne sont pas supportés) : ");
+            string? text = Console.ReadLine();
+            if (text == "" || text == null)
+            {
+                text = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            }
+            var qr = new QRCodeGenerator(text);
 
-            // Console.WriteLine(qr.EncodingMode);
-            // Console.WriteLine(qr.Version);
-            // Console.WriteLine(qr.EncodedText);
+            Console.WriteLine("Le fichier output.png à été sauvegardé dans le dossier courant");
 
-            DisplayMatrix(qr.Matrix);
+            // DisplayMatrix(qr.Matrix);
         }
 
         static void DisplayMatrix(bool?[,] matrix)
