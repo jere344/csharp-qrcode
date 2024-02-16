@@ -22,8 +22,6 @@ public class QRCodeGenerator
     public QrErrorEncoder ReedEncoder { get; set; }
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
-    public string FormatString { get; set; }
-    public string? VersionString { get; set; }
     
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version=null, SupportedEncodingMode? encodingMode = null)
     {
@@ -39,43 +37,68 @@ public class QRCodeGenerator
 
         this.ReedEncoder = new QrErrorEncoder(errorCorrectionLevel, Encoder.Version, EncodedText);
         this.SolomonEncoded = ReedEncoder.EncodedData;
+        // Console.WriteLine("Solomon encoded: " + string.Join(", ", SolomonEncoded));
 
-        bool?[,] metadataMatrix = new MatrixGenerator(21).Matrix;
+
+        bool?[,] metadataMatrix = new MatrixGenerator(this.Size).Matrix;
         metadataMatrix = QrMetadataPlacer.AddAllMetadata(metadataMatrix, Version);
 
-        bool?[,] dataMatrix = new MatrixGenerator(21).Matrix;
+        bool?[,] dataMatrix = new MatrixGenerator(this.Size).Matrix;
         dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
 
-        int mask = 0;
 
-        dataMatrix = QrApplyMask.ApplyMask(dataMatrix, mask);
+        List<bool?[,]> maskedMatrices = GetMaskedMatrices(metadataMatrix, dataMatrix, Version);
 
-        Matrix = new MatrixGenerator(21).Matrix;
-        // Combine the metadata and data matrix
-        // With this we can apply the mask to the data only and keep the metadata as is
-        for (int i = 0; i < metadataMatrix.GetLength(0); i++)
-        {
-            for (int j = 0; j < metadataMatrix.GetLength(1); j++)
-            {
-                // If a cell is empty in the metadata matrix, we fill it with the data matrix
-                Matrix[i, j] = metadataMatrix[i, j] ?? dataMatrix[i, j];
-
-            }
-        }
-        FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], mask)];
-        bool[] formatStringBool = FormatString.Select(x => x == '1').ToArray();
-        Matrix = QrMetadataPlacer.AddFormatInformation(Matrix, formatStringBool);
-
-        if (version > 6)
-        {
-            VersionString = Static.VersionInformationStrings[Version]; 
-            bool[]? versionStringBool = VersionString.Select(x => x == '1').ToArray();
-            Matrix = QrMetadataPlacer.AddVersionInformation(Matrix, versionStringBool);
-        }
-
+        Matrix = QrApplyMask.GetBestMatrice(maskedMatrices);
 
         ImageGenerator.ExportImage.ExporterImage(Matrix);
+    }
 
+    public List<bool?[,]> GetMaskedMatrices(bool?[,] metadataMatrix, bool?[,] dataMatrix, int version)
+    {
+        List<bool?[,]> maskedMatrices = new List<bool?[,]>();
+        for (int mask = 0; mask < 8; mask++)
+        {
+            Matrix = new MatrixGenerator(this.Size).Matrix;
+
+            // #First we create a clone of the data matrix with the mask applied
+            if (dataMatrix.Clone() is not bool?[,] clonedDataMatrix)
+            {
+                throw new Exception("Cloning failed");
+            }
+            var maskedDataMatrix = QrApplyMask.ApplyMask(clonedDataMatrix, mask);
+            
+           
+            // # Then we add the metadata to the masked matrix
+
+            // With this we can apply the mask to the data only and keep the metadata as is
+            for (int i = 0; i < metadataMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < metadataMatrix.GetLength(1); j++)
+                {
+                    // If a cell is empty in the metadata matrix, we fill it with the data matrix
+                    Matrix[i, j] = metadataMatrix[i, j] ?? maskedDataMatrix[i, j];
+
+                }
+            }
+
+            // # Then we add the format information to the matrix
+            var FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], mask)];
+            bool[] formatStringBool = FormatString.Select(x => x == '1').ToArray();
+            Matrix = QrMetadataPlacer.AddFormatInformation(Matrix, formatStringBool);
+
+            if (version > 6)
+            {
+                var VersionString = Static.VersionInformationStrings[Version]; 
+                bool[]? versionStringBool = VersionString.Select(x => x == '1').ToArray();
+                Matrix = QrMetadataPlacer.AddVersionInformation(Matrix, versionStringBool);
+            }
+
+            // # Finally we have a complete qr code with the mask applied
+            maskedMatrices.Add(Matrix);
+        }
+        // We can use this list to compare the penalties of each mask and choose the best one
+        return maskedMatrices;
     }
 }
 

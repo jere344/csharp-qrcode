@@ -57,7 +57,7 @@ namespace QRGenerator
         {
             ErrorCorrectionLevel = errorCorrectionLevel;
             Version = version;
-
+            // Console.WriteLine("data to encode: " + data);
             List<List<List<string>>> Blocks = BreakUpDataIntoBlocks(data);
             List<List<List<int>>> BlocksAsNumbers = ConvertBlocksToInt(Blocks);
 

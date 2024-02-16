@@ -15,7 +15,6 @@ namespace QRGenerator.ImageGenerator
             int counter = 0;
             for (int i = 0; i < 9; i++)
             {
-                Console.WriteLine(counter);
                 if (i == 6){ continue; }
                 Matrix[y, x + i] = formatString[counter];
                 counter++;
@@ -24,7 +23,6 @@ namespace QRGenerator.ImageGenerator
             y = 7;
             for (int i = 0; i < 8; i++)
             {
-                Console.WriteLine(counter);
                 if (i == 1) { continue; }
                 Matrix[y - i, x] = formatString[counter];
                 counter++;

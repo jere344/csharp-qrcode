@@ -14,6 +14,37 @@ public class EncoderController
     public int Version { get; set; }
     public string TextToEncode { get; set; }
     public string EncodedText { get; set; }
+    private int RequieredBitsLength { get; set; }
+
+    //def convert_to_csharp(input_dict):
+    //csharp_code = "{"
+    //for key, value in input_dict.items():
+    //    inner_dict = ", ".join([f'{{"{inner_key}", {inner_value}}}' for inner_key, inner_value in value.items()])
+    //    csharp_code += f'{{{key}, new Dictionary<string, int> {{{inner_dict}}}}}, '
+    //csharp_code = csharp_code[:-2]  # Remove the trailing comma and space
+    //csharp_code += "}"
+    //return csharp_code
+    private Dictionary<int, Dictionary<string, int>> DataCodeWordCount = Static.DataCodeWordCount;
+
+    // python dict to csharp dict converter :
+    //def convert_to_csharp(input_dict):
+    //csharp_code = "{"
+    //for key, value in input_dict.items():
+    //    csharp_code += "{" + str(key) + ", new Dictionary<string, Dictionary<string, int>> {"
+    //    for inner_key, inner_value in value.items():
+    //        inner_dict = ", ".join([f'{{"{k}", {v}}}' for k, v in inner_value.items()])
+    //        csharp_code += f'{{"{inner_key}", new Dictionary<string, int> {{{inner_dict}}}}}, '
+    //    csharp_code = csharp_code[:-2]  # Remove the trailing comma and space
+    //    csharp_code += "}},"
+    //csharp_code = csharp_code[:-1]  # Remove the trailing comma
+    //csharp_code += "}"
+    //return csharp_code
+
+
+    // J'ai banni ce dictionnaire dans un autre fichier parce qu'il fait lag l'IDE.
+    // (Et c# est incapable d'avoir une sytaxe propre pour d�clarer des dictionnaires)
+    // VersionLimitTable[ErrorLevel:str][EncodingMode:str] = MaxPossibleBitsEncode:int
+    private Dictionary<int, Dictionary<string, Dictionary<string, int>>> VersionLimitTable = Static.VersionLimitTable;
 
     public EncoderController(string textToEncode, ErrorCorrectionLevels errorCorrectionLevel, int? version = null, SupportedEncodingMode? encodingMode = null)
     {
@@ -103,25 +134,7 @@ public class EncoderController
     }
 
 
-    // python dict to csharp dict converter :
-    //def convert_to_csharp(input_dict):
-    //csharp_code = "{"
-    //for key, value in input_dict.items():
-    //    csharp_code += "{" + str(key) + ", new Dictionary<string, Dictionary<string, int>> {"
-    //    for inner_key, inner_value in value.items():
-    //        inner_dict = ", ".join([f'{{"{k}", {v}}}' for k, v in inner_value.items()])
-    //        csharp_code += f'{{"{inner_key}", new Dictionary<string, int> {{{inner_dict}}}}}, '
-    //    csharp_code = csharp_code[:-2]  # Remove the trailing comma and space
-    //    csharp_code += "}},"
-    //csharp_code = csharp_code[:-1]  # Remove the trailing comma
-    //csharp_code += "}"
-    //return csharp_code
 
-
-    // J'ai banni ce dictionnaire dans un autre fichier parce qu'il fait lag l'IDE.
-    // (Et c# est incapable d'avoir une sytaxe propre pour d�clarer des dictionnaires)
-    // VersionLimitTable[ErrorLevel:str][EncodingMode:str] = MaxPossibleBitsEncode:int
-    private Dictionary<int, Dictionary<string, Dictionary<string, int>>> VersionLimitTable = Static.VersionLimitTable;
 
 
     /// <summary>
@@ -140,6 +153,7 @@ public class EncoderController
         {
             if (length <= VersionLimitTable[i][ErrLevel][EncMode])
             {
+                RequieredBitsLength = VersionLimitTable[i][ErrLevel][EncMode] * 8;
                 return i;
             }
         }
@@ -174,16 +188,6 @@ public class EncoderController
         }
     }
 
-    //def convert_to_csharp(input_dict):
-    //csharp_code = "{"
-    //for key, value in input_dict.items():
-    //    inner_dict = ", ".join([f'{{"{inner_key}", {inner_value}}}' for inner_key, inner_value in value.items()])
-    //    csharp_code += f'{{{key}, new Dictionary<string, int> {{{inner_dict}}}}}, '
-    //csharp_code = csharp_code[:-2]  # Remove the trailing comma and space
-    //csharp_code += "}"
-    //return csharp_code
-    private Dictionary<int, Dictionary<string, int>> DataCodeWordCount = Static.DataCodeWordCount;
-
     private string PadEncodedText(string encodedText)
     {
         string ErrLevel = Enum.GetName(typeof(ErrorCorrectionLevels), this.ErrorCorrectionLevel) ?? "L";
@@ -208,14 +212,15 @@ public class EncoderController
             encodedText += new string('0', 8 - encodedText.Length % 8);
         }
 
+
         // Add Pad Bytes if the String is Still too Short
         //If the string is still not long enough to fill the maximum capacity, add the following bytes to the end of the string, repeating until the string has reached the maximum length: 11101100 00010001
-        if (encodedText.Length < requiredBits)
+        if (encodedText.Length < RequieredBitsLength)
         {
             string padBytes1 = "11101100";
             string padBytes2 = "00010001";
             int counter = 0;
-            while (encodedText.Length < requiredBits)
+            while (encodedText.Length < RequieredBitsLength)
             {
                 if (counter % 2 == 0)
                 {
@@ -229,6 +234,9 @@ public class EncoderController
             }
             // Console.WriteLine("Pad bytes added : " + counter);
         }
+
+        Console.WriteLine("Encoded text length : " + encodedText.Length);
+        Console.WriteLine("Requiered length : " + RequieredBitsLength);
 
         return encodedText;
 
