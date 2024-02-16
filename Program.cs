@@ -7,7 +7,7 @@ namespace QRGenerator
     {
         static void Main(string[] args)
         {
-            var qr = new QRCodeGenerator("HELLOWORLDHELLOWORLDHELLOWORLDHELLO");
+            var qr = new QRCodeGenerator("PROJET CODE QR PREUVE DE CONCEPT");
             // 012345678901234
             // 110100101110110
             // 111011111000100
@@ -15,9 +15,6 @@ namespace QRGenerator
             // Console.WriteLine(qr.EncodingMode);
             // Console.WriteLine(qr.Version);
             // Console.WriteLine(qr.EncodedText);
-            Console.WriteLine("Encoding mode: " + qr.EncodingMode);
-            Console.WriteLine("Version: " + qr.Version);
-            Console.WriteLine("Error correction level: " + qr.ErrorCorrectionLevel);
 
             DisplayMatrix(qr.Matrix);
         }

@@ -29,15 +29,20 @@ public class QRCodeGenerator
 
         this.Encoder = new EncoderController(text, errorCorrectionLevel, version, encodingMode);
         this.Version = Encoder.Version;
+        Console.WriteLine("Version: " + Version);
         this.EncodingMode = Encoder.EncodingMode;
+        Console.WriteLine("Encoding mode: " + EncodingMode);
         this.ErrorCorrectionLevel = errorCorrectionLevel;
+        Console.WriteLine("Error correction level: " + ErrorCorrectionLevel);
         this.EncodedText = Encoder.EncodedText;
+        Console.WriteLine("Encoded text length: " + EncodedText.Length);
+        Console.WriteLine();
         
         this.Size = Version * 4 + 17;
 
         this.ReedEncoder = new QrErrorEncoder(errorCorrectionLevel, Encoder.Version, EncodedText);
         this.SolomonEncoded = ReedEncoder.EncodedData;
-        // Console.WriteLine("Solomon encoded: " + string.Join(", ", SolomonEncoded));
+        Console.WriteLine("Solomon encoded: " + string.Join(", ", SolomonEncoded));
 
 
         bool?[,] metadataMatrix = new MatrixGenerator(this.Size).Matrix;

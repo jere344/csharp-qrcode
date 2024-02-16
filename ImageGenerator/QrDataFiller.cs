@@ -26,7 +26,7 @@ namespace QRGenerator.ImageGenerator
             }
             return bits;
         }
-        
+
         /// <summary>
         /// Generator (yield) that gives a list of the next position to fill in the matrix
         /// Exemples of the return : [21, 21], [20, 21], [21, 20], [20, 20], [21, 19], [20, 19], [21, 18], [20, 18]
@@ -40,7 +40,7 @@ namespace QRGenerator.ImageGenerator
             int y = size - 1;
             int direction = 1; // 1 = up, -1 = down
             int counter = 0;
-            while (x > -1) 
+            while (x > -1)
             {
                 // We always skip the timing pattern at column 6
                 if (x == 6) { x -= 1; }
@@ -57,8 +57,8 @@ namespace QRGenerator.ImageGenerator
                     x -= 1;
                 }
                 else
-                {     
-                     x += 1;
+                {
+                    x += 1;
                     // if we reach the edge of the matrix || we reach a filled cell
                     if (y - direction < 0 || y - direction >= size)
                     {
@@ -78,7 +78,7 @@ namespace QRGenerator.ImageGenerator
                 counter++;
             }
         }
-    
+
         /// <summary>
         /// Fill the matrix with the data, avoiding the reserved areas in metadataMatrix
         /// </summary>
@@ -87,20 +87,31 @@ namespace QRGenerator.ImageGenerator
         {
             var bits = GetBits(data);
             var counter = 0;
+            bool warning_triggered = false;
             foreach (var (y, x) in GetNextPosition(metadataMatrix))
             {
+                if (warning_triggered == true)
+                {
+                    dataMatrix[y, x] = false;
+                    continue;
+                }
+
                 if (counter >= bits.Length)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("WARNING: Data lenght do not correspond to the matrix size");
+                    Console.WriteLine("WARNING: Data lenght do not correspond to the matrix size. Fill the rest of the matrix with white pixels");
                     Console.ResetColor();
-                    break;
+                    warning_triggered = true;
+                    dataMatrix[y, x] = false;
                 }
-                dataMatrix[y, x] = bits[counter];
-                counter++;
+                else
+                {
+                    dataMatrix[y, x] = bits[counter];
+                    counter++;
+                }
             }
             return dataMatrix;
         }
     }
-    
+
 }

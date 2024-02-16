@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QRGenerator.ImageGenerator
 {
-    internal class QrMetadataPlacer
+    internal static class QrMetadataPlacer
     {
         public static bool?[,] AddFormatInformation(bool?[,] Matrix, bool[] formatString)
         {
@@ -15,7 +15,7 @@ namespace QRGenerator.ImageGenerator
             int counter = 0;
             for (int i = 0; i < 9; i++)
             {
-                if (i == 6){ continue; }
+                if (i == 6) { continue; }
                 Matrix[y, x + i] = formatString[counter];
                 counter++;
             }
@@ -49,8 +49,8 @@ namespace QRGenerator.ImageGenerator
 
         public static bool?[,] AddVersionInformation(bool?[,] Matrix, bool[] versionString)
         {
-            int x = 0;
-            int y = Matrix.GetLength(0) - 11;
+            int x = Matrix.GetLength(0) - 11;
+            int y = 0;
             int counter = 0;
             for (int i = 0; i < 6; i++)
             {
@@ -60,9 +60,10 @@ namespace QRGenerator.ImageGenerator
                     counter++;
                 }
             }
+
+            x = 0;
+            y = Matrix.GetLength(1) - 11;
             counter = 0;
-            x = Matrix.GetLength(1) - 11;
-            y = 0;
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -76,11 +77,12 @@ namespace QRGenerator.ImageGenerator
 
         public static bool?[,] AddAllMetadata(bool?[,] table, int Version)
         {
-            table = addTimingPatern(table);
             table = addAllFinderPaterns(table);
             table = addDarkModule(table);
             table = addSeparators(table);
             table = addFormatInfoArea(table, Version);
+            table = addAlignmentPatterns(table, Version);
+            table = addTimingPatern(table);
             return table;
         }
 
@@ -276,144 +278,171 @@ namespace QRGenerator.ImageGenerator
 
         }
 
-        public bool?[,] AddAlignmentPatterns(bool?[,] table, int version)
+        public static int[] GetAlignmentPatternPositions(int version)
         {
-            int?[] positions = GetAlignmentPatternPositions(version);
-
-            return table;
-        }
-        public static int?[] GetAlignmentPatternPositions(int version)
-        {
-            int?[] positions;
+            int[] positions;
 
             switch (version)
             {
                 case 2:
-                    positions = new int?[] { 6, 18 };
+                    positions = new int[] { 6, 18 };
                     break;
                 case 3:
-                    positions = new int?[] { 6, 22 };
+                    positions = new int[] { 6, 22 };
                     break;
                 case 4:
-                    positions = new int?[] { 6, 26 };
+                    positions = new int[] { 6, 26 };
                     break;
                 case 5:
-                    positions = new int?[] { 6, 30 };
+                    positions = new int[] { 6, 30 };
                     break;
                 case 6:
-                    positions = new int?[] { 6, 34 };
+                    positions = new int[] { 6, 34 };
                     break;
                 case 7:
-                    positions = new int?[] { 6, 22, 38 };
+                    positions = new int[] { 6, 22, 38 };
                     break;
                 case 8:
-                    positions = new int?[] { 6, 24, 42 };
+                    positions = new int[] { 6, 24, 42 };
                     break;
                 case 9:
-                    positions = new int?[] { 6, 26, 46 };
+                    positions = new int[] { 6, 26, 46 };
                     break;
                 case 10:
-                    positions = new int?[] { 6, 28, 50 };
+                    positions = new int[] { 6, 28, 50 };
                     break;
                 case 11:
-                    positions = new int?[] { 6, 30, 54 };
+                    positions = new int[] { 6, 30, 54 };
                     break;
                 case 12:
-                    positions = new int?[] { 6, 32, 58 };
+                    positions = new int[] { 6, 32, 58 };
                     break;
                 case 13:
-                    positions = new int?[] { 6, 34, 62 };
+                    positions = new int[] { 6, 34, 62 };
                     break;
                 case 14:
-                    positions = new int?[] { 6, 26, 46, 66 };
+                    positions = new int[] { 6, 26, 46, 66 };
                     break;
                 case 15:
-                    positions = new int?[] { 6, 26, 48, 70 };
+                    positions = new int[] { 6, 26, 48, 70 };
                     break;
                 case 16:
-                    positions = new int?[] { 6, 26, 50, 74 };
+                    positions = new int[] { 6, 26, 50, 74 };
                     break;
                 case 17:
-                    positions = new int?[] { 6, 30, 54, 78 };
+                    positions = new int[] { 6, 30, 54, 78 };
                     break;
                 case 18:
-                    positions = new int?[] { 6, 30, 56, 82 };
+                    positions = new int[] { 6, 30, 56, 82 };
                     break;
                 case 19:
-                    positions = new int?[] { 6, 30, 58, 86 };
+                    positions = new int[] { 6, 30, 58, 86 };
                     break;
                 case 20:
-                    positions = new int?[] { 6, 34, 62, 90 };
+                    positions = new int[] { 6, 34, 62, 90 };
                     break;
                 case 21:
-                    positions = new int?[] { 6, 28, 50, 72, 94 };
+                    positions = new int[] { 6, 28, 50, 72, 94 };
                     break;
                 case 22:
-                    positions = new int?[] { 6, 26, 50, 74, 98 };
+                    positions = new int[] { 6, 26, 50, 74, 98 };
                     break;
                 case 23:
-                    positions = new int?[] { 6, 30, 54, 78, 102 };
+                    positions = new int[] { 6, 30, 54, 78, 102 };
                     break;
                 case 24:
-                    positions = new int?[] { 6, 28, 54, 80, 106 };
+                    positions = new int[] { 6, 28, 54, 80, 106 };
                     break;
                 case 25:
-                    positions = new int?[] { 6, 32, 58, 84, 110 };
+                    positions = new int[] { 6, 32, 58, 84, 110 };
                     break;
                 case 26:
-                    positions = new int?[] { 6, 30, 58, 86, 114 };
+                    positions = new int[] { 6, 30, 58, 86, 114 };
                     break;
                 case 27:
-                    positions = new int?[] { 6, 34, 62, 90, 118 };
+                    positions = new int[] { 6, 34, 62, 90, 118 };
                     break;
                 case 28:
-                    positions = new int?[] { 6, 26, 50, 74, 98, 122 };
+                    positions = new int[] { 6, 26, 50, 74, 98, 122 };
                     break;
                 case 29:
-                    positions = new int?[] { 6, 30, 54, 78, 102, 126 };
+                    positions = new int[] { 6, 30, 54, 78, 102, 126 };
                     break;
                 case 30:
-                    positions = new int?[] { 6, 26, 52, 78, 104, 130 };
+                    positions = new int[] { 6, 26, 52, 78, 104, 130 };
                     break;
                 case 31:
-                    positions = new int?[] { 6, 30, 56, 82, 108, 134 };
+                    positions = new int[] { 6, 30, 56, 82, 108, 134 };
                     break;
                 case 32:
-                    positions = new int?[] { 6, 34, 60, 86, 112, 138 };
+                    positions = new int[] { 6, 34, 60, 86, 112, 138 };
                     break;
                 case 33:
-                    positions = new int?[] { 6, 30, 58, 86, 114, 142 };
+                    positions = new int[] { 6, 30, 58, 86, 114, 142 };
                     break;
                 case 34:
-                    positions = new int?[] { 6, 34, 62, 90, 118, 146 };
+                    positions = new int[] { 6, 34, 62, 90, 118, 146 };
                     break;
                 case 35:
-                    positions = new int?[] { 6, 30, 54, 78, 102, 126, 150 };
+                    positions = new int[] { 6, 30, 54, 78, 102, 126, 150 };
                     break;
                 case 36:
-                    positions = new int?[] { 6, 24, 50, 76, 102, 128, 154 };
+                    positions = new int[] { 6, 24, 50, 76, 102, 128, 154 };
                     break;
                 case 37:
-                    positions = new int?[] { 6, 28, 54, 80, 106, 132, 158 };
+                    positions = new int[] { 6, 28, 54, 80, 106, 132, 158 };
                     break;
                 case 38:
-                    positions = new int?[] { 6, 32, 58, 84, 110, 136, 162 };
+                    positions = new int[] { 6, 32, 58, 84, 110, 136, 162 };
                     break;
                 case 39:
-                    positions = new int?[] { 6, 26, 54, 82, 110, 138, 166 };
+                    positions = new int[] { 6, 26, 54, 82, 110, 138, 166 };
                     break;
                 case 40:
-                    positions = new int?[] { 6, 30, 58, 86, 114, 142, 170 };
+                    positions = new int[] { 6, 30, 58, 86, 114, 142, 170 };
                     break;
 
                 default:
-                    positions = new int?[] { };
+                    positions = new int[] { };
                     break;
 
             }
             return positions;
         }
 
+        public static bool?[,] addAlignmentPatterns(bool?[,] table, int version)
+        {
+            int[] positions = GetAlignmentPatternPositions(version);
 
+            foreach (int x in positions)
+            {
+                foreach (int y in positions)
+                {
+                    if (table[x, y] != null) { continue; }
+
+                    // paint 4x4 in black
+                    for (int i = -2; i <= 2; i++)
+                    {
+                        for (int j = -2; j <= 2; j++)
+                        {
+                            table[x + i, y + j] = true;
+                        }
+                    }
+
+                    // then 3x3 in white
+                    for (int i = -1; i <= 1; i++)
+                    {
+                        for (int j = -1; j <= 1; j++)
+                        {
+                            table[x + i, y + j] = false;
+                        }
+                    }
+
+                    // then the center in black
+                    table[x, y] = true;
+                }
+            }
+            return table;
+        }
     }
 }
