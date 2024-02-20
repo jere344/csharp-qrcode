@@ -20,7 +20,7 @@ internal static class QrApplyMask
                 bestMask = i;
             }
         }
-        Console.WriteLine($"Best mask: {bestMask}");
+        // Console.WriteLine($"Best mask: {bestMask}");
         return maskedMatrices[bestMask];
     }
 

@@ -143,7 +143,7 @@ public class QRCodeGenerator
     /// </summary>
     /// <param name="path"></param>
     /// <exception cref="Exception"></exception>
-    public void ExportImage(string path)
+    public void ExportImage()
     {
         if (Matrix is null)
         {

@@ -242,8 +242,8 @@ public class EncoderController
             // Console.WriteLine("Pad bytes added : " + counter);
         }
 
-        Console.WriteLine("Encoded text length : " + encodedText.Length);
-        Console.WriteLine("Requiered length : " + requiredBits);
+        // Console.WriteLine("Encoded text length : " + encodedText.Length);
+        // Console.WriteLine("Requiered length : " + requiredBits);
 
         return encodedText;
 

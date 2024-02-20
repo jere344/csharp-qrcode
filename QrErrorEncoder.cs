@@ -111,9 +111,9 @@ namespace QRGenerator
             {
                 stringCodewords[i / 8] = Data.Substring(i, 8);
             }
-            Console.WriteLine(Data.Length / 8);
-            Console.WriteLine("String codewords: " + string.Join(", ", stringCodewords));
-            Console.WriteLine("String codewords length: " + stringCodewords.Length);
+            // Console.WriteLine(Data.Length / 8);
+            // Console.WriteLine("String codewords: " + string.Join(", ", stringCodewords));
+            // Console.WriteLine("String codewords length: " + stringCodewords.Length);
 
 
             // Group Number	    Block Number	Data Codewords in the Group
