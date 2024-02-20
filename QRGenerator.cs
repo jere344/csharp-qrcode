@@ -72,14 +72,14 @@ public class QRCodeGenerator
         dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
 
 
+        List<bool?[,]> maskedMatrices = GetAllMaskedMatrices(metadataMatrix, dataMatrix, Version);
 
         if (mask is not null)
         {
-            Matrix = QrApplyMask.ApplyMask(dataMatrix, mask.Value);
+            Matrix = maskedMatrices[(int)mask];
         }
         else
         {
-            List<bool?[,]> maskedMatrices = GetAllMaskedMatrices(metadataMatrix, dataMatrix, Version);
             Matrix = QrApplyMask.GetBestMatrice(maskedMatrices);
         }
     }
