@@ -77,30 +77,30 @@ namespace QRGenerator.ImageGenerator
 
         public static bool?[,] AddAllMetadata(bool?[,] table, int Version)
         {
-            table = addAllFinderPaterns(table);
-            table = addDarkModule(table);
-            table = addSeparators(table);
-            table = addFormatInfoArea(table, Version);
-            table = addAlignmentPatterns(table, Version);
-            table = addTimingPatern(table);
+            table = AddAllFinderPaterns(table);
+            table = AddDarkModule(table);
+            table = AddSeparators(table);
+            table = AddFormatInfoArea(table, Version);
+            table = AddAlignmentPatterns(table, Version);
+            table = AddTimingPatern(table);
             return table;
         }
 
-        public static bool isEven(int nb)
+        private static bool IsEven(int nb)
         {
             if (nb % 2 == 0)
             { return true; }
             else { return false; }
         }
 
-        public static bool?[,] addTimingPatern(bool?[,] table)
+        private static bool?[,] AddTimingPatern(bool?[,] table)
         {
 
 
             // timing patern horizontal
             for (int i = 8; i <= table.GetLength(0) - 9; i++)
             {
-                if (isEven(i))
+                if (IsEven(i))
                 {
                     table[6, i] = true;
                 }
@@ -113,7 +113,7 @@ namespace QRGenerator.ImageGenerator
             // timing patern vertical
             for (int i = 8; i <= table.GetLength(0) - 9; i++)
             {
-                if (isEven(i))
+                if (IsEven(i))
                 {
                     table[i, 6] = true;
                 }
@@ -133,7 +133,7 @@ namespace QRGenerator.ImageGenerator
         /// <param name="y"></param>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static bool?[,] addFinderPatern(int x, int y, bool?[,] table)
+        private static bool?[,] AddFinderPatern(int x, int y, bool?[,] table)
         {
 
             for (int i = 0; i < 7; i++)
@@ -156,22 +156,22 @@ namespace QRGenerator.ImageGenerator
             return table;
         }
 
-        public static bool?[,] addAllFinderPaterns(bool?[,] table)
+        private static bool?[,] AddAllFinderPaterns(bool?[,] table)
         {
             //topleft
-            table = addFinderPatern(0, 0, table);
+            table = AddFinderPatern(0, 0, table);
 
             //topright
-            table = addFinderPatern(0, table.GetLength(1) - 7, table);
+            table = AddFinderPatern(0, table.GetLength(1) - 7, table);
 
             //botleft
-            table = addFinderPatern(table.GetLength(1) - 7, 0, table);
+            table = AddFinderPatern(table.GetLength(1) - 7, 0, table);
 
             return table;
 
         }
 
-        public static bool?[,] addFormatInfoArea(bool?[,] table, int version)
+        private static bool?[,] AddFormatInfoArea(bool?[,] table, int version)
         {
 
 
@@ -223,7 +223,7 @@ namespace QRGenerator.ImageGenerator
 
             return table;
         }
-        public static bool?[,] addSeparators(bool?[,] table)
+        private static bool?[,] AddSeparators(bool?[,] table)
         {
             // top right
             int x = table.GetLength(1) - 8;
@@ -269,7 +269,7 @@ namespace QRGenerator.ImageGenerator
 
         }
 
-        public static bool?[,] addDarkModule(bool?[,] table)
+        private static bool?[,] AddDarkModule(bool?[,] table)
         {
             int x = 8;
             int y = table.GetLength(1) - 8;
@@ -278,7 +278,7 @@ namespace QRGenerator.ImageGenerator
 
         }
 
-        public static int[] GetAlignmentPatternPositions(int version)
+        private static int[] GetAlignmentPatternPositions(int version)
         {
             int[] positions;
 
@@ -410,7 +410,7 @@ namespace QRGenerator.ImageGenerator
             return positions;
         }
 
-        public static bool?[,] addAlignmentPatterns(bool?[,] table, int version)
+        private static bool?[,] AddAlignmentPatterns(bool?[,] table, int version)
         {
             int[] positions = GetAlignmentPatternPositions(version);
 

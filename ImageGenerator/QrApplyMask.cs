@@ -126,13 +126,14 @@ internal static class QrApplyMask
                         matrix[i, j + 9] == pattern2[9] &&
                         matrix[i, j + 10] == pattern2[10]
                     )
-                ) {
+                )
+                {
                     penalty += 40;
                 }
 
             }
         }
-        
+
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
             for (int i = 0; i < matrix.GetLength(0) - 10; i++)
@@ -163,7 +164,8 @@ internal static class QrApplyMask
                         matrix[i + 9, j] == pattern2[9] &&
                         matrix[i + 10, j] == pattern2[10]
                     )
-                ) {
+                )
+                {
                     penalty += 40;
                 }
             }
@@ -212,27 +214,18 @@ internal static class QrApplyMask
 
     public static bool?[,] ApplyMask(bool?[,] matrix, int mask)
     {
-        switch (mask)
+        return mask switch
         {
-            case 0:
-                return ApplyMask0(matrix);
-            case 1:
-                return ApplyMask1(matrix);
-            case 2:
-                return ApplyMask2(matrix);
-            case 3:
-                return ApplyMask3(matrix);
-            case 4:
-                return ApplyMask4(matrix);
-            case 5:
-                return ApplyMask5(matrix);
-            case 6:
-                return ApplyMask6(matrix);
-            case 7:
-                return ApplyMask7(matrix);
-            default:
-                return matrix;
-        }
+            0 => ApplyMask0(matrix),
+            1 => ApplyMask1(matrix),
+            2 => ApplyMask2(matrix),
+            3 => ApplyMask3(matrix),
+            4 => ApplyMask4(matrix),
+            5 => ApplyMask5(matrix),
+            6 => ApplyMask6(matrix),
+            7 => ApplyMask7(matrix),
+            _ => matrix,
+        };
     }
 
     private static bool?[,] ApplyMask0(bool?[,] matrix)
