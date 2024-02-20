@@ -10,7 +10,13 @@ namespace QRGenerator.encoders
 {
     public static class ByteEncoder
     {
-        public static string[] ByteEncode(string text)
+
+        /// <summary>
+        /// Encode the text into binary numbers
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns> A string of binary numbers</returns>
+        public static string ByteEncode(string text)
         {
             // check if UTF-8 is needed
             // if so, encode as UTF-8
@@ -27,7 +33,12 @@ namespace QRGenerator.encoders
             return ISO88591Encode(text);
         }
 
-        public static string[] UTF8Encode(string text)
+        /// <summary>
+        /// Encode a text using the UTF-8 character set into binary numbers
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns> A string of binary numbers</returns>
+        public static string UTF8Encode(string text)
         {
 
             // Step 1: Split the string into 8-bit bytes.
@@ -41,11 +52,16 @@ namespace QRGenerator.encoders
             {
                 byteStrings[i] = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
             }
-            return byteStrings;
+            return string.Join("", byteStrings);
 
         }
 
-        public static string[] ISO88591Encode(string text)
+        /// <summary>
+        /// Encode a text using the ISO-8859-1 character set into binary numbers
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns> A string of binary numbers</returns>
+        public static string ISO88591Encode(string text)
         {
             byte[] bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(text);
             string[] byteStrings = new string[bytes.Length];
@@ -53,7 +69,7 @@ namespace QRGenerator.encoders
             {
                 byteStrings[i] = Convert.ToString(bytes[i], 2).PadLeft(8, '0');
             }
-            return byteStrings;
+            return string.Join("", byteStrings);
         }
 
 

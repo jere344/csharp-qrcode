@@ -45,6 +45,14 @@ public class EncoderController
     // VersionLimitTable[ErrorLevel:str][EncodingMode:str] = MaxPossibleBitsEncode:int
     private Dictionary<int, Dictionary<string, Dictionary<string, int>>> VersionLimitTable = Static.VersionLimitTable;
 
+    /// <summary>
+    /// Create a new EncoderController and encode the input text.
+    /// </summary>
+    /// <param name="textToEncode"></param>
+    /// <param name="errorCorrectionLevel"></param>
+    /// <param name="version"></param>
+    /// <param name="encodingMode"></param>
+    /// <exception cref="Exception"></exception>
     public EncoderController(string textToEncode, ErrorCorrectionLevels errorCorrectionLevel, int? version = null, SupportedEncodingMode? encodingMode = null)
     {
         this.ErrorCorrectionLevel = errorCorrectionLevel;
@@ -65,7 +73,7 @@ public class EncoderController
         }
         else
         {
-            if (version < 1 || version > 40)
+            if (version < CalculateVersion() || version > 40)
             {
                 throw new Exception("Invalid version number");
             }
@@ -75,6 +83,11 @@ public class EncoderController
         this.EncodedText = Encode();
     }
 
+    /// <summary>
+    /// Encode the input text using the appropriate encoding mode
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     private string Encode()
     {
         int padding = CharacterCountPadding();
@@ -85,7 +98,7 @@ public class EncoderController
             case SupportedEncodingMode.Numeric:
                 {
                     string ModeIndicator = "0001";
-                    string encodedText = string.Join("", NumericEncoder.NumericEncode(TextToEncode));
+                    string encodedText = NumericEncoder.NumericEncode(TextToEncode);
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
@@ -93,7 +106,7 @@ public class EncoderController
             case SupportedEncodingMode.Alphanumeric:
                 {
                     string ModeIndicator = "0010";
-                    string encodedText = string.Join("", AlphanumericEncoder.AlphanumericEncode(TextToEncode));
+                    string encodedText = AlphanumericEncoder.AlphanumericEncode(TextToEncode);
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
@@ -101,7 +114,7 @@ public class EncoderController
             case SupportedEncodingMode.Byte:
                 {
                     string ModeIndicator = "0100";
-                    string encodedText = string.Join("", ByteEncoder.ByteEncode(TextToEncode));
+                    string encodedText = ByteEncoder.ByteEncode(TextToEncode);
 
                     return PadEncodedText(ModeIndicator + characterCountIndicator + encodedText);
                 }
@@ -131,10 +144,6 @@ public class EncoderController
             return SupportedEncodingMode.Byte;
         }
     }
-
-
-
-
 
     /// <summary>
     /// Calculate the minimal version of the QR code needed to encode the input string
@@ -233,8 +242,8 @@ public class EncoderController
             // Console.WriteLine("Pad bytes added : " + counter);
         }
 
-        Console.WriteLine("Encoded text length : " + encodedText.Length);
-        Console.WriteLine("Requiered length : " + requiredBits);
+        // Console.WriteLine("Encoded text length : " + encodedText.Length);
+        // Console.WriteLine("Requiered length : " + requiredBits);
 
         return encodedText;
 

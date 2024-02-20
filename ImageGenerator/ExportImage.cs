@@ -10,7 +10,9 @@ namespace QRGenerator.ImageGenerator
     internal class ExportImage
     {
 
+
         public static void ExporterImage(bool?[,] qrCode, int scale = 50)
+
         {
             // ajouter border (et scaler)
             int borderWidth = 5 * scale;

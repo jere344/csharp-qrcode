@@ -2,7 +2,11 @@ namespace QRGenerator.ImageGenerator;
 
 internal static class QrApplyMask
 {
-
+    /// <summary>
+    /// Return the matrice with the least penalty score
+    /// </summary>
+    /// <param name="maskedMatrices"></param>
+    /// <returns> The best matrice</returns>
     public static bool?[,] GetBestMatrice(List<bool?[,]> maskedMatrices)
     {
         int bestMask = 0;
@@ -16,10 +20,15 @@ internal static class QrApplyMask
                 bestMask = i;
             }
         }
-        Console.WriteLine($"Best mask: {bestMask}");
+        // Console.WriteLine($"Best mask: {bestMask}");
         return maskedMatrices[bestMask];
     }
 
+    /// <summary>
+    /// Get the penalty score for a matrice
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static int GetPenalty(bool?[,] matrix)
     {
         int penalty = 0;
@@ -30,6 +39,11 @@ internal static class QrApplyMask
         return penalty;
     }
 
+    /// <summary>
+    /// Get the penalty score for the first evaluation condition
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns> The penalty int </returns>
     private static int GetPenaltyRule1(bool?[,] matrix)
     {
         int penalty = 0;
@@ -68,6 +82,11 @@ internal static class QrApplyMask
         return penalty;
     }
 
+    /// <summary>
+    /// Get the penalty score for the second evaluation condition
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns> The penalty int </returns>
     private static int GetPenaltyRule2(bool?[,] matrix)
     {
         //          For second evaluation condition, look for areas of the same color that are at least 2x2 modules or larger. The QR code specification says that for a solid-color block of size m × n, the penalty score is 3 × (m - 1) × (n - 1). However, the QR code specification does not specify how to calculate the penalty when there are multiple ways of dividing up the solid-color blocks.
@@ -87,6 +106,11 @@ internal static class QrApplyMask
         return penalty;
     }
 
+    /// <summary>
+    /// Get the penalty score for the third evaluation condition
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns> The penalty int </returns>
     private static int GetPenaltyRule3(bool?[,] matrix)
     {
 
@@ -126,13 +150,14 @@ internal static class QrApplyMask
                         matrix[i, j + 9] == pattern2[9] &&
                         matrix[i, j + 10] == pattern2[10]
                     )
-                ) {
+                )
+                {
                     penalty += 40;
                 }
 
             }
         }
-        
+
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
             for (int i = 0; i < matrix.GetLength(0) - 10; i++)
@@ -163,7 +188,8 @@ internal static class QrApplyMask
                         matrix[i + 9, j] == pattern2[9] &&
                         matrix[i + 10, j] == pattern2[10]
                     )
-                ) {
+                )
+                {
                     penalty += 40;
                 }
             }
@@ -171,6 +197,11 @@ internal static class QrApplyMask
         return penalty;
     }
 
+    /// <summary>
+    /// Get the penalty score for the fourth evaluation condition
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns> The penalty int </returns>
     private static int GetPenaltyRule4(bool?[,] matrix)
     {
         //      The final evaluation condition is based on the ratio of light modules to dark modules. To calculate this penalty rule, do the following steps:
@@ -209,32 +240,33 @@ internal static class QrApplyMask
         return penalty;
     }
 
-
+    /// <summary>
+    /// Apply the mask to the matrix
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <param name="mask"></param>
+    /// <returns> The masked matrix </returns>
     public static bool?[,] ApplyMask(bool?[,] matrix, int mask)
     {
-        switch (mask)
+        return mask switch
         {
-            case 0:
-                return ApplyMask0(matrix);
-            case 1:
-                return ApplyMask1(matrix);
-            case 2:
-                return ApplyMask2(matrix);
-            case 3:
-                return ApplyMask3(matrix);
-            case 4:
-                return ApplyMask4(matrix);
-            case 5:
-                return ApplyMask5(matrix);
-            case 6:
-                return ApplyMask6(matrix);
-            case 7:
-                return ApplyMask7(matrix);
-            default:
-                return matrix;
-        }
+            0 => ApplyMask0(matrix),
+            1 => ApplyMask1(matrix),
+            2 => ApplyMask2(matrix),
+            3 => ApplyMask3(matrix),
+            4 => ApplyMask4(matrix),
+            5 => ApplyMask5(matrix),
+            6 => ApplyMask6(matrix),
+            7 => ApplyMask7(matrix),
+            _ => matrix,
+        };
     }
 
+    /// <summary>
+    /// Apply the mask 0 to the matrix
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask0(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -250,6 +282,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 1 to the matrix : (i % 2 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask1(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -265,6 +302,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 2 to the matrix : (j % 3 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask2(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -280,6 +322,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 3 to the matrix : ((i + j) % 3 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask3(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -295,6 +342,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 4 to the matrix : ((i / 2 + j / 3) % 2 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask4(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -310,6 +362,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 5 to the matrix : ((i * j) % 2 + (i * j) % 3 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask5(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -325,6 +382,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 6 to the matrix : (((i * j) % 2 + (i * j) % 3) % 2 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask6(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -340,6 +402,11 @@ internal static class QrApplyMask
         return matrix;
     }
 
+    /// <summary>
+    /// Apply the mask 7 to the matrix : (((i + j) % 2 + (i * j) % 3) % 2 == 0)
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
     private static bool?[,] ApplyMask7(bool?[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)

@@ -11,6 +11,10 @@ internal class MatrixGenerator
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
     // public QrMetadataPlacer QrMetadataPlacer { get; set; }
+    /// <summary>
+    /// A class to generate the matrix for the QR code
+    /// </summary>
+    /// <param name="size"></param>
     public MatrixGenerator(int size)
     {
         // false = white

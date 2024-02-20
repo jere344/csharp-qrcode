@@ -7,7 +7,13 @@ public static class NumericEncoder
         {'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4},
         {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}
     };
-    public static string[] NumericEncode(string text)
+
+    /// <summary>
+    /// Encode the numeric text into binary numbers
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns> A string of binary numbers</returns>
+    public static string NumericEncode(string text)
     {
         // Step 1: Break String Up Into Groups of Three
         string[] groups = new string[(text.Length + 2) / 3];
@@ -49,6 +55,6 @@ public static class NumericEncoder
 
         }
 
-        return binaryGroups;
+        return string.Join("", binaryGroups);
     }
 }
