@@ -61,29 +61,30 @@ namespace QRGenerator.ImageGenerator
         /// <returns> The QR code with the version information</returns>
         public static bool?[,] AddVersionInformation(bool?[,] Matrix, bool[] versionString)
         {
-            int x = Matrix.GetLength(0) - 11;
-            int y = 0;
             int counter = 0;
+            int x = Matrix.GetLength(1) - 9;
+            int y = 5;
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    Matrix[y + i, x + j] = versionString[counter];
+                    Matrix[y - i, x - j] = versionString[counter];
                     counter++;
                 }
             }
 
-            x = 0;
-            y = Matrix.GetLength(1) - 11;
             counter = 0;
+            x = 5;
+            y = Matrix.GetLength(0) - 9;
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    Matrix[y + j, x + i] = versionString[counter];
+                    Matrix[y - j, x - i] = versionString[counter];
                     counter++;
                 }
             }
+
             return Matrix;
         }
 
