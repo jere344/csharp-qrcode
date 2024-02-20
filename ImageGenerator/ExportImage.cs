@@ -10,6 +10,10 @@ namespace QRGenerator.ImageGenerator
     internal class ExportImage
     {
 
+        /// <summary>
+        /// Export the QR code to an image
+        /// </summary>
+        /// <param name="qrCode"></param>
         public static void ExporterImage(bool?[,] qrCode)
         {
             // crate a surface

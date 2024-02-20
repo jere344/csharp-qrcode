@@ -53,6 +53,12 @@ namespace QRGenerator
         private List<List<List<int>>> ErrorEncodedBlocks { get; set; }
         public List<int> EncodedData { get; set; }
 
+        /// <summary>
+        /// A class to encode the data for a QR code with Reed Solomon 
+        /// </summary>
+        /// <param name="errorCorrectionLevel"></param>
+        /// <param name="version"></param>
+        /// <param name="data"></param>
         public QrErrorEncoder(ErrorCorrectionLevels errorCorrectionLevel, int version, string data)
         {
             ErrorCorrectionLevel = errorCorrectionLevel;
@@ -89,6 +95,10 @@ namespace QRGenerator
         /// Break up the data into blocks to be encoded with Reed Solomon
         /// </summary>
         /// <param name="Data"></param>
+        /// <returns> A list of group 
+        /// 1 group = 1 list of blocks
+        /// 1 block = 1 list of data codewords
+        /// 1 data codeword = 1 string of 8 bits</returns>
         private List<List<List<string>>> BreakUpDataIntoBlocks(string Data)
         {
             //    split string into codewords :
@@ -185,6 +195,7 @@ namespace QRGenerator
         /// Convert the blocks from string to bytes
         /// </summary>
         /// <param name="blocks"></param>
+        /// <returns></returns>
         public static List<List<List<int>>> ConvertBlocksToInt(List<List<List<string>>> blocks)
         {
             var blocksAsInt = new List<List<List<int>>>();
@@ -202,22 +213,6 @@ namespace QRGenerator
                 }
             }
             return blocksAsInt;
-        }
-
-        public void DisplayForDebug(List<List<List<int>>> blocks)
-        {
-
-            // Display for debug:
-            for (int i = 0; i < blocks.Count; i++)
-            {
-                for (int j = 0; j < blocks[i].Count; j++)
-                {
-                    for (int k = 0; k < blocks[i][j].Count; k++)
-                    {
-                        Console.WriteLine("Group " + i + " Block " + j + " Word " + k + " : " + blocks[i][j][k]);
-                    }
-                }
-            }
         }
     }
 }

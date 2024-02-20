@@ -16,7 +16,12 @@ namespace QRGenerator.encoders
         {'+', 40}, {'-', 41}, {'.', 42}, {'/', 43}, {':', 44}
     };
 
-        public static string[] AlphanumericEncode(string text)
+        /// <summary>
+        /// Encode a text using the alphanumeric character set into binary numbers
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string AlphanumericEncode(string text)
         {
             // Step 1: Break String Up Into Groups of Two
             string[] groups = new string[(text.Length + 1) / 2]; // Adjusted to handle odd-length strings
@@ -51,7 +56,7 @@ namespace QRGenerator.encoders
                 }
             }
 
-            return binaryGroups;
+            return string.Join("", binaryGroups);
         }
     }
 }

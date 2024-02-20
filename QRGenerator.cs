@@ -82,10 +82,15 @@ public class QRCodeGenerator
             List<bool?[,]> maskedMatrices = GetAllMaskedMatrices(metadataMatrix, dataMatrix, Version);
             Matrix = QrApplyMask.GetBestMatrice(maskedMatrices);
         }
-
-        ImageGenerator.ExportImage.ExporterImage(Matrix);
     }
 
+    /// <summary>
+    /// Get a list of the 8 possible masked matrices
+    /// </summary>
+    /// <param name="metadataMatrix"></param>
+    /// <param name="dataMatrix"></param>
+    /// <param name="version"></param>
+    /// <returns> A list of 8 masked matrices</returns>
     public List<bool?[,]> GetAllMaskedMatrices(bool?[,] metadataMatrix, bool?[,] dataMatrix, int version)
     {
         List<bool?[,]> maskedMatrices = new List<bool?[,]>();
@@ -131,6 +136,45 @@ public class QRCodeGenerator
         }
         // We can use this list to compare the penalties of each mask and choose the best one
         return maskedMatrices;
+    }
+
+    /// <summary>
+    /// Export the QR code as an image
+    /// </summary>
+    /// <param name="path"></param>
+    /// <exception cref="Exception"></exception>
+    public void ExportImage(string path)
+    {
+        if (Matrix is null)
+        {
+            throw new Exception("Matrix is null");
+        }
+        ImageGenerator.ExportImage.ExporterImage(Matrix);
+    }
+
+    /// <summary>
+    /// Print the matrix to the console
+    /// </summary>
+    /// <exception cref="Exception"></exception>
+    public void PrintMatrix()
+    {
+        if (Matrix is null)
+        {
+            throw new Exception("Matrix is null");
+        }
+        for (int i = 0; i < Matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < Matrix.GetLength(1); j++)
+            {
+                Console.Write(Matrix[i, j] switch
+                {
+                    true => "1 ",
+                    false => "0 ",
+                    null => "- ",
+                });
+            }
+            Console.WriteLine();
+        }
     }
 }
 
