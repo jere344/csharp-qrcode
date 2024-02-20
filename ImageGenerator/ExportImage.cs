@@ -10,47 +10,48 @@ namespace QRGenerator.ImageGenerator
     internal class ExportImage
     {
 
-        public static void ExporterImage(bool?[,] qrCode)
+        public static void ExporterImage(bool?[,] qrCode, int scale = 50)
         {
-            // crate a surface
-            var info = new SKImageInfo(qrCode.GetLength(0), qrCode.GetLength(1));
+            // ajouter border (et scaler)
+            int borderWidth = 5 * scale;
+
+            // calcul dimmensions
+            var width = qrCode.GetLength(0) * scale + 2 * borderWidth;
+            var height = qrCode.GetLength(1) * scale + 2 * borderWidth;
+            var info = new SKImageInfo(width, height);
 
             using var surface = SKSurface.Create(info);
-
-            // the the canvas and properties
             var canvas = surface.Canvas;
 
-            // make sure the canvas is blank
-            canvas.Clear(SKColors.Gray);
+            // clear 
+            canvas.Clear(SKColors.White);
 
+            
 
+            // dessinner l'array
             for (int i = 0; i < qrCode.GetLength(0); i++)
             {
                 for (int j = 0; j < qrCode.GetLength(1); j++)
                 {
-                    switch (qrCode[j, i])
+                    var color = qrCode[i, j] switch
                     {
-                        case true:
-                            canvas.DrawPoint(i, j, SKColors.Black);
-                            break;
+                        true => SKColors.Black,
+                        false => SKColors.White,
+                        null => SKColors.Gray
+                    };
 
-                        case false:
-                            canvas.DrawPoint(i, j, SKColors.White);
-                            break;
-
-                        case null:
-                            { canvas.DrawPoint(i, j, SKColors.Gray); }
-                            break;
-                    }
+                    // mettre a l'echelle
+                    canvas.DrawRect(new SKRect((i * scale) + borderWidth, (j * scale) + borderWidth, ((i + 1) * scale) + borderWidth, ((j + 1) * scale) + borderWidth), new SKPaint { Color = color });
                 }
             }
 
-            // save the file
+            // exporter 
             using var image = surface.Snapshot();
             using var data = image.Encode(SKEncodedImageFormat.Png, 100);
-            using var stream = File.OpenWrite("output.png");
+            using var stream = File.OpenWrite("qrcode.png");
 
             data.SaveTo(stream);
         }
+
     }
 }
