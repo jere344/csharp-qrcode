@@ -9,6 +9,25 @@ namespace QRGenerator.ImageGenerator
     internal static class QrMetadataPlacer
     {
         /// <summary>
+        /// Add all the metadata to the QR code
+        /// </summary>
+        /// <param name="Matrix"></param>
+        /// <param name="Version"></param>
+        /// <returns> The QR code with all the metadata</returns>
+        public static bool?[,] AddAllMetadata(bool?[,] Matrix, int Version)
+        {
+            Matrix = AddAllFinderPaterns(Matrix);
+            Matrix = AddDarkModule(Matrix);
+            Matrix = AddSeparators(Matrix);
+            Matrix = AddFormatInfoArea(Matrix, Version);
+            Matrix = AddAlignmentPatterns(Matrix, Version);
+            Matrix = AddTimingPatern(Matrix);
+           
+            return Matrix;
+        }
+
+
+        /// <summary>
         /// Add the format information to the QR code
         /// </summary>
         /// <param name="Matrix"></param>
@@ -88,23 +107,12 @@ namespace QRGenerator.ImageGenerator
             return Matrix;
         }
 
-        /// <summary>
-        /// Add all the metadata to the QR code
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="Version"></param>
-        /// <returns> The QR code with all the metadata</returns>
-        public static bool?[,] AddAllMetadata(bool?[,] table, int Version)
-        {
-            table = AddAllFinderPaterns(table);
-            table = AddDarkModule(table);
-            table = AddSeparators(table);
-            table = AddFormatInfoArea(table, Version);
-            table = AddAlignmentPatterns(table, Version);
-            table = AddTimingPatern(table);
-            return table;
-        }
 
+        /// <summary>
+        /// Method to check if a number is even : used in AddTimingPatern()
+        /// </summary>
+        /// <param name="nb"></param>
+        /// <returns></returns>
         private static bool IsEven(int nb)
         {
             if (nb % 2 == 0)
@@ -113,55 +121,55 @@ namespace QRGenerator.ImageGenerator
         }
 
         /// <summary>
-        /// Add the timing patern to the QR code
+        /// Add the timing paterns to the QR code
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="Matrix"></param>
         /// <returns> The QR code with the timing patern</returns>
-        private static bool?[,] AddTimingPatern(bool?[,] table)
+        private static bool?[,] AddTimingPatern(bool?[,] Matrix)
         {
             // timing patern horizontal
-            for (int i = 8; i <= table.GetLength(0) - 9; i++)
+            for (int i = 8; i <= Matrix.GetLength(0) - 9; i++)
             {
                 if (IsEven(i))
                 {
-                    table[6, i] = true;
+                    Matrix[6, i] = true;
                 }
                 else
                 {
-                    table[6, i] = false;
+                    Matrix[6, i] = false;
                 }
             }
 
             // timing patern vertical
-            for (int i = 8; i <= table.GetLength(0) - 9; i++)
+            for (int i = 8; i <= Matrix.GetLength(0) - 9; i++)
             {
                 if (IsEven(i))
                 {
-                    table[i, 6] = true;
+                    Matrix[i, 6] = true;
                 }
                 else
                 {
-                    table[i, 6] = false;
+                    Matrix[i, 6] = false;
                 }
             }
-            return table;
+            return Matrix;
         }
 
         /// <summary>
-        /// créée le finder patern à la position x, y
+        /// create the timing patern at position x,y
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <param name="table"></param>
+        /// <param name="Matrix"></param>
         /// <returns> The QR code with the finder patern</returns>
-        private static bool?[,] AddFinderPatern(int x, int y, bool?[,] table)
+        private static bool?[,] AddFinderPatern(int x, int y, bool?[,] Matrix)
         {
 
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    table[x + i, y + j] = ((i == 0 || i == 7 - 1) || (j == 0 || j == 7 - 1));
+                    Matrix[x + i, y + j] = ((i == 0 || i == 7 - 1) || (j == 0 || j == 7 - 1));
                 }
 
             }
@@ -170,57 +178,57 @@ namespace QRGenerator.ImageGenerator
             {
                 for (int j = 2; j < 7 - 2; j++)
                 {
-                    table[x + i, y + j] = true;
+                    Matrix[x + i, y + j] = true;
                 }
             }
 
-            return table;
+            return Matrix;
         }
 
         /// <summary>
         /// Add the 3 finder paterns to the QR code
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="Matrix"></param>
         /// <returns> The QR code with the 3 finder paterns</returns>
-        private static bool?[,] AddAllFinderPaterns(bool?[,] table)
+        private static bool?[,] AddAllFinderPaterns(bool?[,] Matrix)
         {
             //topleft
-            table = AddFinderPatern(0, 0, table);
+            Matrix = AddFinderPatern(0, 0, Matrix);
 
             //topright
-            table = AddFinderPatern(0, table.GetLength(1) - 7, table);
+            Matrix = AddFinderPatern(0, Matrix.GetLength(1) - 7, Matrix);
 
             //botleft
-            table = AddFinderPatern(table.GetLength(1) - 7, 0, table);
+            Matrix = AddFinderPatern(Matrix.GetLength(1) - 7, 0, Matrix);
 
-            return table;
+            return Matrix;
 
         }
 
         /// <summary>
         /// Add the format information area to the QR code
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="Matrix"></param>
         /// <param name="version"></param>
         /// <returns> The QR code with the format information area</returns>
-        private static bool?[,] AddFormatInfoArea(bool?[,] table, int version)
+        private static bool?[,] AddFormatInfoArea(bool?[,] Matrix, int version)
         {
             // top right
-            int x = table.GetLength(1) - 8;
+            int x = Matrix.GetLength(1) - 8;
             int y = 8;
 
-            for (int i = x; i < table.GetLength(1); i++)
+            for (int i = x; i < Matrix.GetLength(1); i++)
             {
-                table[y, i] = false;
+                Matrix[y, i] = false;
             }
 
             // bottom left
             x = 8;
-            y = table.GetLength(0) - 7;
+            y = Matrix.GetLength(0) - 7;
 
-            for (int j = y; j < table.GetLength(0); j++)
+            for (int j = y; j < Matrix.GetLength(0); j++)
             {
-                table[j, x] = false;
+                Matrix[j, x] = false;
             }
 
             // top left
@@ -229,62 +237,62 @@ namespace QRGenerator.ImageGenerator
 
             for (int i = x; i >= 0; i--)
             {
-                if (table[y, i] == null) { table[y, i] = false; }
+                if (Matrix[y, i] == null) { Matrix[y, i] = false; }
             }
             for (int j = y; j >= 0; j--)
             {
-                if (table[j, x] == null) { table[j, x] = false; }
+                if (Matrix[j, x] == null) { Matrix[j, x] = false; }
             }
 
-
+            // when version is 7 or higher
             if (version >= 7)
             {
 
                 for (int i = 0; i <= 5; i++)
                 {
-                    for (int j = table.GetLength(0) - 11; j <= table.GetLength(0) - 9; j++)
+                    for (int j = Matrix.GetLength(0) - 11; j <= Matrix.GetLength(0) - 9; j++)
                     {
-                        table[i, j] = false;
-                        table[j, i] = false;
+                        Matrix[i, j] = false;
+                        Matrix[j, i] = false;
                     }
                 }
 
             }
 
-            return table;
+            return Matrix;
         }
 
         /// <summary>
         /// Add the separators to the QR code
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="Matrix"></param>
         /// <returns> The QR code with the separators</returns>
-        private static bool?[,] AddSeparators(bool?[,] table)
+        private static bool?[,] AddSeparators(bool?[,] Matrix)
         {
             // top right
-            int x = table.GetLength(1) - 8;
+            int x = Matrix.GetLength(1) - 8;
             int y = 7;
 
             for (int j = y; j >= 0; j--)
             {
-                table[j, x] = false;
+                Matrix[j, x] = false;
             }
-            for (int i = x; i < table.GetLength(1); i++)
+            for (int i = x; i < Matrix.GetLength(1); i++)
             {
-                table[y, i] = false;
+                Matrix[y, i] = false;
             }
 
             // bottom left
             x = 7;
-            y = table.GetLength(0) - 8;
+            y = Matrix.GetLength(0) - 8;
 
             for (int i = x; i >= 0; i--)
             {
-                table[y, i] = false;
+                Matrix[y, i] = false;
             }
-            for (int j = y; j < table.GetLength(0); j++)
+            for (int j = y; j < Matrix.GetLength(0); j++)
             {
-                table[j, x] = false;
+                Matrix[j, x] = false;
             }
 
             // top left
@@ -293,30 +301,73 @@ namespace QRGenerator.ImageGenerator
 
             for (int i = x; i >= 0; i--)
             {
-                table[y, i] = false;
+                Matrix[y, i] = false;
             }
             for (int j = y; j >= 0; j--)
             {
-                table[j, x] = false;
+                Matrix[j, x] = false;
             }
 
 
-            return table;
+            return Matrix;
 
         }
 
         /// <summary>
         /// Add the dark module to the QR code
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="Matrix"></param>
         /// <returns> The QR code with the dark module</returns>
-        private static bool?[,] AddDarkModule(bool?[,] table)
+        private static bool?[,] AddDarkModule(bool?[,] Matrix)
         {
             int x = 8;
-            int y = table.GetLength(1) - 8;
-            table[y, x] = true;
-            return table;
+            int y = Matrix.GetLength(1) - 8;
+            Matrix[y, x] = true;
+            return Matrix;
 
+        }
+
+      
+
+        /// <summary>
+        /// Add the alignment patterns to the QR code
+        /// </summary>
+        /// <param name="Matrix"></param>
+        /// <param name="version"></param>
+        /// <returns> The QR code with the alignment patterns</returns>
+        private static bool?[,] AddAlignmentPatterns(bool?[,] Matrix, int version)
+        {
+            int[] positions = GetAlignmentPatternPositions(version);
+
+            foreach (int x in positions)
+            {
+                foreach (int y in positions)
+                {
+                    if (Matrix[x, y] != null) { continue; }
+
+                    // paint 4x4 in black
+                    for (int i = -2; i <= 2; i++)
+                    {
+                        for (int j = -2; j <= 2; j++)
+                        {
+                            Matrix[x + i, y + j] = true;
+                        }
+                    }
+
+                    // then 3x3 in white
+                    for (int i = -1; i <= 1; i++)
+                    {
+                        for (int j = -1; j <= 1; j++)
+                        {
+                            Matrix[x + i, y + j] = false;
+                        }
+                    }
+
+                    // then the center in black
+                    Matrix[x, y] = true;
+                }
+            }
+            return Matrix;
         }
 
         /// <summary>
@@ -454,47 +505,6 @@ namespace QRGenerator.ImageGenerator
 
             }
             return positions;
-        }
-
-        /// <summary>
-        /// Add the alignment patterns to the QR code
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="version"></param>
-        /// <returns> The QR code with the alignment patterns</returns>
-        private static bool?[,] AddAlignmentPatterns(bool?[,] table, int version)
-        {
-            int[] positions = GetAlignmentPatternPositions(version);
-
-            foreach (int x in positions)
-            {
-                foreach (int y in positions)
-                {
-                    if (table[x, y] != null) { continue; }
-
-                    // paint 4x4 in black
-                    for (int i = -2; i <= 2; i++)
-                    {
-                        for (int j = -2; j <= 2; j++)
-                        {
-                            table[x + i, y + j] = true;
-                        }
-                    }
-
-                    // then 3x3 in white
-                    for (int i = -1; i <= 1; i++)
-                    {
-                        for (int j = -1; j <= 1; j++)
-                        {
-                            table[x + i, y + j] = false;
-                        }
-                    }
-
-                    // then the center in black
-                    table[x, y] = true;
-                }
-            }
-            return table;
         }
     }
 }

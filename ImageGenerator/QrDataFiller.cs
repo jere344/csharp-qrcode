@@ -34,7 +34,7 @@ namespace QRGenerator.ImageGenerator
         /// <returns></returns>
         private static IEnumerable<(int, int)> GetNextPosition(bool?[,] Matrix)
         {
-            // The data bits are placed starting at the bottom - right of the matrix and proceeding upward in a column that is 2 modules wide. Use white pixels for 0, and black pixels for 1.When the column reaches the top, the next 2 - module column starts immediately to the left of the previous column and continues downward.Whenever the current column reaches the edge of the matrix, move on to the next 2 - module column and change direction.If a function pattern or reserved area is encountered, the data bit is placed in the next unused module.
+          
             int size = Matrix.GetLength(0);
             int x = size - 1;
             int y = size - 1;
