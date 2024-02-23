@@ -52,6 +52,7 @@ namespace QRGenerator
         private int ECWordPerBlock { get; set; }
         private List<List<List<int>>> ErrorEncodedBlocks { get; set; }
         public List<int> EncodedData { get; set; }
+        private ReedSolomonEncoder Rse = new ReedSolomonEncoder(GenericGF.QR_CODE_FIELD_256);
 
         /// <summary>
         /// A class to encode the data for a QR code with Reed Solomon 
@@ -63,18 +64,17 @@ namespace QRGenerator
         {
             ErrorCorrectionLevel = errorCorrectionLevel;
             Version = version;
+            ECWordPerBlock = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][0];
             // Console.WriteLine("data to encode: " + data);
             List<List<List<string>>> Blocks = BreakUpDataIntoBlocks(data);
             List<List<List<int>>> BlocksAsNumbers = ConvertBlocksToInt(Blocks);
 
-            var field = new GenericGF(285, 256, 0);
-            var rse = new ReedSolomonEncoder(field);
             for (int i = 0; i < BlocksAsNumbers.Count; i++)
             {
                 for (int j = 0; j < BlocksAsNumbers[i].Count; j++)
                 {
                     int[] dataBlock = BlocksAsNumbers[i][j].ToArray();
-                    rse.Encode(dataBlock, ECWordPerBlock);
+                    Rse.Encode(dataBlock, ECWordPerBlock);
                     BlocksAsNumbers[i][j] = dataBlock.ToList();
                 }
             }
@@ -101,6 +101,10 @@ namespace QRGenerator
         /// 1 data codeword = 1 string of 8 bits</returns>
         private List<List<List<string>>> BreakUpDataIntoBlocks(string Data)
         {
+            if (Data.Length % 8 != 0)
+            {
+                throw new Exception("Data length must be a multiple of 8");
+            }
             //    split string into codewords :
             // "0100001101010101010001101000011001010111"
             // => [01000011, 01010101, 01000110, 10000110, 01010111]
@@ -117,8 +121,6 @@ namespace QRGenerator
 
 
             // Group Number	    Block Number	Data Codewords in the Group
-            int ecWordPerBlock = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][0];
-            ECWordPerBlock = ecWordPerBlock;
             int blockGroup1 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][1];
             int wordCount1 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][2];
             int blockGroup2 = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][3];
@@ -167,7 +169,7 @@ namespace QRGenerator
                     cursor++;
                 }
                 // Add the error correction words
-                for (int ecWordPerBlockIndex = 0; ecWordPerBlockIndex < ecWordPerBlock; ecWordPerBlockIndex++)
+                for (int ECWordPerBlockIndex = 0; ECWordPerBlockIndex < ECWordPerBlock; ECWordPerBlockIndex++)
                 {
                     blocks[group][block].Add("00000000");
                 }
@@ -182,7 +184,7 @@ namespace QRGenerator
                     blocks[group][blockGroup2Index].Add(stringCodewords[cursor]);
                     cursor++;
                 }
-                for (int ecWordPerBlockIndex = 0; ecWordPerBlockIndex < ecWordPerBlock; ecWordPerBlockIndex++)
+                for (int ECWordPerBlockIndex = 0; ECWordPerBlockIndex < ECWordPerBlock; ECWordPerBlockIndex++)
                 {
                     blocks[group][blockGroup2Index].Add("00000000");
                 }
@@ -213,6 +215,22 @@ namespace QRGenerator
                 }
             }
             return blocksAsInt;
+        }
+
+        public void DisplayErrorEncodedBlocks()
+        {
+            for (int i = 0; i < ErrorEncodedBlocks.Count; i++)
+            {
+                Console.WriteLine("Group " + i);
+                for (int j = 0; j < ErrorEncodedBlocks[i].Count; j++)
+                {
+                    Console.WriteLine("\tBlock " + j);
+                    for (int k = 0; k < ErrorEncodedBlocks[i][j].Count; k++)
+                    {
+                        Console.WriteLine("\t\t" + ErrorEncodedBlocks[i][j][k]);
+                    }
+                }
+            }
         }
     }
 }

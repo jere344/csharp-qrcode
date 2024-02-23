@@ -1,10 +1,3 @@
-using QRGenerator;
-using System;
-using System.Diagnostics.Metrics;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-
 namespace QRGenerator.encoders;
 
 public class EncoderController
