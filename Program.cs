@@ -14,7 +14,7 @@ namespace QRGenerator
                 text = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             }
             var qr = new QRCodeGenerator(text);
-            qr.ExportImage();
+            qr.ExportImage(4);
 
             Console.WriteLine("Le fichier output.png à été sauvegardé dans le dossier courant");
 

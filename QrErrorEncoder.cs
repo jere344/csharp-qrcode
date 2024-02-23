@@ -50,7 +50,7 @@ namespace QRGenerator
         private ErrorCorrectionLevels ErrorCorrectionLevel { get; set; }
         private int Version { get; set; }
         private int ECWordPerBlock { get; set; }
-        private List<List<List<int>>> ErrorEncodedBlocks { get; set; }
+        private List<List<List<int>>> ErrorEncodedGroups { get; set; }
         public List<int> EncodedData { get; set; }
         private ReedSolomonEncoder Rse = new ReedSolomonEncoder(GenericGF.QR_CODE_FIELD_256);
 
@@ -67,28 +67,20 @@ namespace QRGenerator
             ECWordPerBlock = ErrorCorrectionCodewordsCount[Version][ErrorCorrectionLevel.ToString()][0];
             // Console.WriteLine("data to encode: " + data);
             List<List<List<string>>> Blocks = BreakUpDataIntoBlocks(data);
-            List<List<List<int>>> BlocksAsNumbers = ConvertBlocksToInt(Blocks);
+            ErrorEncodedGroups = ConvertBlocksToInt(Blocks);
 
-            for (int i = 0; i < BlocksAsNumbers.Count; i++)
+            for (int i = 0; i < ErrorEncodedGroups.Count; i++)
             {
-                for (int j = 0; j < BlocksAsNumbers[i].Count; j++)
+                for (int j = 0; j < ErrorEncodedGroups[i].Count; j++)
                 {
-                    int[] dataBlock = BlocksAsNumbers[i][j].ToArray();
+                    int[] dataBlock = ErrorEncodedGroups[i][j].ToArray();
                     Rse.Encode(dataBlock, ECWordPerBlock);
-                    BlocksAsNumbers[i][j] = dataBlock.ToList();
+                    ErrorEncodedGroups[i][j] = dataBlock.ToList();
                 }
             }
-            ErrorEncodedBlocks = BlocksAsNumbers;
 
             EncodedData = new List<int>();
-            // merge the blocks
-            for (int i = 0; i < BlocksAsNumbers[0].Count; i++)
-            {
-                for (int j = 0; j < BlocksAsNumbers.Count; j++)
-                {
-                    EncodedData.AddRange(BlocksAsNumbers[j][i]);
-                }
-            }
+            MergeBlocks(ErrorEncodedGroups);
         }
 
         /// <summary>
@@ -142,7 +134,7 @@ namespace QRGenerator
             {
                 blocks[0].Add(new List<string>()); // Block x
             }
-            
+
             if (blockGroup2 > 0)
             {
                 blocks.Add(new List<List<string>>()); // Group 2
@@ -217,20 +209,55 @@ namespace QRGenerator
             return blocksAsInt;
         }
 
-        public void DisplayErrorEncodedBlocks()
+        public void DisplayErrorEncodedGroups()
         {
-            for (int i = 0; i < ErrorEncodedBlocks.Count; i++)
+            for (int i = 0; i < ErrorEncodedGroups.Count; i++)
             {
                 Console.WriteLine("Group " + i);
-                for (int j = 0; j < ErrorEncodedBlocks[i].Count; j++)
+                for (int j = 0; j < ErrorEncodedGroups[i].Count; j++)
                 {
                     Console.WriteLine("\tBlock " + j);
-                    for (int k = 0; k < ErrorEncodedBlocks[i][j].Count; k++)
+                    for (int k = 0; k < ErrorEncodedGroups[i][j].Count; k++)
                     {
-                        Console.WriteLine("\t\t" + ErrorEncodedBlocks[i][j][k]);
+                        Console.WriteLine("\t\t" + ErrorEncodedGroups[i][j][k]);
                     }
                 }
             }
+        }
+
+        public void MergeBlocks(List<List<List<int>>> groups)
+        {
+            // if there is only 1 block, just merge
+            if (groups[0].Count == 1)
+            {
+                for (int i = 0; i < groups[0].Count; i++)
+                {
+                    for (int j = 0; j < groups.Count; j++)
+                    {
+                        EncodedData.AddRange(groups[j][i]);
+                    }
+                }
+            }
+            // if there are multiple blocks, merge them by interleaving
+            else
+            {
+                // flatten the groups
+                var blocks = new List<List<int>>();
+                for (int i = 0; i < groups.Count; i++)
+                {
+                    blocks.AddRange(groups[i]);
+                }
+
+                // merge by interleaving
+                for (int i = 0; i < blocks[0].Count; i++) // for each codeword
+                {
+                    for (int j = 0; j < blocks.Count; j++) // for each block
+                    {
+                        EncodedData.Add(blocks[j][i]);
+                    }
+                }
+            }
+
         }
     }
 }
