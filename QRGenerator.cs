@@ -19,7 +19,7 @@ public class QRCodeGenerator
     public int Version { get; set; }
     public string EncodedText { get; set; }
     public List<int> SolomonEncoded;
-    public QrErrorEncoder ReedEncoder { get; set; }
+    private QrErrorEncoder ReedEncoder { get; set; }
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
 
@@ -168,8 +168,8 @@ public class QRCodeGenerator
             {
                 Console.Write(Matrix[i, j] switch
                 {
-                    true => "1 ",
-                    false => "0 ",
+                    true => "■ ",
+                    false => "  ",
                     null => "- ",
                 });
             }

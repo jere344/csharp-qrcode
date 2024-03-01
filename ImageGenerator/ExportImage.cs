@@ -36,7 +36,7 @@ namespace QRGenerator.ImageGenerator
             {
                 for (int j = 0; j < qrCode.GetLength(1); j++)
                 {
-                    var color = qrCode[i, j] switch
+                    var color = qrCode[j, i] switch
                     {
                         true => SKColors.Black,
                         false => SKColors.White,
