@@ -16,12 +16,12 @@ namespace QRGenerator.ImageGenerator
         /// <returns> The QR code with all the metadata</returns>
         public static bool?[,] AddAllMetadata(bool?[,] Matrix, int Version)
         {
-            Matrix = AddAllFinderPaterns(Matrix);
+            Matrix = AddAllFinderPatterns(Matrix);
             Matrix = AddDarkModule(Matrix);
             Matrix = AddSeparators(Matrix);
             Matrix = AddFormatInfoArea(Matrix, Version);
             Matrix = AddAlignmentPatterns(Matrix, Version);
-            Matrix = AddTimingPatern(Matrix);
+            Matrix = AddTimingPattern(Matrix);
            
             return Matrix;
         }
@@ -109,7 +109,7 @@ namespace QRGenerator.ImageGenerator
 
 
         /// <summary>
-        /// Method to check if a number is even : used in AddTimingPatern()
+        /// Method to check if a number is even : used in AddTimingPattern()
         /// </summary>
         /// <param name="nb"></param>
         /// <returns></returns>
@@ -125,7 +125,7 @@ namespace QRGenerator.ImageGenerator
         /// </summary>
         /// <param name="Matrix"></param>
         /// <returns> The QR code with the timing patern</returns>
-        private static bool?[,] AddTimingPatern(bool?[,] Matrix)
+        private static bool?[,] AddTimingPattern(bool?[,] Matrix)
         {
             // timing patern horizontal
             for (int i = 8; i <= Matrix.GetLength(0) - 9; i++)
@@ -190,7 +190,7 @@ namespace QRGenerator.ImageGenerator
         /// </summary>
         /// <param name="Matrix"></param>
         /// <returns> The QR code with the 3 finder paterns</returns>
-        private static bool?[,] AddAllFinderPaterns(bool?[,] Matrix)
+        private static bool?[,] AddAllFinderPatterns(bool?[,] Matrix)
         {
             //topleft
             Matrix = AddFinderPatern(0, 0, Matrix);

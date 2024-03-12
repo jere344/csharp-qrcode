@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QRGenerator", "QRGenerator.csproj", "{80BEA53D-FED6-4F0E-B1F8-B93A9CB8D727}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QRGenerator_Interface", "..\QRGenerator_Interface\QRGenerator_Interface.csproj", "{A0461447-4C56-4076-9D34-F6A2F5983744}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{80BEA53D-FED6-4F0E-B1F8-B93A9CB8D727}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80BEA53D-FED6-4F0E-B1F8-B93A9CB8D727}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80BEA53D-FED6-4F0E-B1F8-B93A9CB8D727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0461447-4C56-4076-9D34-F6A2F5983744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0461447-4C56-4076-9D34-F6A2F5983744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0461447-4C56-4076-9D34-F6A2F5983744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0461447-4C56-4076-9D34-F6A2F5983744}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
