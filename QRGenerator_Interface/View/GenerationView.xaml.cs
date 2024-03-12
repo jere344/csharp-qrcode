@@ -12,8 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommunityToolkit.Mvvm;
+using Microsoft.Win32;
+using System.Windows.Forms;
 
-namespace QRGenerator_Interface
+
+namespace QRGenerator_Interface.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,5 +28,20 @@ namespace QRGenerator_Interface
         {
             InitializeComponent();
         }
+
+        private void browse_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Path.Text = dialog.SelectedPath;
+            }
+            else
+            {
+                Path.Text = null;
+            }
+            
+        }
+
     }
 }
