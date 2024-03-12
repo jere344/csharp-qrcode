@@ -7,4 +7,4 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = QRGenerator_Interface
-build_property.ProjectDir = P:\4- HIVER 2024\DEVAPP - Développement d'applications (avancé)\2. Travaux\CodeQR\APP\QRGenerator_Interface\
+build_property.ProjectDir = P:\dev\QRGenerator\QRGenerator_Interface\

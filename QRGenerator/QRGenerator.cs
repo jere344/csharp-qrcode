@@ -143,13 +143,13 @@ public class QRCodeGenerator
     /// </summary>
     /// <param name="path"></param>
     /// <exception cref="Exception"></exception>
-    public void ExportImage(int scale = 50)
+    public void ExportImage(int scale = 50, string path = "qrcode.png")
     {
         if (Matrix is null)
         {
             throw new Exception("Matrix is null");
         }
-        ImageGenerator.ExportImage.ExporterImage(Matrix, scale);
+        ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path);
     }
 
     /// <summary>

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-P:\4- HIVER 2024\DEVAPP - Développement d'applications (avancé)\2. Travaux\CodeQR\APP\QRGenerator_Interface\obj\Debug\net6.0-windows\
+P:\dev\QRGenerator\QRGenerator_Interface\obj\Debug\net6.0-windows\
 QRGenerator_Interface
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-P:\4- HIVER 2024\DEVAPP - Développement d'applications (avancé)\2. Travaux\CodeQR\APP\QRGenerator_Interface\App.xaml
+P:\dev\QRGenerator\QRGenerator_Interface\App.xaml
 2-404320694
 
-6583557832
-194-1103864946
+10912745405
+198948772038
 View\CustomView.xaml;View\GenerationView.xaml;
 
-True
+False
 

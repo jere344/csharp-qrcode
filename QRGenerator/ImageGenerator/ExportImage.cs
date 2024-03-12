@@ -15,7 +15,7 @@ namespace QRGenerator.ImageGenerator
         /// </summary>
         /// <param name="qrCode"></param>
         /// <param name="scale"></param>
-        public static void ExporterImage(bool?[,] qrCode, int scale = 100)
+        public static void ExporterImage(bool?[,] qrCode, int scale = 100, string path = "qrcode.png")
         {
 
             // ajouter un contour blanc (+ le mettre a l'echelle)
@@ -53,7 +53,7 @@ namespace QRGenerator.ImageGenerator
             // Exporter 
             using var image = surface.Snapshot();
             using var data = image.Encode(SKEncodedImageFormat.Png, 100);
-            using var stream = File.OpenWrite("qrcode.png");
+            using var stream = File.OpenWrite(path);
 
             data.SaveTo(stream);
         }
