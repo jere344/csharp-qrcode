@@ -182,6 +182,30 @@ namespace QRGenerator
                 }
             }
 
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                Console.WriteLine("Group " + i);
+                for (int j = 0; j < blocks[i].Count; j++)
+                {
+                    int number_filled = 0;
+                    int number_empty = 0;
+                    Console.WriteLine("\tBlock " + j);
+                    for (int k = 0; k < blocks[i][j].Count; k++)
+                    {
+                        // Console.WriteLine("\t\t" + Convert.ToInt32(blocks[i][j][k], 2));
+                        if (blocks[i][j][k] == "00000000")
+                        {
+                            number_empty++;
+                        }
+                        else
+                        {
+                            number_filled++;
+                        }
+                    }
+                    Console.WriteLine("\t\tFilled: " + number_filled + " Empty: " + number_empty);
+                }
+            }
+
             return blocks;
         }
 
@@ -209,22 +233,6 @@ namespace QRGenerator
             return blocksAsInt;
         }
 
-        public void DisplayErrorEncodedGroups()
-        {
-            for (int i = 0; i < ErrorEncodedGroups.Count; i++)
-            {
-                Console.WriteLine("Group " + i);
-                for (int j = 0; j < ErrorEncodedGroups[i].Count; j++)
-                {
-                    Console.WriteLine("\tBlock " + j);
-                    for (int k = 0; k < ErrorEncodedGroups[i][j].Count; k++)
-                    {
-                        Console.WriteLine("\t\t" + ErrorEncodedGroups[i][j][k]);
-                    }
-                }
-            }
-        }
-
         public void MergeBlocks(List<List<List<int>>> groups)
         {
             // if there is only 1 block, just merge
@@ -241,7 +249,7 @@ namespace QRGenerator
             // if there are multiple blocks, merge them by interleaving
             else
             {
-                // flatten the groups
+                // flatten the groups into a simple list of blocks
                 var blocks = new List<List<int>>();
                 for (int i = 0; i < groups.Count; i++)
                 {
@@ -249,15 +257,53 @@ namespace QRGenerator
                 }
 
                 // merge by interleaving
-                for (int i = 0; i < blocks[0].Count; i++) // for each codeword
+
+                // First we split in 2 lists the words and the error correction words
+                var words = new List<List<int>>();
+                var eCWords = new List<List<int>>();
+                for (int i = 0; i < blocks.Count; i++)
                 {
-                    for (int j = 0; j < blocks.Count; j++) // for each block
+                    words.Add(new List<int>());
+                    eCWords.Add(new List<int>());
+                }
+                for (int i = 0; i < blocks.Count; i++)
+                {
+                    for (int j = 0; j < blocks[i].Count; j++)
                     {
-                        EncodedData.Add(blocks[j][i]);
+                        if (j < blocks[i].Count - ECWordPerBlock)
+                        {
+                            words[i].Add(blocks[i][j]);
+                        }
+                        else
+                        {
+                            eCWords[i].Add(blocks[i][j]);
+                        }
+                    }
+                }
+
+                // we merge by interleaving the words (they may have different length)
+                int maxWords = words.Max(x => x.Count);
+                for (int i = 0; i < maxWords; i++) // the number of words (ex 25 times)
+                {
+                    for (int j = 0; j < words.Count; j++) // the number of blocks (ex 4 times)
+                    {
+                        if (i < words[j].Count) // if the word exists
+                        {
+                            // Console.WriteLine("Adding word " + j + " " + i + " " + words[j][i]);
+                            EncodedData.Add(words[j][i]);
+                        }
+                    }
+                }
+
+                // we merge by interleaving the error correction words (they have the same length)
+                for (int i = 0; i < ECWordPerBlock; i++) // the number of words
+                {
+                    for (int j = 0; j < eCWords.Count; j++) // the number of blocks
+                    {
+                        EncodedData.Add(eCWords[j][i]);
                     }
                 }
             }
-
         }
     }
 }
