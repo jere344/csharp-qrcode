@@ -144,7 +144,7 @@ public class QRCodeGenerator
     /// </summary>
     /// <param name="path"></param>
     /// <exception cref="Exception"></exception>
-    public void ExportImage(int scale = 50, string path = "qrcode.png", SKColor? patternColor = null, string? logoPath = null)
+    public void ExportImage(int scale = 50, string path = "qrcode.png", SKColor? patternColor = null, string? logoPath = null, string logoShadowType = "circle")
     {
         if (Matrix is null)
         {
@@ -156,11 +156,11 @@ public class QRCodeGenerator
             bool?[,]? patternToColor = new MatrixGenerator(this.Size).Matrix;
             patternToColor = QrMetadataPlacer.AddAllFinderPatterns(patternToColor);
             patternToColor = QrMetadataPlacer.AddAlignmentPatterns(patternToColor, Version);
-            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, patternToColor, patternColor, logoPath);
+            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, patternToColor, patternColor, logoPath, logoShadowType);
         }
         else
         {
-            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, logoPath: logoPath);
+            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, logoPath: logoPath, logoShadowType: logoShadowType);
         }
     }
 

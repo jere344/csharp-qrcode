@@ -16,9 +16,9 @@ namespace QRGenerator
             }
             var qr = new QRCodeGenerator(text, ErrorCorrectionLevels.H, version: 20);
 
-            string logoPath = "C:\\Users\\2230460\\Desktop\\logo4.png";
+            string logoPath = "C:\\Users\\2230460\\Desktop\\logo2.png";
 
-            qr.ExportImage(scale: 40, patternColor: SKColors.Green, logoPath: logoPath);
+            qr.ExportImage(scale: 40, patternColor: SKColors.Green, logoPath: logoPath, logoShadowType: "circle");
 
             Console.WriteLine("Le fichier output.png à été sauvegardé dans le dossier courant");
 
