@@ -27,6 +27,8 @@ namespace QRGenerator_Interface.View
         public GenerationView()
         {
             InitializeComponent();
+
+            DataContext = new ViewModel.VMGeneration();
         }
 
         private void browse_Click(object sender, RoutedEventArgs e)
