@@ -8,5 +8,6 @@
   <ItemGroup>
     <PackageReference Include="SkiaSharp" Version="2.88.7" />
     <PackageReference Include="STH1123.ReedSolomon" Version="2.1.0" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="25.1.35" />
   </ItemGroup>
 </Project>

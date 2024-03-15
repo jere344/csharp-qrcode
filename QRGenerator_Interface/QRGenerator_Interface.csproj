@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="View\images\folder.png" />
+    <None Remove="View\images\img.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
@@ -21,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="25.1.35" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QRGenerator\QRGenerator.csproj" />
@@ -29,6 +31,7 @@
     <Resource Include="View\images\folder.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="View\images\img.png" />
   </ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net6.0-windows</TargetFramework>

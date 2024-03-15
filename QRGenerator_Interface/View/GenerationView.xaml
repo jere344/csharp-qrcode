@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QRGenerator_Interface"
         mc:Ignorable="d"
-        Title="GenerationView" Height="1000" Width="800"
+        Title="Code QR Generator" Height="1000" Width="800"
          WindowStartupLocation="CenterScreen">
     <Grid>
         <Viewbox Stretch="Uniform" Margin="40">
@@ -20,7 +20,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- TITLE -->
-                    <Label Padding="20" FontSize="40" HorizontalAlignment="Center" Grid.Row="0">QR Code
+                    <Label Padding="20" FontSize="40" FontWeight="Bold" FontFamily="Lucida Console" HorizontalAlignment="Center" Grid.Row="0">QR Code
                     Generator</Label>
 
                     <!--TEXTE
@@ -70,7 +70,7 @@
                         <ComboBox Margin=" 0,10,0,10" Grid.Row="3" Grid.Column="2" />
                     </Grid>
                     <!--GÉNÉRATION-->
-                    <Border Background="#bbeafc" Margin="40" Grid.Row="3" BorderBrush="Gray" BorderThickness="2">
+                    <Border Background="#bbeafc" Margin="40, 20, 40, 40" Grid.Row="3" BorderBrush="Gray" BorderThickness="2">
                         <Grid Margin="20" Grid.Row="3">
 
                             <Grid.RowDefinitions>
@@ -80,7 +80,7 @@
 
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="5*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
