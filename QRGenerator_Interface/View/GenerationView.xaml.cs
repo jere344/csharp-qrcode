@@ -27,6 +27,8 @@ namespace QRGenerator_Interface.View
         public GenerationView()
         {
             InitializeComponent();
+
+            DataContext = new ViewModel.VMGeneration();
         }
 
         private void browse_Click(object sender, RoutedEventArgs e)
@@ -39,8 +41,38 @@ namespace QRGenerator_Interface.View
             else
             {
                 Path.Text = null;
+            } 
+            // update the binding source
+            Path.GetBindingExpression(System.Windows.Controls.TextBox.TextProperty).UpdateSource();
+        }
+
+        private void OpenCustomizationWindow_Click(object sender, RoutedEventArgs e)
+        {
+            // CustomizationView customizationView = new CustomizationView();
+            // customizationView.Show();
+        }
+
+        private void GenerateQRCode_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.VMGeneration vm = (ViewModel.VMGeneration)DataContext;
+            string? error = vm.GenerateQRCode();
+
+            if (error is not null)
+            {
+                System.Windows.MessageBox.Show(error, "QR code generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
             
+            Window window = new Window();
+            window.Title = "QR code preview";
+            window.Width = 300;
+            window.Height = 300;
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Content = new Image
+            {
+                Source = new BitmapImage(new Uri(vm.SaveFolder + (vm.SaveFolder.EndsWith("\\") ? "" : "\\") + vm.FileName + ".png"))
+            };
+            window.Show();
         }
 
     }

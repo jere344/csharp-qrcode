@@ -190,7 +190,7 @@ namespace QRGenerator.ImageGenerator
         /// </summary>
         /// <param name="Matrix"></param>
         /// <returns> The QR code with the 3 finder paterns</returns>
-        private static bool?[,] AddAllFinderPatterns(bool?[,] Matrix)
+        public static bool?[,] AddAllFinderPatterns(bool?[,] Matrix)
         {
             //topleft
             Matrix = AddFinderPatern(0, 0, Matrix);
@@ -335,7 +335,7 @@ namespace QRGenerator.ImageGenerator
         /// <param name="Matrix"></param>
         /// <param name="version"></param>
         /// <returns> The QR code with the alignment patterns</returns>
-        private static bool?[,] AddAlignmentPatterns(bool?[,] Matrix, int version)
+        public static bool?[,] AddAlignmentPatterns(bool?[,] Matrix, int version)
         {
             int[] positions = GetAlignmentPatternPositions(version);
 

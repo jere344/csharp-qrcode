@@ -1,5 +1,6 @@
 ﻿using QRGenerator.encoders;
 using QRGenerator.ImageGenerator;
+using SkiaSharp;
 
 namespace QRGenerator
 {
@@ -8,13 +9,16 @@ namespace QRGenerator
         static void Main(string[] args)
         {
             Console.WriteLine("Entrez la chaine de caractères à encoder, ou laissez vide pour le test par défaut (les version 6 et suppérieures ainsi que les kanji ne sont pas supportés) : ");
-            string? text = Console.ReadLine();
+            string? text = "" ;// Console.ReadLine();
             if (text == "" || text == null)
             {
                 text = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             }
-            var qr = new QRCodeGenerator(text);
-            qr.ExportImage(4);
+            var qr = new QRCodeGenerator(text, ErrorCorrectionLevels.H, version: 20);
+
+            string logoPath = "C:\\Users\\2230460\\Desktop\\logo2.png";
+
+            qr.ExportImage(scale: 40, patternColor: SKColors.Green, logoPath: logoPath, logoShadowType: "circle");
 
             Console.WriteLine("Le fichier output.png à été sauvegardé dans le dossier courant");
 

@@ -14,6 +14,10 @@ public class GenerationModel
     public string SaveFolder { get; set; }
     public string FileName { get; set; }
     public int Scale { get; set; }
+    public SupportedEncodingMode[] AllEncodingModes { get; } = (SupportedEncodingMode[])Enum.GetValues(typeof(SupportedEncodingMode));
+    public ErrorCorrectionLevels[] AllErrorCorrectionLevels { get; } = (ErrorCorrectionLevels[])Enum.GetValues(typeof(ErrorCorrectionLevels));
+    public int[] AllMasks { get; } = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+    public int[] AllVersions { get; } = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 
     public GenerationModel(string textToConvert, int? version, ErrorCorrectionLevels? errorCorrectionLevels, int? mask, SupportedEncodingMode? encodingMode, string saveFolder, string fileName, int scale)
     {
@@ -27,23 +31,40 @@ public class GenerationModel
         Scale = scale;
     }
 
-    public void GenerateQRCode()
+    public string? GenerateQRCode()
     {
-        if (string.IsNullOrEmpty(TextToConvert))
+        try
         {
-            throw new ArgumentException("The text to encode cannot be null or empty");
-        }
+            if (string.IsNullOrEmpty(TextToConvert))
+            {
+                throw new ArgumentException("The text to encode cannot be null or empty");
+            }
+            if (string.IsNullOrEmpty(SaveFolder))
+            {
+                throw new ArgumentException("The save folder cannot be null or empty");
+            }
+            if (string.IsNullOrEmpty(FileName))
+            {
+                throw new ArgumentException("The file name cannot be null or empty");
+            }
 
-        QRCodeGenerator qr;
+            QRCodeGenerator qr;
+            var savePath = SaveFolder + (SaveFolder.EndsWith("\\") ? "" : "\\") + FileName + ".png";
+            if (ErrorCorrectionLevel is null)
+            {
+                qr = new QRCodeGenerator(TextToConvert, version: Version, encodingMode: EncodingMode, mask: Mask);
+            }
+            else
+            {
+                qr = new QRCodeGenerator(TextToConvert, ErrorCorrectionLevel.Value, Version, EncodingMode, Mask);
+            }
 
-        if (ErrorCorrectionLevel is null)
-        {
-            qr = new QRCodeGenerator(TextToConvert, version: Version, encodingMode: EncodingMode, mask: Mask);
+            qr.ExportImage(Scale, savePath);
+            return null;
         }
-        else
+        catch (Exception e)
         {
-            qr = new QRCodeGenerator(TextToConvert, ErrorCorrectionLevel.Value, Version, EncodingMode, Mask);
+            return e.Message;
         }
-        qr.ExportImage(Scale, SaveFolder + FileName);
     }
 }
