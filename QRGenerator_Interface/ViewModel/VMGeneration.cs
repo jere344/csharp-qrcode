@@ -93,17 +93,15 @@ namespace QRGenerator_Interface.ViewModel
             }
         }
 
-        public ICommand GenerateQRCodeCommand { get; }
 
         public VMGeneration()
         {
-            GenerateQRCodeCommand = new RelayCommand(GenerateQRCode);
             _generationModel = new GenerationModel("", null, null, null, null, "", "", 10);
         }
 
-        private void GenerateQRCode()
+        public string? GenerateQRCode()
         {
-            _generationModel.GenerateQRCode();
+            return _generationModel.GenerateQRCode();
         }
 
         public IEnumerable<SupportedEncodingMode> AllEncodingModes => _generationModel.AllEncodingModes;

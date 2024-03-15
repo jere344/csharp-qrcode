@@ -52,5 +52,28 @@ namespace QRGenerator_Interface.View
             // customizationView.Show();
         }
 
+        private void GenerateQRCode_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.VMGeneration vm = (ViewModel.VMGeneration)DataContext;
+            string? error = vm.GenerateQRCode();
+
+            if (error is not null)
+            {
+                System.Windows.MessageBox.Show(error, "QR code generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            Window window = new Window();
+            window.Title = "QR code preview";
+            window.Width = 300;
+            window.Height = 300;
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Content = new Image
+            {
+                Source = new BitmapImage(new Uri(vm.SaveFolder + (vm.SaveFolder.EndsWith("\\") ? "" : "\\") + vm.FileName + ".png"))
+            };
+            window.Show();
+        }
+
     }
 }

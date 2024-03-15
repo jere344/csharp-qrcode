@@ -91,7 +91,8 @@
                             IsEnabled="{Binding IsNotAutoEncodingMode}"
                         />
 
-                        <Label Margin=" 0,10,10,10" Grid.Row="4" Grid.Column="0">Échelle de l'image :</Label>
+                        <Label Margin=" 0,10,10,10" Grid.Row="4" Grid.Column="0">Échelle de l'image
+                            :</Label>
                         <CheckBox IsChecked="{Binding AutoScale}" VerticalAlignment="Center"
                             Margin=" 5,10,5,10"
                             Grid.Row="4" Grid.Column="1">Auto</CheckBox>
@@ -101,7 +102,8 @@
                         />
                         <Label Margin=" 0,10,10,10" Grid.Row="4" Grid.Column="2"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Content="{Binding Scale, StringFormat={}{0}%}" />
+                            Content="{Binding Scale, StringFormat={}{0}%}"
+                            IsHitTestVisible="False" />
 
                     </Grid>
                     <!--GÉNÉRATION-->
@@ -130,8 +132,8 @@
                                 <Label Margin=" 0,10,0,10" Grid.Row="0" Grid.Column="0">Enregister
                                     sous :</Label>
                                 <TextBox Name="Path" Grid.Row="0" Grid.Column="1"
-                                    Margin=" 0,10,0,10" Width="250" 
-                                    Text="{Binding SaveFolder}"/>
+                                    Margin=" 0,10,0,10" Width="250"
+                                    Text="{Binding SaveFolder}" />
                                 <Button Click="browse_Click" Grid.Row="0" Grid.Column="2"
                                     Margin=" 0,10,10,10" MaxHeight="25" MaxWidth="30">
                                     <Image Source="images/folder.png" Stretch="Fill" />
@@ -142,9 +144,9 @@
                                 <Label Grid.Row="1" Grid.Column="0" Margin=" 0,10,10,10">Nom du
                                     fichier</Label>
                                 <TextBox Grid.Row="1" Grid.Column="1" Margin=" 0,10,0,10"
-                                    Width="250" 
+                                    Width="250"
                                     Text="{Binding FileName}"
-                                    />
+                                />
                                 <Label Grid.Row="1" Grid.Column="2" Margin=" 0,10,10,10">.png</Label>
                             </Grid>
 
@@ -159,14 +161,14 @@
                                 <Button FontSize="20" FontWeight="Bold" Grid.Row="0"
                                     Content="GÉNÉRER"
                                     MinHeight="50" Margin="20"
-                                    Command="{Binding GenerateQRCodeCommand}"
+                                    Click="GenerateQRCode_Click"
                                 />
 
                                 <!--WINDOW
                             PERSONNALISER-->
                                 <Button FontSize="12" FontWeight="DemiBold" Grid.Row="1"
-                                    Content="PERSONNALISER" MinHeight="40" Margin="40,10,40,10" 
-                                    Click="OpenCustomizationWindow_Click"/>
+                                    Content="PERSONNALISER" MinHeight="40" Margin="40,10,40,10"
+                                    Click="OpenCustomizationWindow_Click" />
                             </Grid>
 
 
