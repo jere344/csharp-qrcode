@@ -89,6 +89,7 @@ namespace QRGenerator_Interface.ViewModel
                 {
                     _generationModel.Scale = value;
                 }
+                OnPropertyChanged(nameof(Scale));
             }
         }
 

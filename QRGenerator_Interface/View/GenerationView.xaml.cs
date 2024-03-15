@@ -41,8 +41,15 @@ namespace QRGenerator_Interface.View
             else
             {
                 Path.Text = null;
-            }
-            
+            } 
+            // update the binding source
+            Path.GetBindingExpression(System.Windows.Controls.TextBox.TextProperty).UpdateSource();
+        }
+
+        private void OpenCustomizationWindow_Click(object sender, RoutedEventArgs e)
+        {
+            // CustomizationView customizationView = new CustomizationView();
+            // customizationView.Show();
         }
 
     }

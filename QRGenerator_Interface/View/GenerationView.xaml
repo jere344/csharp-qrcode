@@ -33,7 +33,9 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0">Texte à convertir :</Label>
-                        <TextBox MinWidth="200" Grid.Column="1" Width="350" />
+                        <TextBox MinWidth="200" Grid.Column="1" Width="350"
+                            Text="{Binding TextToConvert}"
+                        />
                     </Grid>
 
                     <!--PARAMÈTRES-->
@@ -44,6 +46,7 @@
                             <ColumnDefinition Width="6*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
@@ -87,6 +90,19 @@
                             SelectedItem="{Binding EncodingMode}"
                             IsEnabled="{Binding IsNotAutoEncodingMode}"
                         />
+
+                        <Label Margin=" 0,10,10,10" Grid.Row="4" Grid.Column="0">Échelle de l'image :</Label>
+                        <CheckBox IsChecked="{Binding AutoScale}" VerticalAlignment="Center"
+                            Margin=" 5,10,5,10"
+                            Grid.Row="4" Grid.Column="1">Auto</CheckBox>
+                        <Slider Margin=" 0,10,0,10" Grid.Row="4" Grid.Column="2"
+                            Minimum="1" Maximum="100" Value="{Binding Scale}"
+                            IsEnabled="{Binding IsNotAutoScale}"
+                        />
+                        <Label Margin=" 0,10,10,10" Grid.Row="4" Grid.Column="2"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Content="{Binding Scale, StringFormat={}{0}%}" />
+
                     </Grid>
                     <!--GÉNÉRATION-->
                     <Border Background="#bbeafc" Margin="40" Grid.Row="3" BorderBrush="Gray"
@@ -114,7 +130,8 @@
                                 <Label Margin=" 0,10,0,10" Grid.Row="0" Grid.Column="0">Enregister
                                     sous :</Label>
                                 <TextBox Name="Path" Grid.Row="0" Grid.Column="1"
-                                    Margin=" 0,10,0,10" Width="250" />
+                                    Margin=" 0,10,0,10" Width="250" 
+                                    Text="{Binding SaveFolder}"/>
                                 <Button Click="browse_Click" Grid.Row="0" Grid.Column="2"
                                     Margin=" 0,10,10,10" MaxHeight="25" MaxWidth="30">
                                     <Image Source="images/folder.png" Stretch="Fill" />
@@ -125,7 +142,9 @@
                                 <Label Grid.Row="1" Grid.Column="0" Margin=" 0,10,10,10">Nom du
                                     fichier</Label>
                                 <TextBox Grid.Row="1" Grid.Column="1" Margin=" 0,10,0,10"
-                                    Width="250" />
+                                    Width="250" 
+                                    Text="{Binding FileName}"
+                                    />
                                 <Label Grid.Row="1" Grid.Column="2" Margin=" 0,10,10,10">.png</Label>
                             </Grid>
 
@@ -139,12 +158,15 @@
                                 <!--GÉNÉRER-->
                                 <Button FontSize="20" FontWeight="Bold" Grid.Row="0"
                                     Content="GÉNÉRER"
-                                    MinHeight="50" Margin="20" />
+                                    MinHeight="50" Margin="20"
+                                    Command="{Binding GenerateQRCodeCommand}"
+                                />
 
                                 <!--WINDOW
                             PERSONNALISER-->
                                 <Button FontSize="12" FontWeight="DemiBold" Grid.Row="1"
-                                    Content="PERSONNALISER" MinHeight="40" Margin="40,10,40,10" />
+                                    Content="PERSONNALISER" MinHeight="40" Margin="40,10,40,10" 
+                                    Click="OpenCustomizationWindow_Click"/>
                             </Grid>
 
 
