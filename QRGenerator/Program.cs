@@ -1,5 +1,6 @@
 ﻿using QRGenerator.encoders;
 using QRGenerator.ImageGenerator;
+using SkiaSharp;
 
 namespace QRGenerator
 {
@@ -14,7 +15,7 @@ namespace QRGenerator
                 text = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             }
             var qr = new QRCodeGenerator(text);
-            qr.ExportImage(4);
+            qr.ExportImage(scale: 10, patternColor: SKColors.Green);
 
             Console.WriteLine("Le fichier output.png à été sauvegardé dans le dossier courant");
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QRGenerator.encoders;
 using QRGenerator.ImageGenerator;
-
+using SkiaSharp;
 
 namespace QRGenerator;
 
@@ -22,6 +22,7 @@ public class QRCodeGenerator
     private QrErrorEncoder ReedEncoder { get; set; }
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
+    public bool?[,] MetadataMatrix { get; set; }
 
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version = null, SupportedEncodingMode? encodingMode = null, int? mask = null)
     {
@@ -66,13 +67,13 @@ public class QRCodeGenerator
         // Console.WriteLine("Solomon encoded: " + string.Join(", ", SolomonEncoded));
 
 
-        bool?[,] metadataMatrix = new MatrixGenerator(this.Size).Matrix;
-        metadataMatrix = QrMetadataPlacer.AddAllMetadata(metadataMatrix, Version);
+        MetadataMatrix = new MatrixGenerator(this.Size).Matrix;
+        MetadataMatrix = QrMetadataPlacer.AddAllMetadata(MetadataMatrix, Version);
         bool?[,] dataMatrix = new MatrixGenerator(this.Size).Matrix;
-        dataMatrix = QrDataFiller.FillMatrix(dataMatrix, metadataMatrix, SolomonEncoded);
+        dataMatrix = QrDataFiller.FillMatrix(dataMatrix, MetadataMatrix, SolomonEncoded);
 
 
-        List<bool?[,]> maskedMatrices = GetAllMaskedMatrices(metadataMatrix, dataMatrix, Version);
+        List<bool?[,]> maskedMatrices = GetAllMaskedMatrices(MetadataMatrix, dataMatrix, Version);
 
         if (mask is not null)
         {
@@ -143,13 +144,24 @@ public class QRCodeGenerator
     /// </summary>
     /// <param name="path"></param>
     /// <exception cref="Exception"></exception>
-    public void ExportImage(int scale = 50, string path = "qrcode.png")
+    public void ExportImage(int scale = 50, string path = "qrcode.png", SKColor? patternColor = null)
     {
         if (Matrix is null)
         {
             throw new Exception("Matrix is null");
         }
-        ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path);
+
+        if (patternColor is not null)
+        {
+            bool?[,]? patternToColor = new MatrixGenerator(this.Size).Matrix;
+            patternToColor = QrMetadataPlacer.AddAllFinderPatterns(patternToColor);
+            patternToColor = QrMetadataPlacer.AddAlignmentPatterns(patternToColor, Version);
+            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, patternToColor, patternColor);
+        }
+        else
+        {
+            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path);
+        }
     }
 
     /// <summary>

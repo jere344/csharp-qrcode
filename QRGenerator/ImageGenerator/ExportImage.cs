@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,12 @@ namespace QRGenerator.ImageGenerator
         /// </summary>
         /// <param name="qrCode"></param>
         /// <param name="scale"></param>
-        public static void ExporterImage(bool?[,] qrCode, int scale = 100, string path = "qrcode.png")
+        public static void ExporterImage(bool?[,] qrCode, int scale = 100, string path = "qrcode.png", bool?[,]? patternToColor = null, SKColor? patternColor = null, string logoPath = null)
         {
+            if (patternToColor is not null && patternColor is null)
+            {
+                throw new ArgumentException("If a pattern to color is provided, a color must be provided as well");
+            }
 
             // ajouter un contour blanc (+ le mettre a l'echelle)
             int borderWidth = 5 * scale;
@@ -36,12 +41,20 @@ namespace QRGenerator.ImageGenerator
             {
                 for (int j = 0; j < qrCode.GetLength(1); j++)
                 {
-                    var color = qrCode[j, i] switch
+                    SKColor color;
+                    if (patternToColor is not null && patternToColor[j, i] == true && patternColor is not null)
                     {
-                        true => SKColors.Black,
-                        false => SKColors.White,
-                        null => SKColors.Gray
-                    };
+                        color = patternColor.Value;
+                    }
+                    else
+                    {
+                        color = qrCode[j, i] switch
+                        {
+                            true => SKColors.Black,
+                            false => SKColors.White,
+                            null => SKColors.Gray
+                        };
+                    }
 
                     // mettre à l'echelle
                     canvas.DrawRect(new SKRect((i * scale) + borderWidth, (j * scale) + borderWidth,
