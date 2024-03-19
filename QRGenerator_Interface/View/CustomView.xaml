@@ -7,7 +7,9 @@
     xmlns:local="clr-namespace:QRGenerator_Interface.View"
     mc:Ignorable="d"
      Title="Personalisation" Height="800" Width="800"
-         WindowStartupLocation="CenterScreen">
+         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+    WindowStyle="None">
     <Grid>
         <Viewbox Stretch="Uniform" Margin="40">
             <Border Background="#e3f5fc" BorderBrush="DarkSlateGray" BorderThickness="3">
@@ -104,7 +106,7 @@
                                 />
 
                         <!--Annuler-->
-                        <Button FontSize="15" FontWeight="DemiBold" Grid.Column="1"
+                        <Button Click="Cancel_click" FontSize="15" FontWeight="DemiBold" Grid.Column="1"
                                 Content="Annuler" MinHeight="40" Margin="20,5,60,5"/>
                     </Grid>
                 </Grid>

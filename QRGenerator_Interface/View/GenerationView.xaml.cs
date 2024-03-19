@@ -58,7 +58,7 @@ namespace QRGenerator_Interface.View
                 return;
             }
             CustomView customView = new CustomView(qr, vm.SavePath, vm.Scale);
-            customView.Show();
+            customView.ShowDialog();
         }
 
         private void GenerateQRCode_Click(object sender, RoutedEventArgs e)
@@ -81,7 +81,7 @@ namespace QRGenerator_Interface.View
             {
                 Source = new BitmapImage(new Uri(vm.SaveFolder + (vm.SaveFolder.EndsWith("\\") ? "" : "\\") + vm.FileName + ".png"))
             };
-            window.Show();
+            window.ShowDialog();
         }
 
     }

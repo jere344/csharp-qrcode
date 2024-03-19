@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:QRGenerator_Interface"
     mc:Ignorable="d"
     Title="GenerationView" Height="1000" Width="800"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized">
     <Grid>
         <Viewbox Stretch="Uniform" Margin="40">
             <Border Background="#e3f5fc" BorderBrush="DarkSlateGray" BorderThickness="3">

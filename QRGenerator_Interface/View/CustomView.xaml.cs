@@ -118,9 +118,18 @@ namespace QRGenerator_Interface.View
                 };
             }
 
-            window.Show();
+            window.ShowDialog();
+        }
+
+        private void Cancel_click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
 
-    }
+
+
+
+
+        }
 }
