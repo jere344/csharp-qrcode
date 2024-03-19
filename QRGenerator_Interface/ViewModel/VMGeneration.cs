@@ -101,7 +101,9 @@ namespace QRGenerator_Interface.ViewModel
 
         public string? GenerateQRCode()
         {
-            return _generationModel.GenerateQRCode();
+            var result = _generationModel.GenerateQRCode();
+            OnPropertyChanged(nameof(CanOpenCustomizationWindow));
+            return result;
         }
 
         public IEnumerable<SupportedEncodingMode> AllEncodingModes => _generationModel.AllEncodingModes;
@@ -193,5 +195,10 @@ namespace QRGenerator_Interface.ViewModel
             }
         }
         public bool IsNotAutoScale => !_AutoScale;
+
+        public bool CanOpenCustomizationWindow => _generationModel.LastGeneratedQRCode is not null;
+        public QRCodeGenerator? GetLastGeneratedQRCode => _generationModel.LastGeneratedQRCode;
+    
+        public string SavePath => _generationModel.SavePath;
     }
 }

@@ -55,16 +55,10 @@ public class QRCodeGenerator
         this.EncodingMode = Encoder.EncodingMode;
         this.ErrorCorrectionLevel = errorCorrectionLevel;
         this.EncodedText = Encoder.EncodedText;
-        // Console.WriteLine("Version: " + Version);
-        // Console.WriteLine("Encoding mode: " + EncodingMode);
-        // Console.WriteLine("Error correction level: " + ErrorCorrectionLevel);
-        // Console.WriteLine("Encoded text length: " + EncodedText.Length);
-        // Console.WriteLine("Encoded text : " + EncodedText);
         this.Size = Version * 4 + 17;
 
         this.ReedEncoder = new QrErrorEncoder(errorCorrectionLevel, Encoder.Version, EncodedText);
         this.SolomonEncoded = ReedEncoder.EncodedData;
-        // Console.WriteLine("Solomon encoded: " + string.Join(", ", SolomonEncoded));
 
 
         MetadataMatrix = new MatrixGenerator(this.Size).Matrix;
@@ -142,9 +136,12 @@ public class QRCodeGenerator
     /// <summary>
     /// Export the QR code as an image
     /// </summary>
-    /// <param name="path"></param>
-    /// <exception cref="Exception"></exception>
-    public void ExportImage(int scale = 50, string path = "qrcode.png", SKColor? patternColor = null, string? logoPath = null, string logoShadowType = "circle")
+    /// <param name="scale">The scale of the image</param>
+    /// <param name="path">The path to save the image</param>
+    /// <param name="patternColor">The color of the finders and alignements patterns</param>
+    /// <param name="logoPath">The path to the logo</param>
+    /// <param name="logoShadowType">The type of shadow to apply to the logo</param>
+    public void ExportImage(int scale = 50, string path = "qrcode.png", SKColor? patternColor = null, string? logoPath = null, string logoShadowType = "circle", SKColor? backgroundColor = null)
     {
         if (Matrix is null)
         {

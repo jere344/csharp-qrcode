@@ -168,7 +168,8 @@
                             PERSONNALISER-->
                                 <Button FontSize="12" FontWeight="DemiBold" Grid.Row="1"
                                     Content="PERSONNALISER" MinHeight="40" Margin="40,10,40,10"
-                                    Click="OpenCustomizationWindow_Click" />
+                                    Click="OpenCustomizationWindow_Click"
+                                    IsEnabled="{Binding CanOpenCustomizationWindow}"/>
                             </Grid>
 
 

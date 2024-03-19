@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using CommunityToolkit.Mvvm;
 using Microsoft.Win32;
 using System.Windows.Forms;
+using QRGenerator;
 
 
 namespace QRGenerator_Interface.View
@@ -48,8 +49,16 @@ namespace QRGenerator_Interface.View
 
         private void OpenCustomizationWindow_Click(object sender, RoutedEventArgs e)
         {
-            // CustomizationView customizationView = new CustomizationView();
-            // customizationView.Show();
+            // Open the custom in a new window
+            var vm = ((ViewModel.VMGeneration)DataContext);
+            QRCodeGenerator? qr = vm.GetLastGeneratedQRCode;
+            if (qr is null)
+            {
+                System.Windows.MessageBox.Show("No QR code has been generated yet", "Customization", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            CustomView customView = new CustomView(qr, vm.SavePath, vm.Scale);
+            customView.Show();
         }
 
         private void GenerateQRCode_Click(object sender, RoutedEventArgs e)
