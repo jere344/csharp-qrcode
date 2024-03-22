@@ -69,11 +69,15 @@ Options:
 ```
 QRGenerator -t "Hello World" -p qrcode.png
 ```
+![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/7fc67a2e-74a2-49b4-936e-7eaf9025fca9)
+
 
 ### Avec couleur de fond et de module
 ```
 QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf 
 ```
+![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/9fac489f-13eb-4d46-818b-e3735563bb95)
+
 
 ### Avec logo
 ```
@@ -84,4 +88,6 @@ QRGenerator -t "Hello World" -s 20 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -l
 ```
 QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -v 5 -em Byte -m 1 -l logo.png -ls circle+shadow
 ```
+![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/7cfae556-f7f6-4921-85f2-ae164ea37a46)
+
 
