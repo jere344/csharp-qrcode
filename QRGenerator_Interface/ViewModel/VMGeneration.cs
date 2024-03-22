@@ -103,6 +103,9 @@ namespace QRGenerator_Interface.ViewModel
         {
             var result = _generationModel.GenerateQRCode();
             OnPropertyChanged(nameof(CanOpenCustomizationWindow));
+            OnPropertyChanged(nameof(GetLastGeneratedQRCode));
+            OnPropertyChanged(nameof(SavePath));
+            OnPropertyChanged(nameof(CanOpenCustomizationWindow));
             return result;
         }
 

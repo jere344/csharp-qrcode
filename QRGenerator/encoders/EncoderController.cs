@@ -66,11 +66,11 @@ public class EncoderController
         }
         else
         {
-            if (version < CalculateVersion() || version > 40)
+            if (version < 1 || version > 40)
             {
                 throw new Exception("Invalid version number");
             }
-            this.Version = (int)version;
+            this.Version = Math.Max(CalculateVersion(), (int)version);
         }
 
         this.EncodedText = Encode();
