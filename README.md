@@ -36,7 +36,7 @@ https://www.thonky.com/qr-code-tutorial/
 
 
    
-
+QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -v 1 -em Byte -m 0
 
 
 
