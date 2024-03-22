@@ -56,6 +56,11 @@ namespace QRGenerator_Interface.ViewModel
             set => _customModel.BackgroundColor = value;
         }
 
+        public string? LastExportedPath
+        {
+            get => _customModel.LastExportedPath;
+        }
+
 
         public VMCustom(QRCodeGenerator qr, string path, int scale)
         {

@@ -96,9 +96,15 @@ namespace QRGenerator_Interface.View
                 System.Windows.MessageBox.Show(error, "QR code generation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            if (vm.LastExportedPath is null)
+            {
+                System.Windows.MessageBox.Show("An error occured during the export", "QR code generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             
             Window window = new Window();
-            window.Title = vm.Path;
+            window.Title = vm.LastExportedPath;
             window.Width = 300;
             window.Height = 300;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -107,7 +113,7 @@ namespace QRGenerator_Interface.View
             //     Source = new BitmapImage(new Uri(vm.Path))
             // };
             // instead of using URI, we directly read the filestream to avoid file locking
-            using (System.IO.FileStream stream = new System.IO.FileStream(vm.Path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            using (System.IO.FileStream stream = new System.IO.FileStream(vm.LastExportedPath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();

@@ -60,7 +60,13 @@ namespace QRGenerator_Interface.View
             if (qr.ErrorCorrectionLevel != ErrorCorrectionLevels.H)
             {
                 // The error correction level must be H
-                qr = new QRCodeGenerator(qr.TextToEncode, ErrorCorrectionLevels.H, qr.Version, qr.EncodingMode, qr.Mask);
+                // try in case the version is manually set too low for the new error correction level or unsuspected error
+                try {
+                    qr = new QRCodeGenerator(qr.TextToEncode, ErrorCorrectionLevels.H, qr.Version, qr.EncodingMode, qr.Mask);
+                } catch (Exception ex) {
+                    System.Windows.MessageBox.Show(ex.Message, "Customization", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
             CustomView customView = new CustomView(qr, vm.SavePath, vm.Scale);
             customView.ShowDialog();

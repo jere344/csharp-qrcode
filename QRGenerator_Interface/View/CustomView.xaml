@@ -82,7 +82,7 @@
                                 <Button Name="Modele" Grid.Row="0" Grid.Column="1" Margin="10,10,40,10" Click="ModelColor_click" Width="75"/>
 
                                 <!--Contour-->
-                                <Label Grid.Row="1" Grid.Column="0" Content="Contour : " Margin="0,15,0,15" HorizontalAlignment="Right"/>
+                                <Label Grid.Row="1" Grid.Column="0" Content="Couleur de Fond : " Margin="0,15,0,15" HorizontalAlignment="Right"/>
                                 <Button Name="Contour" Grid.Row="1" Grid.Column="1" Margin="10,10,40,10" Click="ContourColor_click" Width="75" />
 
 
@@ -97,14 +97,14 @@
                         </Grid.ColumnDefinitions>
 
                         <!--OK-->
-                        <Button FontSize="18" FontWeight="Bold" Grid.Column="0" Content="OK"
+                        <Button FontSize="18" FontWeight="Bold" Grid.Column="0" Content="Générer"
                                 MinHeight="40" Margin="60,5,20,5" 
                                 Click="ExportImage_click"
                                 />
 
                         <!--Annuler-->
                         <Button Click="Cancel_click" FontSize="15" FontWeight="DemiBold" Grid.Column="1"
-                                Content="Annuler" MinHeight="40" Margin="20,5,60,5"/>
+                                Content="Quitter" MinHeight="40" Margin="20,5,60,5"/>
                     </Grid>
                 </Grid>
             </Border>

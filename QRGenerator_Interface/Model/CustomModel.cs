@@ -11,10 +11,10 @@ public class CustomModel
     public string PatternColor { get; set; }
     public string LogoPath { get; set; }
     public string BackgroundColor { get; set; }
-
     public bool CircleShadow { get; set; }
     public bool ProjectedShadow { get; set; }
     public string LogoShadowType => (CircleShadow ? "circle+" : "") + (ProjectedShadow is true ? "shadow" : "");
+    public string? LastExportedPath { get; set; }
 
     public QRCodeGenerator Qr;
 
@@ -39,7 +39,9 @@ public class CustomModel
     {
 		SKColor? patternColor = PatternColor == "" ? null : SKColor.Parse(PatternColor);
 		SKColor? backgroundColor = BackgroundColor == "" ? null : SKColor.Parse(BackgroundColor);
+
+        LastExportedPath = Path.Replace(".png", $"-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.png");
         
-        Qr.ExportImage(Scale, Path, patternColor, LogoPath == "" ? null : LogoPath, LogoShadowType, backgroundColor);
+        Qr.ExportImage(Scale, LastExportedPath, patternColor, LogoPath == "" ? null : LogoPath, LogoShadowType, backgroundColor);
     }
 }

@@ -67,6 +67,7 @@ public class GenerationModel
         }
         catch (Exception e)
         {
+            this.LastGeneratedQRCode = null;
             return e.Message;
         }
     }
