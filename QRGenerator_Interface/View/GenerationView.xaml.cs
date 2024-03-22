@@ -57,6 +57,11 @@ namespace QRGenerator_Interface.View
                 System.Windows.MessageBox.Show("No QR code has been generated yet", "Customization", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            if (qr.ErrorCorrectionLevel != ErrorCorrectionLevels.H)
+            {
+                // The error correction level must be H
+                qr = new QRCodeGenerator(qr.TextToEncode, ErrorCorrectionLevels.H, qr.Version, qr.EncodingMode, qr.Mask);
+            }
             CustomView customView = new CustomView(qr, vm.SavePath, vm.Scale);
             customView.ShowDialog();
         }
@@ -71,16 +76,24 @@ namespace QRGenerator_Interface.View
                 System.Windows.MessageBox.Show(error, "QR code generation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+            string path = vm.SaveFolder + (vm.SaveFolder.EndsWith("\\") ? "" : "\\") + vm.FileName + ".png";
             Window window = new Window();
-            window.Title = "QR code preview";
+            window.Title = path;
             window.Width = 300;
             window.Height = 300;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            window.Content = new Image
+            using (System.IO.FileStream stream = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                Source = new BitmapImage(new Uri(vm.SaveFolder + (vm.SaveFolder.EndsWith("\\") ? "" : "\\") + vm.FileName + ".png"))
-            };
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+                window.Content = new Image
+                {
+                    Source = bitmap
+                };
+            }
             window.ShowDialog();
         }
 

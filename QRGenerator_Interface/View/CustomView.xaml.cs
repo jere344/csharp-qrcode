@@ -98,7 +98,7 @@ namespace QRGenerator_Interface.View
             }
             
             Window window = new Window();
-            window.Title = "QR code preview";
+            window.Title = vm.Path;
             window.Width = 300;
             window.Height = 300;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;

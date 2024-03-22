@@ -6,8 +6,7 @@
 
     xmlns:local="clr-namespace:QRGenerator_Interface.View"
     mc:Ignorable="d"
-     Title="Personalisation" Height="800" Width="800" WindowStartupLocation="CenterScreen"
-    WindowStyle="None">
+     Title="Personalisation" Height="800" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Viewbox Stretch="Uniform" Margin="40">
             <Border Background="#e3f5fc" BorderBrush="DarkSlateGray" BorderThickness="3">

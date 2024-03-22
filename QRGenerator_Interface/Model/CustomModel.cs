@@ -1,5 +1,6 @@
 using QRGenerator;
 using SkiaSharp;
+using System;
 
 namespace QRGenerator_Interface.Model;
 
@@ -19,6 +20,11 @@ public class CustomModel
 
     public CustomModel(QRCodeGenerator qr, string path, int scale, string patternColor, string logoPath, string backgroundColor, bool circleShadow, bool projectedShadow)
     {
+        if (qr.ErrorCorrectionLevel != ErrorCorrectionLevels.H)
+        {
+            throw new ArgumentException("The error correction level must be H");
+        }
+
         this.Qr = qr;
         Path = path;
         Scale = scale;

@@ -23,6 +23,7 @@ public class QRCodeGenerator
     public int Size { get; set; }
     public bool?[,] Matrix { get; set; }
     public bool?[,] MetadataMatrix { get; set; }
+    public int? Mask { get; set; }
 
     public QRCodeGenerator(string text, ErrorCorrectionLevels errorCorrectionLevel = ErrorCorrectionLevels.L, int? version = null, SupportedEncodingMode? encodingMode = null, int? mask = null)
     {
@@ -42,7 +43,7 @@ public class QRCodeGenerator
         {
             throw new ArgumentException("The error correction level is not supported");
         }
-        if (mask is not null && (mask < 0 || mask > 7))
+        if (Mask is not null && (Mask < 0 || Mask > 7))
         {
             throw new ArgumentException("The mask must be between 0 and 7");
         }
@@ -50,6 +51,7 @@ public class QRCodeGenerator
 
         TextToEncode = text;
 
+        this.Mask = mask;
         this.Encoder = new EncoderController(text, errorCorrectionLevel, version, encodingMode);
         this.Version = Encoder.Version;
         this.EncodingMode = Encoder.EncodingMode;
@@ -69,9 +71,9 @@ public class QRCodeGenerator
 
         List<bool?[,]> maskedMatrices = GetAllMaskedMatrices(MetadataMatrix, dataMatrix, Version);
 
-        if (mask is not null)
+        if (Mask is not null)
         {
-            Matrix = maskedMatrices[(int)mask];
+            Matrix = maskedMatrices[(int)Mask];
         }
         else
         {
@@ -89,7 +91,7 @@ public class QRCodeGenerator
     public List<bool?[,]> GetAllMaskedMatrices(bool?[,] metadataMatrix, bool?[,] dataMatrix, int version)
     {
         List<bool?[,]> maskedMatrices = new List<bool?[,]>();
-        for (int mask = 0; mask < 8; mask++)
+        for (int _mask = 0; _mask < 8; _mask++)
         {
             Matrix = new MatrixGenerator(this.Size).Matrix;
 
@@ -98,7 +100,7 @@ public class QRCodeGenerator
             {
                 throw new Exception("Cloning failed");
             }
-            var maskedDataMatrix = QrApplyMask.ApplyMask(clonedDataMatrix, mask);
+            var maskedDataMatrix = QrApplyMask.ApplyMask(clonedDataMatrix, _mask);
 
 
             // # Then we add the metadata to the masked matrix
@@ -115,7 +117,7 @@ public class QRCodeGenerator
             }
 
             // # Then we add the format information to the matrix
-            var FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], mask)];
+            var FormatString = Static.FormatInformationStrings[(ErrorCorrectionLevel.ToString()[0], _mask)];
             bool[] formatStringBool = FormatString.Select(x => x == '1').ToArray();
             Matrix = QrMetadataPlacer.AddFormatInformation(Matrix, formatStringBool);
 
