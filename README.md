@@ -1,3 +1,26 @@
+Une application de génération de code QR avancés, avec interface graphique ou console.
+
+# Références
+- [QRCodeGenerator](#qrcodegenerator)
+  * [2024-03-22 - VERSION FINALE](#2024-03-22---version-finale)
+    + [Description](#description)
+      - [NOTES](#notes)
+    + [Installation](#installation)
+    + [Utilisation](#utilisation)
+      - [Fenêtre de génération](#fenêtre-de-génération)
+      - [Fenêtre de personnalisation - PERSONNALISE LE DERNIER CODE QR GÉNÉRÉ](#fenêtre-de-personnalisation---personnalise-le-dernier-code-qr-g-n-r-)
+  * [DOCUMENTATION](#documentation)
+  * [Application console](#application-consol-)
+    + [Arguments](#arguments)
+    + [Example d'utilisation](#example-d-utilisation)
+      - [Utilisation de base](#utilisation-de-base)
+      - [Avec couleur de fond et de module](#avec-couleur-de-fond-et-de-module)
+      - [Avec logo](#avec-logo)
+      - [Avec tout les paramètres](#avec-tout-les-paramètres)
+
+
+
+
 # QRCodeGenerator
 Jeremy Guerin & Olivier Bergeron-Houde
 
@@ -8,7 +31,7 @@ Cette version de QrCodeGenerator propose maintenant un interface graphique à l'
 L'utilisateur peut choisir tous les paramètres de génération, ou laisser l'application choisir les meilleurs paramètres.
 Un message d'erreur sera retourné en cas de paramètres incompatibles.
 De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un logo central et en changeant les couleurs d'arrière plan et de modules.
-#### NOTES : 
+#### NOTES
       - Certaines combinaisons de couleurs peuvent rendre le code QR illisible.
       - L'ajout d'un logo central force le niveau de correction d'erreur H.
 
@@ -43,11 +66,11 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 
 
                      
-## DOCUMENTATION :
+## DOCUMENTATION
 https://www.thonky.com/qr-code-tutorial/
 
 
-## Application console :
+## Application console
 
 ### Arguments
 ```
@@ -68,7 +91,7 @@ Options:
   --version: Display the version
 ```
 
-### Example d'utilisation :
+### Example d'utilisation
 
 #### Utilisation de base
 ```
