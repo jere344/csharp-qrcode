@@ -1,6 +1,7 @@
 # QRCodeGenerator
 Jeremy Guerin & Olivier Bergeron-Houde
-Une application de génération de code QR avancés, avec interface graphique ou console.
+
+Une application de génération avancée de codes QR, avec interface graphique ou console.
 
 # Références
   
@@ -42,7 +43,7 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 - Télécharger le Windows-Build du dernier release
 - Extraire le contenu
 - Lancer QRGenerator_Interface.exe pour utilisation avec l'interface graphique
-- Ouvrir un invite de commande et appeler QRGenerator.exe pour utilisation console avec lignes de commandes
+- OU ouvrir un invite de commande et appeler QRGenerator.exe pour utilisation console avec lignes de commandes
   
 ### Utilisation
   
@@ -60,9 +61,9 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 #### Fenêtre de personnalisation - PERSONNALISE LE DERNIER CODE QR GÉNÉRÉ
 -  L'utilisateur clique sur le bouton "personnaliser" pour ouvrir la fenêtre de personnalisation
 -  L'utilisateur importe un logo à mettre au centre de son code qr
--  L'utilisateur choisis les couleurs des modules et de fond
--  Le bouton "OK" génère un nouveau fichier.png qui sera nommé : [NomDuCodeQr]-custom-[dateheure].png, l'utilisateur peut donc faire plusieurs personnalisations du même code QR sans que la nouvelle écrase la précédente.
--  Le bouton "Fermer" ferme la fenêtre de personnalisation. (peut être fermée sans avoir effectué de personnalisation)
+-  L'utilisateur choisit les couleurs des modules et de fond
+-  Le bouton "OK" génère un nouveau fichier.png qui sera nommé : [NomDuCodeQr]-custom-[dateheure].png, l'utilisateur peut donc faire plusieurs personnalisations du même code QR sans que la nouvelle image écrase la précédente.
+-  Le bouton "Fermer" ferme la fenêtre de personnalisation (peut être fermée sans avoir effectué de personnalisation).
   
 ![image](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/a83a95f8-9054-48d2-9a9e-7439d1aedb54)
   
