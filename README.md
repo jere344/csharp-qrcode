@@ -1,4 +1,5 @@
 # QRCodeGenerator
+Jeremy Guerin & Olivier Bergeron-Houde
 
 ## 2024-03-22 - VERSION FINALE
 ### Description
@@ -7,8 +8,8 @@ L'utilisateur peut choisir tous les paramètres de génération, ou laisser l'ap
 Un message d'erreur sera retourné en cas de paramètres incompatibles.
 De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un logo central et en changeant les couleurs d'arrière plan et de modules.
 #### NOTES : 
-- Certaines combinaisons de couleurs peuvent rendre le code QR illisible.
-- L'ajout d'un logo central force le niveau de correction d'erreur : H
+      - Certaines combinaisons de couleurs peuvent rendre le code QR illisible.
+      - L'ajout d'un logo central force le niveau de correction d'erreur H.
 
 
 ### Utilisation
@@ -28,32 +29,6 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 -  Le bouton "OK" génère un nouveau fichier.png qui sera nommé : [NomDuCodeQr]-custom-[dateheure].png, l'utilisateur peut donc faire plusieurs personnalisations du même code QR sans que la nouvelle écrase la précédente.
 -  Le bouton "Fermer" ferme la fenêtre de personnalisation. (peut être fermée sans avoir effectué de personnalisation)
    
-# _____________________________________________________
-
-
-## 2024-02-02 - PREUVE DE CONCEPT (v1)
-Cette versions permet de générer un code QR en console (version 1-11) vers un fichier .png 
-
-### La version 1 permet de :
-    
-    - Recevoir le texte à encoder entré par l'utilisateur.
-    - Le système choisit automatiquement le type d'encodage, le meilleur masque et la version selon le message
-    - Le logiciel supporte aussi l'entrée manuelle de la version, du niveau de correction d'erreur et du type d'encodage (dans le code)
-    - Le logiciel génère une image sous format .png contenant le code QR (version 11 ou inférieure)
-    
-    * Encodages fonctionnels : TOUS         - automatique ou manuel  
-    * Masques fonctionnels : TOUS           - automatique seulement  
-    * Versions fonctionnelles : 1-11        - automatique ou manuel  
-    * Niveaux correction d'erreur : TOUS    - manuel seulement  
-
-### TODO List (par ordre de priorité)  |  [X] = FAIT :
-
-    - Faire fonctionner Versions 11-40 ??? (Priorité à confirmer) [X]
-    - Interface graphique [X]
-    - Ajout de logo [X]
-    - Taille de l'image de sortie [X]
-    - Documentation
-    - README
 
 
 
