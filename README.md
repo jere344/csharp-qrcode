@@ -3,6 +3,8 @@
 ## 2024-03-22 - VERSION FINALE
 ### Description
 Cette version de QrCodeGenerator propose maintenant un interface graphique à l'utilisateur.
+L'utilisateur peut choisir tous les paramètres de génération, ou laisser l'application choisir les meilleurs paramètres.
+Un message d'erreur sera retourné en cas de paramètres incompatibles.
 De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un logo central et en changeant les couleurs d'arrière plan et de modules.
 #### NOTES : 
 - Certaines combinaisons de couleurs peuvent rendre le code QR illisible.
