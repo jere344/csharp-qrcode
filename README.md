@@ -28,8 +28,10 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 -  L'utilisateur choisis les couleurs des modules et de fond
 -  Le bouton "OK" génère un nouveau fichier.png qui sera nommé : [NomDuCodeQr]-custom-[dateheure].png, l'utilisateur peut donc faire plusieurs personnalisations du même code QR sans que la nouvelle écrase la précédente.
 -  Le bouton "Fermer" ferme la fenêtre de personnalisation. (peut être fermée sans avoir effectué de personnalisation)
-   
-# DOCUMENTATION :
+
+
+                     
+## DOCUMENTATION :
 https://www.thonky.com/qr-code-tutorial/
 
 
