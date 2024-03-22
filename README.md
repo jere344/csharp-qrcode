@@ -1,8 +1,6 @@
 # QRCodeGenerator
 Jeremy Guerin & Olivier Bergeron-Houde
 
-## Installation
-- Télécharger 
 
 ## 2024-03-22 - VERSION FINALE
 ### Description
@@ -15,7 +13,8 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
       - L'ajout d'un logo central force le niveau de correction d'erreur H.
 
 ### Installation
-- Télécharger le dernier release ()
+- Télécharger le Windows-Build du dernier release
+- Extraire le contenu
 - Lancer QRGenerator_Interface.exe pour utilisation avec l'interface graphique
 - Lancer QRGenerator.exe pour utilisation console avec lignes de commandes
 
