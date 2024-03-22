@@ -10,7 +10,6 @@ Une application de génération de code QR avancés, avec interface graphique ou
     + [Utilisation](#utilisation)
       - [Fenêtre de génération](#fenêtre-de-génération)
       - [Fenêtre de personnalisation](#fenêtre-de-personnalisation---personnalise-le-dernier-code-qr-généré)
-  * [DOCUMENTATION](#documentation)
   * [Application console](#application-console)
     + [Arguments](#arguments)
     + [Example d'utilisation](#example-dutilisation)
@@ -18,6 +17,7 @@ Une application de génération de code QR avancés, avec interface graphique ou
       - [Avec couleur de fond et de module](#avec-couleur-de-fond-et-de-module)
       - [Avec logo](#avec-logo)
       - [Avec tout les paramètres](#avec-tout-les-paramètres)
+  * [DOCUMENTATION](#documentation)
 
 
 
@@ -69,10 +69,6 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 -  Le bouton "Fermer" ferme la fenêtre de personnalisation. (peut être fermée sans avoir effectué de personnalisation)
   
 ![image](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/a83a95f8-9054-48d2-9a9e-7439d1aedb54)
-               
-## DOCUMENTATION
-  
-https://www.thonky.com/qr-code-tutorial/
   
 ## Application console
   
@@ -120,3 +116,7 @@ QRGenerator -t "Hello World" -s 20 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -l
 QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -v 5 -em Byte -m 1 -l logo.png -ls circle+shadow
 ```
 ![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/7cfae556-f7f6-4921-85f2-ae164ea37a46)
+  
+## DOCUMENTATION
+  
+https://www.thonky.com/qr-code-tutorial/
