@@ -1,6 +1,7 @@
 Une application de génération de code QR avancés, avec interface graphique ou console.
 
 # Références
+  
 - [QRCodeGenerator](#qrcodegenerator)
   * [2024-03-22 - VERSION FINALE](#2024-03-22---version-finale)
     + [Description](#description)
@@ -8,11 +9,11 @@ Une application de génération de code QR avancés, avec interface graphique ou
     + [Installation](#installation)
     + [Utilisation](#utilisation)
       - [Fenêtre de génération](#fenêtre-de-génération)
-      - [Fenêtre de personnalisation - PERSONNALISE LE DERNIER CODE QR GÉNÉRÉ](#fenêtre-de-personnalisation---personnalise-le-dernier-code-qr-g-n-r-)
+      - [Fenêtre de personnalisation](#fenêtre-de-personnalisation---personnalise-le-dernier-code-qr-généré)
   * [DOCUMENTATION](#documentation)
-  * [Application console](#application-consol-)
+  * [Application console](#application-console)
     + [Arguments](#arguments)
-    + [Example d'utilisation](#example-d-utilisation)
+    + [Example d'utilisation](#example-dutilisation)
       - [Utilisation de base](#utilisation-de-base)
       - [Avec couleur de fond et de module](#avec-couleur-de-fond-et-de-module)
       - [Avec logo](#avec-logo)
@@ -26,23 +27,29 @@ Jeremy Guerin & Olivier Bergeron-Houde
 
 
 ## 2024-03-22 - VERSION FINALE
+  
 ### Description
+  
 Cette version de QrCodeGenerator propose maintenant un interface graphique à l'utilisateur.
 L'utilisateur peut choisir tous les paramètres de génération, ou laisser l'application choisir les meilleurs paramètres.
 Un message d'erreur sera retourné en cas de paramètres incompatibles.
 De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un logo central et en changeant les couleurs d'arrière plan et de modules.
+  
 #### NOTES
-      - Certaines combinaisons de couleurs peuvent rendre le code QR illisible.
-      - L'ajout d'un logo central force le niveau de correction d'erreur H.
-
+```
+- Certaines combinaisons de couleurs peuvent rendre le code QR illisible.
+- L'ajout d'un logo central force le niveau de correction d'erreur H.
+```
+  
 ### Installation
+  
 - Télécharger le Windows-Build du dernier release
 - Extraire le contenu
 - Lancer QRGenerator_Interface.exe pour utilisation avec l'interface graphique
 - Ouvrir un invite de commande et appeler QRGenerator.exe pour utilisation console avec lignes de commandes
-
-
+  
 ### Utilisation
+  
 #### Fenêtre de génération
 -  L'utilisateur entre son texte à convertir en code QR.
 -  Il choisit ses paramètres (ou coche la case "Auto" pour que l'application sélectionne les meilleurs paramètres à sa place).
@@ -53,8 +60,7 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 -  Une fois le code QR généré et exporté, le bouton pour ouvrir la fenêtre "personnalisation" est maintenant clickable.  
 
 ![image](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/b8ea0c93-423f-46e3-b1b4-d6c51db89869)
-
-
+  
 #### Fenêtre de personnalisation - PERSONNALISE LE DERNIER CODE QR GÉNÉRÉ
 -  L'utilisateur clique sur le bouton "personnaliser" pour ouvrir la fenêtre de personnalisation
 -  L'utilisateur importe un logo à mettre au centre de son code qr
@@ -63,16 +69,15 @@ De plus, il est maintenant possible de personnaliser le code QR en y ajoutant un
 -  Le bouton "Fermer" ferme la fenêtre de personnalisation. (peut être fermée sans avoir effectué de personnalisation)
   
 ![image](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/a83a95f8-9054-48d2-9a9e-7439d1aedb54)
-
-
-                     
+               
 ## DOCUMENTATION
+  
 https://www.thonky.com/qr-code-tutorial/
-
-
+  
 ## Application console
-
+  
 ### Arguments
+  
 ```
 Usage: QRGenerator [-t text] [-s scale] [-p path] [-pc patternColor] [-l logoPath] [-ls logoShadowType] [-bc backgroundColor] [-e errorCorrectionLevel] [-v version] [-em encodingMode] [-m mask] [-h]
 Options:
@@ -90,32 +95,28 @@ Options:
   -h: Display this help message
   --version: Display the version
 ```
-
+  
 ### Example d'utilisation
-
+  
 #### Utilisation de base
 ```
 QRGenerator -t "Hello World" -p qrcode.png
 ```
 ![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/7fc67a2e-74a2-49b4-936e-7eaf9025fca9)
-
-
+  
 #### Avec couleur de fond et de module
 ```
 QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf 
 ```
 ![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/9fac489f-13eb-4d46-818b-e3735563bb95)
-
-
+  
 #### Avec logo
 ```
 QRGenerator -t "Hello World" -s 20 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -l logo.png -ls circle+shadow
 ```
-
+  
 #### Avec tout les paramètres
 ```
 QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -v 5 -em Byte -m 1 -l logo.png -ls circle+shadow
 ```
 ![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/7cfae556-f7f6-4921-85f2-ae164ea37a46)
-
-
