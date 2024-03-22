@@ -182,29 +182,29 @@ namespace QRGenerator
                 }
             }
 
-            for (int i = 0; i < blocks.Count; i++)
-            {
-                Console.WriteLine("Group " + i);
-                for (int j = 0; j < blocks[i].Count; j++)
-                {
-                    int number_filled = 0;
-                    int number_empty = 0;
-                    Console.WriteLine("\tBlock " + j);
-                    for (int k = 0; k < blocks[i][j].Count; k++)
-                    {
-                        // Console.WriteLine("\t\t" + Convert.ToInt32(blocks[i][j][k], 2));
-                        if (blocks[i][j][k] == "00000000")
-                        {
-                            number_empty++;
-                        }
-                        else
-                        {
-                            number_filled++;
-                        }
-                    }
-                    Console.WriteLine("\t\tFilled: " + number_filled + " Empty: " + number_empty);
-                }
-            }
+            // for (int i = 0; i < blocks.Count; i++)
+            // {
+            //     Console.WriteLine("Group " + i);
+            //     for (int j = 0; j < blocks[i].Count; j++)
+            //     {
+            //         int number_filled = 0;
+            //         int number_empty = 0;
+            //         Console.WriteLine("\tBlock " + j);
+            //         for (int k = 0; k < blocks[i][j].Count; k++)
+            //         {
+            //             // Console.WriteLine("\t\t" + Convert.ToInt32(blocks[i][j][k], 2));
+            //             if (blocks[i][j][k] == "00000000")
+            //             {
+            //                 number_empty++;
+            //             }
+            //             else
+            //             {
+            //                 number_filled++;
+            //             }
+            //         }
+            //         Console.WriteLine("\t\tFilled: " + number_filled + " Empty: " + number_empty);
+            //     }
+            // }
 
             return blocks;
         }
