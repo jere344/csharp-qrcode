@@ -65,6 +65,7 @@ namespace QRGenerator_Interface.ViewModel
 
         public string? ExportImage()
         {
+            OnPropertyChanged(nameof(LogoPath));
             try
             {
                 _customModel.ExportImage();

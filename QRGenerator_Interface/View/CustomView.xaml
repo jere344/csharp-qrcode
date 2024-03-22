@@ -6,9 +6,7 @@
 
     xmlns:local="clr-namespace:QRGenerator_Interface.View"
     mc:Ignorable="d"
-     Title="Personalisation" Height="800" Width="800"
-         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
+     Title="Personalisation" Height="800" Width="800" WindowStartupLocation="CenterScreen"
     WindowStyle="None">
     <Grid>
         <Viewbox Stretch="Uniform" Margin="40">
@@ -48,8 +46,8 @@
                         </Button>
                         
                         <!--OMBRAGE ET ARRIERE PLAN-->
-                        <CheckBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Ombrage"/>
-                        <CheckBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="30,0,0,0" Content="Remplissage"/>
+                        <CheckBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Ombre portée" IsChecked="{Binding ProjectedShadow}"/>
+                        <CheckBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="30,0,0,0" Content="Cercle" IsChecked="{Binding CircleShadow}"/>
 
                     </Grid>
                     

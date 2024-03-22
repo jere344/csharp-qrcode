@@ -153,11 +153,11 @@ public class QRCodeGenerator
             bool?[,]? patternToColor = new MatrixGenerator(this.Size).Matrix;
             patternToColor = QrMetadataPlacer.AddAllFinderPatterns(patternToColor);
             patternToColor = QrMetadataPlacer.AddAlignmentPatterns(patternToColor, Version);
-            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, patternToColor, patternColor, logoPath, logoShadowType);
+            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, patternToColor, patternColor, logoPath, logoShadowType, backgroundColor);
         }
         else
         {
-            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, logoPath: logoPath, logoShadowType: logoShadowType);
+            ImageGenerator.ExportImage.ExporterImage(Matrix, scale, path, logoPath: logoPath, logoShadowType: logoShadowType, backgroundColor: backgroundColor);
         }
     }
 

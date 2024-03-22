@@ -16,7 +16,7 @@ namespace QRGenerator.ImageGenerator
         /// </summary>
         /// <param name="qrCode"></param>
         /// <param name="scale"></param>
-        public static void ExporterImage(bool?[,] qrCode, int scale = 100, string path = "qrcode.png", bool?[,]? patternToColor = null, SKColor? patternColor = null, string? logoPath = null, string logoShadowType = "circle")
+        public static void ExporterImage(bool?[,] qrCode, int scale = 100, string path = "qrcode.png", bool?[,]? patternToColor = null, SKColor? patternColor = null, string? logoPath = null, string logoShadowType = "circle", SKColor? backgroundColor = null)
         {
             if (patternToColor is not null && patternColor is null)
             {
@@ -56,7 +56,7 @@ namespace QRGenerator.ImageGenerator
                         color = qrCode[j, i] switch
                         {
                             true => SKColors.Black,
-                            false => SKColors.White,
+                            false => backgroundColor ?? SKColors.White,
                             null => SKColors.Gray
                         };
                     }

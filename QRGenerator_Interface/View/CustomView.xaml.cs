@@ -38,7 +38,7 @@ namespace QRGenerator_Interface.View
 
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".png";
-            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+            dlg.Filter = "PNG Files (*.png)|*.png|JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
 
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
@@ -50,6 +50,8 @@ namespace QRGenerator_Interface.View
                 string filename = dlg.FileName;
                 Path_Logo.Text = filename;
             }
+            ViewModel.VMCustom vm = (ViewModel.VMCustom)DataContext;
+            vm.LogoPath = Path_Logo.Text;
         }
 
         private void ModelColor_click(object sender, EventArgs e)
