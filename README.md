@@ -1,3 +1,5 @@
+# QRCodeGenerator
+Jeremy Guerin & Olivier Bergeron-Houde
 Une application de génération de code QR avancés, avec interface graphique ou console.
 
 # Références
@@ -18,12 +20,6 @@ Une application de génération de code QR avancés, avec interface graphique ou
       - [Avec logo](#avec-logo)
       - [Avec tout les paramètres](#avec-tout-les-paramètres)
   * [DOCUMENTATION](#documentation)
-
-
-
-
-# QRCodeGenerator
-Jeremy Guerin & Olivier Bergeron-Houde
 
 
 ## 2024-03-22 - VERSION FINALE
