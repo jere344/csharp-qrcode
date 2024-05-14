@@ -36,16 +36,11 @@ L'application Calculatrice Financière est conçue pour aider les courtiers immo
 7. Appuyer sur le bouton "Comparaison" pour comparer deux simulations
 8. Appuyer sur le bouton "Graphique" pour afficher les versements sous forme de graphique
 
- ## Language
- Application WPF, C#, patron MVVM
+  ## Auteurs
+- [Olivier Bergeron-Houde]
 
-## Auteur
-Olivier Bergeron-Houde
-
-## Licence
-Cégep de Chicoutimi
-
-
+  ## Licence
+  Cégep de Chicoutimi
 
 
 
