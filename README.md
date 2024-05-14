@@ -118,8 +118,3 @@ QRGenerator -t "Hello World" -s 10 -p qrcode.png -pc #FF0000 -bc #ffffcf -e H -v
 ## DOCUMENTATION
   
 https://www.thonky.com/qr-code-tutorial/
-![qrcode](https://github.com/cegep-chicoutimi/QRCodeGenerator/assets/86294972/7cfae556-f7f6-4921-85f2-ae164ea37a46)
-  
-## DOCUMENTATION
-  
-https://www.thonky.com/qr-code-tutorial/
