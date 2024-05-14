@@ -17,7 +17,7 @@ L'application Calculatrice Financière est conçue pour aider les courtiers immo
 
 
 ### Fonctionnalités
-- - **Saisie des données :** Permet à l'utilisateur de saisir les détails du prêt hypothécaire, y compris le montant, le taux d'intérêt, la période d'amortissement et la fréquence des paiements.
+- **Saisie des données :** Permet à l'utilisateur de saisir les détails du prêt hypothécaire, y compris le montant, le taux d'intérêt, la période d'amortissement et la fréquence des paiements.
 - **Calcul des paiements hypothécaires :** Effectue des calculs précis pour déterminer les versements mensuels, le paiement total du capital, les frais d'intérêts et le coût total.
 - **Affichage des résultats :** Affiche clairement les résultats des simulations.
 - **Sauvegarde des simulations :** Stocke de manière sécurisée les résultats pour consultation ultérieure, avec le nom et le prénom du client ainsi qu'une brève description.
