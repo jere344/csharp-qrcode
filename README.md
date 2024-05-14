@@ -11,7 +11,7 @@ L'application Calculatrice Financière est conçue pour aider les courtiers immo
 
 ### Installation
   
-- Télécharger le release
+- Télécharger le Build
 - Extraire le contenu
 - Lancer le fichier .exe
 
