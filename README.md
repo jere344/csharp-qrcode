@@ -1,6 +1,4 @@
 # Calculatrice financière
-Olivier Bergeron-Houde
-
 Une application servant d'outil pour créer et comparer des simulations de prêt.
 
 ## 2024-03-22 - VERSION FINALE
